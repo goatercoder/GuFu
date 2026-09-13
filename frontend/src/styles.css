@@ -74,3 +74,11 @@ table.data td.num, table.data th.num { text-align: right; font-variant-numeric: 
 .viz-tip { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem 0.6rem; font-size: 0.8rem; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
 .skeleton { background: linear-gradient(90deg, var(--surface-2), var(--neutral-bg), var(--surface-2)); background-size: 200% 100%; animation: sh 1.3s infinite; border-radius: 8px; }
 @keyframes sh { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.fin-table { font-size: 0.78rem; border-collapse: separate; border-spacing: 0; }
+.fin-table th, .fin-table td { white-space: nowrap; }
+.fin-table thead th { position: sticky; top: 0; background: var(--surface); z-index: 2; }
+.fin-table .sticky-col { position: sticky; left: 0; background: var(--surface); z-index: 1; min-width: 200px; }
+.fin-table thead th.sticky-col { z-index: 3; }
+.fin-table .group-row td { background: var(--surface-2); padding-top: 0.5rem; }
+.fin-table .legacy-cell { font-style: italic; color: var(--text-2); }
+.legacy-tag { display: inline-block; margin-left: 0.25rem; padding: 0 0.25rem; font-size: 0.6rem; font-style: normal; font-weight: 600; border-radius: 3px; background: var(--neutral-bg); color: var(--text-2); vertical-align: middle; }

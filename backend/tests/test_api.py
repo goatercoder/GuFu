@@ -100,3 +100,35 @@ async def test_screener_and_home(client):
 async def test_admin_job_endpoints(client):
     r = await client.get("/api/admin/jobs/latest")
     assert r.status_code == 200
+
+
+async def test_financials_include_thirty_years_of_legacy_history(client):
+    r = await client.get("/api/company/AAPL/financials?freq=annual")
+    assert r.status_code == 200
+    d = r.json()
+    assert d["legacy_status"] == "ready"
+    periods = d["periods"]
+    assert len(periods) >= 30
+    legacy = [p for p in periods if p["legacy"]]
+    xbrl = [p for p in periods if not p["legacy"]]
+    assert legacy and xbrl
+    assert max(p["fy"] for p in legacy) == min(p["fy"] for p in xbrl) - 1
+    assert [p["fy"] for p in periods] == sorted(p["fy"] for p in periods)
+    lp = legacy[-1]
+    assert lp["form"] == "10-K (legacy)" and lp["source"]["accn"] and lp["source"]["url"].startswith("https://www.sec.gov/")
+    assert "revenue" in lp["v"] and "net_income" in lp["v"] and "eps_diluted" in lp["v"] and "total_assets" in lp["v"]
+    assert "fcf" in lp["v"] and "gross_profit" in lp["v"]  # derived + statement-level fields
+    assert lp["src"]["revenue"].startswith("legacy:")
+    cov = d["coverage"]
+    assert cov["legacy_from"] < cov["xbrl_from"] and cov["years_available"] >= 30
+    # the summary page's growth metrics now see the longer history
+    r = await client.get("/api/company/AAPL")
+    inputs = r.json()["inputs"]
+    assert inputs["legacy_years_used"] >= 10 and inputs["history_from_fy"] == cov["legacy_from"]
+    assert r.json()["metrics"]["revenue_growth_10y"] is not None
+    # quarterly view is XBRL only
+    q = (await client.get("/api/company/AAPL/financials?freq=quarterly")).json()
+    assert all(not p["legacy"] for p in q["periods"])
+    # forced re-extraction works
+    r = await client.post("/api/company/AAPL/legacy/refresh")
+    assert r.status_code == 200 and r.json()["status"] == "ready" and len(r.json()["legacy_years"]) >= 15

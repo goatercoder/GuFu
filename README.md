@@ -8,8 +8,11 @@ company from **real SEC filings** and **live market prices**, and presents them 
 - **Company page** — live price and 52-week range, an interactive price chart (1M → MAX), ~60 metrics in
   colour-coded tables (P/E, PEG, P/S, P/B, P/FCF, EV/EBITDA, ROE, ROA, ROIC, margins, leverage, coverage,
   1/3/5/10-year growth rates, yields, payout), Altman Z and Piotroski F badges with the underlying tests,
-  a **30-year financials chart** (annual or quarterly, any line item, compare two items) built from the
-  company's 10-K / 10-Q XBRL data, and an interactive two-stage DCF panel.
+  a **30-year financials chart** (annual or quarterly, any line item, compare two items), and an
+  interactive two-stage DCF panel.
+- **30-Y Financials tab** — a GuruFocus-style table of 30 fiscal years × income statement, balance sheet,
+  cash flow, per-share figures and ratios, with quarterly view and CSV export. Years from 2009 on come from
+  SEC XBRL data; earlier years are parsed from the company's older 10-K filings (see below).
 - **Screener** — filter the whole index on any screenable metric (sector, market cap, P/E, PEG, P/B,
   yield, ROE, ROIC, growth, F/Z-score, margin of safety…), sort by any column, pick your own columns.
 
@@ -25,9 +28,18 @@ scraped from GuruFocus.
 | S&P 500 membership | `data/sp500.json` (bundled) | Refresh from Wikipedia with `make sp500`. |
 | Prices / quotes | Yahoo Finance chart endpoint (unofficial) | Daily closes back to listing; live quote with a 60 s cache. Stooq CSV is the fallback. |
 
-**Coverage caveat.** SEC structured (XBRL) data only exists for fiscal years ending 2009 or later. The
-"30-year" chart therefore has a 30-year axis but plots the ~15–17 years that exist in machine-readable
-filings; pre-2009 years are not available from 10-K/10-Q filings in structured form.
+**30 years of history.** SEC structured (XBRL) data only exists for fiscal years ending 2009 or later.
+For earlier years GuFu goes back to the company's own older 10-K filings on EDGAR and parses two things:
+the five-year **"Selected Financial Data"** table (revenue, operating income, net income, EPS, dividends,
+total assets, long-term debt, equity, often cash flow) and the **primary statements** (income statement
+and cash flow for three years, balance sheet for two). It fetches roughly one 10-K every three years
+(FY2008, 2005, 2002, 1999, 1996 for a typical company), so income and cash-flow lines are continuous back
+to the mid-1990s and balance-sheet detail is complete for two of every three years, with the key
+balance-sheet figures filled from the summary tables. Parsed values are shown in italics with a "10-K"
+tag, every one links to the filing it came from, restatements in later filings win, and a
+"Re-extract older years" button re-runs the parser. The parser is rule-based and old filings vary, so
+expect an occasional missing or mislabeled figure; the "notes from parsing" list on the tab says what
+was dropped and why.
 
 ## Run it
 
@@ -126,13 +138,14 @@ data/sp500.json, scripts/refresh_sp500.py, scripts/make_fixture.py
 | `GET /api/health` | cache status, build progress |
 | `GET /api/companies?q=` | search the universe |
 | `GET /api/company/{ticker}` | quote, all metrics (grouped + colour-coded), scores, DCF, data status |
-| `GET /api/company/{ticker}/financials?freq=annual\|quarterly` | period rows from 10-K / 10-Q with source tags and derivation flags |
+| `GET /api/company/{ticker}/financials?freq=annual\|quarterly` | period rows from 10-K / 10-Q with source tags, derivation flags, `legacy` markers with filing links, and 30-year coverage |
 | `GET /api/company/{ticker}/prices?range=1m…max` | daily closes (downsampled for long ranges) |
 | `GET /api/company/{ticker}/quote` | live quote |
 | `GET /api/screener?sector=&pe_max=&roe_min=&sort=&order=&page=&columns=` | screener (`{metric}_min` / `{metric}_max` for any screenable metric; percent metrics in whole percent) |
 | `GET /api/screener/facets`, `GET /api/metrics/definitions` | filter options and metric metadata |
 | `GET /api/home` | overview page data |
-| `POST /api/admin/refresh?kind=all\|facts\|prices\|metrics&force=` / `GET /api/admin/jobs/latest` | trigger / inspect builds |
+| `POST /api/company/{ticker}/legacy/refresh` | re-fetch and re-parse the older 10-K filings for one company |
+| `POST /api/admin/refresh?kind=all\|facts\|legacy\|prices\|metrics&force=` / `GET /api/admin/jobs/latest` | trigger / inspect builds |
 
 Interactive docs at <http://localhost:8000/docs>. Building the frontend (`make build`) lets the backend
 serve the app itself at <http://localhost:8000>.

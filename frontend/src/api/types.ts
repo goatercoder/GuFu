@@ -34,8 +34,15 @@ export interface CompanyBundle {
   };
 }
 
-export interface Period { key: string; end: string; start: string | null; fy: number; fq: number | null; label: string; form: string; filed: string | null; v: Record<string, number>; src: Record<string, string>; derived: string[] }
-export interface FinancialsResponse { ticker: string; freq: "annual" | "quarterly"; fye_month: number; fields: { key: string; label: string; kind: string; unit: string }[]; periods: Period[]; ttm: Period | null; warnings: string[]; source: string; coverage_note: string }
+export interface PeriodSource { accn: string; form: string; filed: string; url: string; filing_fy: number | null; methods: string[]; fields: Record<string, string> }
+export interface Period { key: string; end: string; start: string | null; fy: number; fq: number | null; label: string; form: string; filed: string | null; v: Record<string, number>; src: Record<string, string>; derived: string[]; legacy?: boolean; source?: PeriodSource | null }
+export interface Coverage { window_from: number; window_to: number | null; xbrl_from: number | null; xbrl_to: number | null; legacy_from: number | null; legacy_to: number | null; years_available: number; missing_years: number[] }
+export interface LegacyFiling { accn: string; form: string; filed: string; fiscal_year: number | null; url: string; years: number[]; documents: string[]; sections: Record<string, boolean> }
+export interface FinancialsResponse {
+  ticker: string; freq: "annual" | "quarterly"; fye_month: number; fields: { key: string; label: string; kind: string; unit: string }[];
+  periods: Period[]; ttm: Period | null; warnings: string[]; source: string; coverage_note: string;
+  legacy_status: "ready" | "building" | "none" | "disabled" | string; coverage: Coverage; legacy_warnings: string[]; legacy_filings: LegacyFiling[];
+}
 
 export interface PricePoint { d: string; c: number; v: number }
 export interface PricesResponse { ticker: string; symbol: string; currency: string; range: string; downsampled: boolean; points: PricePoint[]; meta: Record<string, number | string>; first_date: string | null; source: string }

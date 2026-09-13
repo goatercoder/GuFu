@@ -145,6 +145,32 @@ class Repo:
             d["errors"] = {}
         return d
 
+    # legacy (pre-XBRL) ------------------------------------------------------
+    def put_legacy_doc(self, cik: int, accn: str, doc: str, body: str) -> None:
+        self.db.execute(
+            "INSERT OR REPLACE INTO legacy_docs(cik,accn,doc,fetched_at,body) VALUES(?,?,?,?,?)",
+            (cik, accn, doc, now_iso(), gzip.compress(body.encode("utf-8", "replace"), compresslevel=5)),
+        )
+
+    def get_legacy_doc(self, cik: int, accn: str, doc: str) -> str | None:
+        r = self.db.fetchone("SELECT body FROM legacy_docs WHERE cik=? AND accn=? AND doc=?", (cik, accn, doc))
+        return gzip.decompress(r["body"]).decode("utf-8", "replace") if r else None
+
+    def put_legacy(self, cik: int, body: dict) -> None:
+        self.db.execute("INSERT OR REPLACE INTO legacy_financials(cik,computed_at,body) VALUES(?,?,?)",
+                        (cik, now_iso(), orjson.dumps(body).decode()))
+
+    def get_legacy(self, cik: int) -> dict | None:
+        r = self.db.fetchone("SELECT body FROM legacy_financials WHERE cik=?", (cik,))
+        return orjson.loads(r["body"]) if r else None
+
+    def delete_legacy(self, cik: int) -> None:
+        self.db.execute("DELETE FROM legacy_financials WHERE cik=?", (cik,))
+
+    def count_legacy(self) -> int:
+        r = self.db.fetchone("SELECT COUNT(*) AS n FROM legacy_financials")
+        return int(r["n"]) if r else 0
+
     # kv --------------------------------------------------------------------
     def kv_get(self, key: str) -> str | None:
         r = self.db.fetchone("SELECT value FROM kv WHERE key=?", (key,))

@@ -6,7 +6,7 @@ import { fmtCompact, fmtDate, fmtMoney, fmtPrice } from "../lib/format";
 
 const YEARS = 30;
 
-type Pt = { label: string; fy: number; v: number | null; derived: boolean; period: Period | null };
+type Pt = { label: string; fy: number; v: number | null; derived: boolean; legacy: boolean; period: Period | null };
 
 function fmtVal(unit: string, v: number | null): string {
   if (v === null) return "—";
@@ -35,11 +35,11 @@ export default function FinancialChart({ ticker }: { ticker: string }) {
       const out: Pt[] = [];
       for (let fy = lastFy - YEARS + 1; fy <= lastFy; fy++) {
         const p = byFy.get(fy) ?? null;
-        out.push({ label: String(fy), fy, v: p?.v[field] ?? null, derived: !!p?.derived.includes(field), period: p });
+        out.push({ label: String(fy), fy, v: p?.v[field] ?? null, derived: !!p?.derived.includes(field) && !p?.legacy, legacy: !!p?.legacy, period: p });
       }
       return out;
     }
-    return periods.slice(-60).map((p) => ({ label: `Q${p.fq} '${String(p.fy).slice(2)}`, fy: p.fy, v: p.v[field] ?? null, derived: p.derived.includes(field), period: p }));
+    return periods.slice(-60).map((p) => ({ label: `Q${p.fq} '${String(p.fy).slice(2)}`, fy: p.fy, v: p.v[field] ?? null, derived: p.derived.includes(field), legacy: false, period: p }));
   }, [data, field, freq]);
 
   const comparePts = useMemo(() => {
@@ -50,6 +50,7 @@ export default function FinancialChart({ ticker }: { ticker: string }) {
 
   const chartData = (comparePts ?? points).map((p) => ({ ...p }));
   const available = points.filter((p) => p.v !== null).length;
+  const legacyCount = points.filter((p) => p.legacy && p.v !== null).length;
   const firstFy = data?.periods[0]?.fy;
   const tickFmt = (v: number) => (unit === "USD/shares" ? `$${fmtCompact(v, 1)}` : fmtCompact(v, 0));
   const hasNeg = chartData.some((p) => (p.v ?? 0) < 0 || ((p as { c?: number | null }).c ?? 0) < 0);
@@ -59,7 +60,7 @@ export default function FinancialChart({ ticker }: { ticker: string }) {
       <div className="flex items-center justify-between flex-wrap gap-2 mb-2">
         <div>
           <h3 className="font-semibold inline">{freq === "annual" ? `${YEARS}-year financials` : "Quarterly financials"}</h3>
-          <span className="ml-2 text-xs muted">from SEC 10-K / 10-Q XBRL filings</span>
+          <span className="ml-2 text-xs muted">from the company's SEC 10-K / 10-Q filings</span>
         </div>
         <div className="flex gap-2 flex-wrap items-center">
           <select className="input w-auto" value={field} onChange={(e) => setField(e.target.value)} aria-label="Metric">
@@ -101,7 +102,7 @@ export default function FinancialChart({ ticker }: { ticker: string }) {
                 {hasNeg && <ReferenceLine y={0} stroke="var(--muted)" />}
                 {comparePts && <Legend wrapperStyle={{ fontSize: 12 }} />}
                 <Bar dataKey="v" name={fdef?.label} radius={[4, 4, 0, 0]} maxBarSize={28} isAnimationActive={false}>
-                  {chartData.map((p) => <Cell key={p.label} fill={p.derived ? "url(#hatch)" : "var(--brand)"} />)}
+                  {chartData.map((p) => <Cell key={p.label} fill={p.derived ? "url(#hatch)" : p.legacy ? "var(--brand)" : "var(--brand)"} fillOpacity={p.legacy ? 0.55 : 1} />)}
                 </Bar>
                 {comparePts && <Bar dataKey="c" name={cdef?.label} fill="var(--brand-2)" radius={[4, 4, 0, 0]} maxBarSize={28} isAnimationActive={false} />}
               </BarChart>
@@ -112,7 +113,9 @@ export default function FinancialChart({ ticker }: { ticker: string }) {
       <div className="text-xs muted mt-1 flex flex-wrap gap-x-4">
         <span>{available} of {freq === "annual" ? YEARS : points.length} periods have data{firstFy ? ` · earliest fiscal year ${firstFy}` : ""}</span>
         {freq === "quarterly" && <span>Hatched bars: quarter derived from year-to-date figures (Q4 = FY − 9M)</span>}
-        <span>SEC structured (XBRL) data begins with fiscal years ending 2009+; earlier years are not available in machine-readable filings.</span>
+        {freq === "annual" && legacyCount > 0 && <span>Lighter bars ({legacyCount} years): parsed from the company's older 10-K filings (pre-XBRL); see the 30-Y Financials tab for sources.</span>}
+        {freq === "annual" && data?.legacy_status === "building" && <span>Fetching older 10-K filings from SEC EDGAR for the years before {data.coverage?.xbrl_from ?? 2009}…</span>}
+        <span>Fiscal years ending 2009+ come from SEC XBRL data; earlier years from Selected Financial Data tables and statements in older 10-Ks.</span>
       </div>
     </div>
   );
@@ -126,7 +129,7 @@ function Tip({ active, payload, unit, label, compareLabel }: { active?: boolean;
       <div className="font-semibold">{p.period ? p.period.label : p.label}</div>
       <div>{label}: <span className="font-semibold">{fmtVal(unit, p.v)}</span>{p.derived && <span className="muted"> (derived)</span>}</div>
       {compareLabel && <div>{compareLabel}: <span className="font-semibold">{fmtVal(unit, p.c ?? null)}</span></div>}
-      {p.period ? <div className="muted">{p.period.form} · period end {fmtDate(p.period.end)} · filed {fmtDate(p.period.filed)}</div> : <div className="muted">No filing data for this year</div>}
+      {p.period ? <div className="muted">{p.legacy && p.period.source ? `${p.period.source.form} filed ${fmtDate(p.period.source.filed)} (parsed)` : `${p.period.form} · period end ${fmtDate(p.period.end)} · filed ${fmtDate(p.period.filed)}`}</div> : <div className="muted">No filing data for this year</div>}
     </div>
   );
 }

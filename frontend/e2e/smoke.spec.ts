@@ -63,3 +63,34 @@ test("screener filters reduce the match count and sorting works", async ({ page 
   expect(await rows.count()).toBeGreaterThan(0);
   await page.screenshot({ path: "test-results/screener.png", fullPage: true });
 });
+
+test("30-Y Financials tab shows three decades with legacy sources and CSV export", async ({ page }) => {
+  await page.goto("/company/AAPL");
+  await expect(page.getByTestId("price")).not.toHaveText("N/A", { timeout: 60_000 });
+  await page.getByTestId("tab-financials").click();
+  await expect(page).toHaveURL(/\/company\/AAPL\/financials$/);
+  const table = page.getByTestId("financials-table");
+  await expect(table).toBeVisible({ timeout: 60_000 });
+  // wait for the older-filing extraction to finish (fixture mode: seconds)
+  await expect(page.getByTestId("coverage")).toContainText(/30 of 30 years available/, { timeout: 90_000 });
+  const yearHeaders = table.locator("thead th").filter({ hasText: /^FY\d{4}/ });
+  expect(await yearHeaders.count()).toBe(30);
+  expect(await table.locator(".legacy-tag").count()).toBeGreaterThan(10);
+  await expect(table).toContainText("Income Statement");
+  await expect(table).toContainText("Balance Sheet");
+  await expect(table).toContainText("Cash Flow");
+  await expect(table).toContainText("Per Share");
+  await expect(table).toContainText("Ratios");
+  // a legacy revenue cell has a value and a source tooltip pointing at the filing
+  const revenueRow = table.locator("tbody tr", { hasText: /^Revenue/ }).first();
+  const firstLegacyCell = revenueRow.locator("td.legacy-cell").first();
+  await expect(firstLegacyCell).not.toHaveText("–");
+  expect(await firstLegacyCell.getAttribute("title")).toMatch(/From the 10-K/);
+  // CSV export is wired to a download
+  const [download] = await Promise.all([page.waitForEvent("download"), page.getByTestId("csv-button").click()]);
+  expect(download.suggestedFilename()).toBe("AAPL_annual_financials.csv");
+  await page.screenshot({ path: "test-results/financials.png", fullPage: true });
+  // quarterly view is XBRL-only and still renders
+  await page.getByRole("button", { name: "Quarterly" }).last().click();
+  await expect(table.locator("thead th").filter({ hasText: /^Q\d '/ }).first()).toBeVisible();
+});

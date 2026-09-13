@@ -18,7 +18,22 @@ async function get<T>(url: string): Promise<T> {
 
 export const useCompanies = () => useQuery({ queryKey: ["companies"], queryFn: () => get<CompanyListItem[]>("/api/companies"), staleTime: 10 * 60_000 });
 export const useCompany = (ticker: string) => useQuery({ queryKey: ["company", ticker], queryFn: () => get<CompanyBundle>(`/api/company/${encodeURIComponent(ticker)}`), retry: (n, e) => !(e instanceof ApiError && e.status === 404) && n < 2 });
-export const useFinancials = (ticker: string, freq: "annual" | "quarterly") => useQuery({ queryKey: ["financials", ticker, freq], queryFn: () => get<FinancialsResponse>(`/api/company/${encodeURIComponent(ticker)}/financials?freq=${freq}`) });
+export const useFinancials = (ticker: string, freq: "annual" | "quarterly") => useQuery({
+  queryKey: ["financials", ticker, freq],
+  queryFn: () => get<FinancialsResponse>(`/api/company/${encodeURIComponent(ticker)}/financials?freq=${freq}`),
+  refetchInterval: (q) => (q.state.data?.legacy_status === "building" ? 4000 : false),
+});
+
+export async function postLegacyRefresh(ticker: string): Promise<{ status: string; legacy_years: number[]; warnings: string[] }> {
+  const r = await fetch(`/api/company/${encodeURIComponent(ticker)}/legacy/refresh`, { method: "POST", headers: { Accept: "application/json" } });
+  if (!r.ok) throw new ApiError(r.status, r.statusText);
+  return (await r.json()) as { status: string; legacy_years: number[]; warnings: string[] };
+}
+
+export function useLegacyRefresh(ticker: string) {
+  const qc = useQueryClient();
+  return useMutation({ mutationFn: () => postLegacyRefresh(ticker), onSuccess: () => { qc.invalidateQueries({ queryKey: ["financials", ticker] }); qc.invalidateQueries({ queryKey: ["company", ticker] }); } });
+}
 export const usePrices = (ticker: string, range: string) => useQuery({ queryKey: ["prices", ticker, range], queryFn: () => get<PricesResponse>(`/api/company/${encodeURIComponent(ticker)}/prices?range=${range}`) });
 export const useScreener = (qs: string) => useQuery({ queryKey: ["screener", qs], queryFn: () => get<ScreenerResponse>(`/api/screener?${qs}`), placeholderData: (prev) => prev });
 export const useFacets = () => useQuery({ queryKey: ["facets"], queryFn: () => get<Facets>("/api/screener/facets") });

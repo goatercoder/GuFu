@@ -10,7 +10,11 @@ from gufu.prices import downsample, slice_range
 from gufu.services.company_service import (
     DataUnavailable,
     UnknownTicker,
+    attach_legacy,
     company_bundle,
+    ensure_legacy,
+    legacy_period_source,
+    legacy_summary,
     load_financials,
     load_prices,
 )
@@ -67,15 +71,49 @@ async def financials(ticker: str, freq: str = Query("annual", pattern="^(annual|
         raise HTTPException(404, "Unknown ticker") from None
     except DataUnavailable as exc:
         raise HTTPException(503, f"Financial data not available yet: {exc}") from None
+    legacy_status = "ready" if fin.legacy is not None else "none"
+    if freq == "annual" and fin.legacy is None and profile["cik"]:
+        legacy_status = await ensure_legacy(state, profile["ticker"], fin, profile["cik"])
+        if legacy_status == "ready":
+            attach_legacy(state, fin, profile["cik"])
     rows = fin.annual if freq == "annual" else fin.quarterly
     fields = [{"key": k, "label": field_label(k), "kind": field_kind(k), "unit": field_unit(k)} for k in CHART_FIELDS]
+    periods = []
+    for r in rows:
+        d = r.to_dict()
+        d["legacy"] = "legacy" in r.derived
+        d["source"] = legacy_period_source(fin, r.fiscal_year) if d["legacy"] else None
+        periods.append(d)
     return {
         "ticker": profile["ticker"], "freq": freq, "fye_month": fin.fye_month, "fields": fields,
-        "periods": [r.to_dict() for r in rows], "ttm": fin.ttm.to_dict() if fin.ttm else None,
-        "warnings": fin.warnings, "source": "SEC EDGAR XBRL companyfacts (10-K / 10-Q)",
-        "coverage_note": "Structured XBRL data begins with fiscal years ending 2009 or later; earlier years are not "
-                         "available from SEC filings in machine-readable form.",
+        "periods": periods, "ttm": fin.ttm.to_dict() if fin.ttm else None,
+        "warnings": fin.warnings, "legacy_status": legacy_status, **legacy_summary(fin),
+        "source": "SEC EDGAR: XBRL companyfacts (10-K / 10-Q, 2009+) and Selected Financial Data / statements parsed from "
+                  "older 10-K filings",
+        "coverage_note": "Fiscal years ending 2009 or later come from structured XBRL data. Earlier years are parsed from "
+                         "the company's older 10-K filings (five-year Selected Financial Data tables and the primary "
+                         "statements); each such value links to its filing and may need checking.",
     }
+
+
+@router.post("/company/{ticker}/legacy/refresh")
+async def refresh_legacy(ticker: str, state: AppState = Depends(get_state)):
+    """Re-fetch and re-parse the older 10-K filings for one company (e.g. after a parser fix)."""
+    try:
+        fin, profile = await load_financials(state, ticker)
+    except UnknownTicker:
+        raise HTTPException(404, "Unknown ticker") from None
+    except DataUnavailable as exc:
+        raise HTTPException(503, str(exc)) from None
+    if not profile["cik"]:
+        raise HTTPException(503, "No CIK for this ticker")
+    fin.legacy = None
+    fin.annual = fin.xbrl_annual
+    status = await ensure_legacy(state, profile["ticker"], fin, profile["cik"], force=True)
+    if status == "ready":
+        attach_legacy(state, fin, profile["cik"])
+    return {"status": status, "legacy_years": sorted(fin.legacy.years) if fin.legacy else [],
+            "warnings": fin.legacy.warnings if fin.legacy else []}
 
 
 @router.get("/company/{ticker}/prices")

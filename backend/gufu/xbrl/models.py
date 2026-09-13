@@ -83,6 +83,11 @@ class Financials:
     latest_10k_filed: date | None = None
     latest_10q_filed: date | None = None
     latest_filed: date | None = None
+    legacy: Any = None  # LegacyData merged into `annual` at read time (never serialised here)
+
+    @property
+    def xbrl_annual(self) -> list[PeriodRow]:
+        return [r for r in self.annual if "legacy" not in r.derived]
 
     def to_dict(self) -> dict[str, Any]:
         return {

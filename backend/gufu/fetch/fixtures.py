@@ -5,13 +5,21 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import re
 from pathlib import Path
 from typing import Protocol
 
 from gufu.config import Settings
 from gufu.fetch import sec, stooq, yahoo
-from gufu.fetch.http import RateLimiter, make_client
-from gufu.fetch.synthetic import synthetic_chart, synthetic_company_tickers, synthetic_companyfacts
+from gufu.fetch.http import FetchError, RateLimiter, get_with_retry, make_client
+from gufu.fetch.synthetic import (
+    synthetic_10k_document,
+    synthetic_chart,
+    synthetic_company_tickers,
+    synthetic_companyfacts,
+    synthetic_submissions,
+)
+from gufu.legacy.submissions import SUBMISSIONS_PAGE_URL, SUBMISSIONS_URL
 from gufu.prices import PriceHistory, parse_yahoo_chart
 from gufu.universe import CompanyProfile, stooq_symbol, yahoo_symbol
 
@@ -25,6 +33,9 @@ class Fetchers(Protocol):
     async def companyfacts(self, cik: int, ticker: str = "") -> dict: ...
     async def price_history(self, ticker: str) -> PriceHistory: ...
     async def quote(self, ticker: str) -> PriceHistory: ...
+    async def submissions(self, cik: int) -> dict: ...
+    async def submissions_page(self, name: str) -> dict: ...
+    async def document(self, url: str) -> str: ...
     async def close(self) -> None: ...
 
 
@@ -57,6 +68,24 @@ class LiveFetchers:
     async def quote(self, ticker: str) -> PriceHistory:
         async with self.yahoo_sem:
             return await yahoo.fetch_chart(self.web_client, yahoo_symbol(ticker), "5d")
+
+    async def submissions(self, cik: int) -> dict:
+        async with self.sec_sem:
+            resp = await get_with_retry(self.sec_client, SUBMISSIONS_URL.format(cik=cik), limiter=self.sec_limiter)
+            return resp.json()
+
+    async def submissions_page(self, name: str) -> dict:
+        async with self.sec_sem:
+            resp = await get_with_retry(self.sec_client, SUBMISSIONS_PAGE_URL.format(name=name), limiter=self.sec_limiter)
+            return resp.json()
+
+    async def document(self, url: str) -> str:
+        async with self.sec_sem:
+            resp = await get_with_retry(self.sec_client, url, limiter=self.sec_limiter)
+            try:
+                return resp.content.decode("utf-8")
+            except UnicodeDecodeError:
+                return resp.content.decode("latin-1", "replace")
 
     async def close(self) -> None:
         await self.sec_client.aclose()
@@ -112,6 +141,31 @@ class FixtureFetchers:
     async def quote(self, ticker: str) -> PriceHistory:
         return await self.price_history(ticker)
 
+    async def submissions(self, cik: int) -> dict:
+        ticker = self._cik_to_ticker.get(cik, f"CIK{cik}")
+        data = self._load(f"submissions_{ticker}.json")
+        await asyncio.sleep(0)
+        return data or synthetic_submissions(ticker, cik)
+
+    async def submissions_page(self, name: str) -> dict:
+        return {"accessionNumber": [], "filingDate": [], "reportDate": [], "form": [], "primaryDocument": []}
+
+    async def document(self, url: str) -> str:
+        m = re.search(r"/data/(\d+)/(\d{10}-?\d{2}-?\d{6})", url)
+        if not m:
+            raise FetchError(f"fixture mode: unknown document url {url}")
+        cik = int(m.group(1))
+        accn = m.group(2).replace("-", "")
+        fy = int(accn[-6:])
+        ticker = self._cik_to_ticker.get(cik, f"CIK{cik}")
+        prof = self._profiles.get(ticker)
+        if url.endswith("-index.htm"):
+            return "<html><body><table><tr><td>1</td><td>10-K</td></tr></table></body></html>"
+        fmt = "txt" if url.endswith(".txt") else "html"
+        await asyncio.sleep(0)
+        return synthetic_10k_document(ticker, fy, fmt=fmt, bank=bool(prof and prof.sector == "Financials"),
+                                      name=prof.name if prof else "")
+
     async def close(self) -> None:
         return None
 
@@ -139,6 +193,15 @@ class SetupRequiredFetchers:
         raise SetupRequired(self.MESSAGE)
 
     async def quote(self, ticker: str) -> PriceHistory:
+        raise SetupRequired(self.MESSAGE)
+
+    async def submissions(self, cik: int) -> dict:
+        raise SetupRequired(self.MESSAGE)
+
+    async def submissions_page(self, name: str) -> dict:
+        raise SetupRequired(self.MESSAGE)
+
+    async def document(self, url: str) -> str:
         raise SetupRequired(self.MESSAGE)
 
     async def close(self) -> None:

@@ -221,6 +221,8 @@ def compute_metrics(fin: Financials, quote: Quote, sector: str = "") -> dict:
             "shares": shares, "ttm_end": fin.ttm.end.isoformat() if fin.ttm else None,
             "ttm_basis": "annual" if fin.ttm and "ttm=annual" in fin.ttm.derived else "4q",
             "balance_end": bal_row.end.isoformat() if bal_row else None, "tax_rate": tax_rate,
+            "history_from_fy": A[0].fiscal_year if A else None,
+            "legacy_years_used": sum(1 for r in A if "legacy" in r.derived),
         },
     }
 

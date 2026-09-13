@@ -9,6 +9,8 @@ from typing import Any
 
 from gufu.fetch.fixtures import SetupRequired
 from gufu.fetch.sec import max_filed
+from gufu.legacy.merge import LegacyData
+from gufu.legacy.pipeline import build_legacy as run_legacy_pipeline
 from gufu.metrics.engine import Quote, compute_metrics
 from gufu.prices import PriceHistory
 from gufu.services.screener_service import rebuild_screener
@@ -146,6 +148,45 @@ class Builder:
 
         await asyncio.gather(*(one(self.s.profile_by_ticker[t]) for t in tickers if t in self.s.profile_by_ticker))
 
+    # ------------------------------------------------------------------ legacy (pre-XBRL) history
+    async def fetch_and_store_legacy(self, profile: CompanyProfile, fin: Financials | None = None,
+                                     force: bool = False) -> LegacyData | None:
+        if not profile.cik or not self.s.settings.legacy_enabled:
+            return None
+        if fin is None:
+            d = self.s.repo.get_financials(profile.cik)
+            if not d:
+                return None
+            fin = Financials.from_dict(d)
+        xbrl = fin.xbrl_annual
+        if not xbrl:
+            return None
+        first_fy = xbrl[0].fiscal_year
+        return await run_legacy_pipeline(self.s.fetchers, self.s.repo, profile.cik, fin.fye_month, first_fy,
+                                         max_filings=self.s.settings.legacy_max_filings, force=force)
+
+    async def build_legacy(self, tickers: list[str], job: JobHandle | None = None, force: bool = False) -> None:
+        seen_cik: set[int] = set()
+        sem = asyncio.Semaphore(max(1, self.s.settings.sec_concurrency // 2))
+
+        async def one(p: CompanyProfile):
+            async with sem:
+                try:
+                    if not p.cik:
+                        raise RuntimeError("no CIK")
+                    if p.cik in seen_cik:
+                        return
+                    seen_cik.add(p.cik)
+                    await self.fetch_and_store_legacy(p, force=force)
+                    if job:
+                        job.tick(p.ticker)
+                except Exception as exc:  # noqa: BLE001
+                    log.warning("legacy history failed for %s: %s", p.ticker, exc)
+                    if job:
+                        job.tick(p.ticker, str(exc))
+
+        await asyncio.gather(*(one(self.s.profile_by_ticker[t]) for t in tickers if t in self.s.profile_by_ticker))
+
     # ------------------------------------------------------------------ prices
     async def fetch_and_store_prices(self, ticker: str, force: bool = False) -> PriceHistory:
         cached = self.s.repo.get_prices(ticker)
@@ -217,14 +258,20 @@ class Builder:
         async with self.s.build_lock:
             await self.ensure_ciks()
             tickers = [p.ticker for p in self.s.profiles]
-            steps = {"facts": 1, "prices": 1, "metrics": 1} if kind == "all" else {kind: 1, "metrics": 1}
+            steps = {"facts": 1, "legacy": 1, "prices": 1, "metrics": 1} if kind == "all" else {kind: 1, "metrics": 1}
             if kind == "metrics":
                 steps = {"metrics": 1}
+            if kind == "facts":
+                steps["legacy"] = 1
+            if not self.s.settings.legacy_enabled:
+                steps.pop("legacy", None)
             job = JobHandle(self.s, kind, total=len(tickers) * len(steps))
             self.s.current_job_id = job.id
             try:
                 if "facts" in steps:
                     await self.build_facts(tickers, job, force=force)
+                if "legacy" in steps:
+                    await self.build_legacy(tickers, job, force=force and kind == "legacy")
                 if "prices" in steps:
                     await self.build_prices(tickers, job, force=force)
                 await self.build_metrics(tickers, job)

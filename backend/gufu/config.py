@@ -28,6 +28,10 @@ class Settings(BaseSettings):
     facts_max_age_days: int = 7
     prices_max_age_hours: int = 24
     quote_ttl_seconds: int = 60
+    # Pre-2009 history from old 10-K filings ("Selected Financial Data" + statements)
+    legacy_enabled: bool = True
+    legacy_max_filings: int = 6
+    legacy_on_demand_timeout: float = 45.0
     frontend_dist: Path = REPO_DIR / "frontend" / "dist"
     cors_origins: list[str] = ["http://localhost:5173", "http://127.0.0.1:5173"]
     # Where the in-app setup screen persists the SEC User-Agent.

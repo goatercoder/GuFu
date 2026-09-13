@@ -27,6 +27,12 @@ CREATE TABLE IF NOT EXISTS job_runs (
   id INTEGER PRIMARY KEY AUTOINCREMENT, kind TEXT, status TEXT, started_at TEXT, finished_at TEXT,
   total INTEGER DEFAULT 0, done INTEGER DEFAULT 0, failed INTEGER DEFAULT 0, errors TEXT DEFAULT '{}'
 );
+CREATE TABLE IF NOT EXISTS legacy_docs (
+  cik INTEGER, accn TEXT, doc TEXT, fetched_at TEXT, body BLOB, PRIMARY KEY (cik, accn, doc)
+);
+CREATE TABLE IF NOT EXISTS legacy_financials (
+  cik INTEGER PRIMARY KEY, computed_at TEXT, body TEXT
+);
 CREATE TABLE IF NOT EXISTS kv (
   key TEXT PRIMARY KEY, value TEXT
 );

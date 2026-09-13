@@ -40,7 +40,7 @@ async def setup(body: SetupRequest, state: AppState = Depends(get_state)):
 
 
 @router.post("/refresh")
-async def refresh(kind: str = Query("all", pattern="^(all|facts|prices|metrics)$"), force: bool = False,
+async def refresh(kind: str = Query("all", pattern="^(all|facts|legacy|prices|metrics)$"), force: bool = False,
                   state: AppState = Depends(get_state)):
     if state.build_lock.locked():
         return {"status": "already_running", "job_id": state.current_job_id}
