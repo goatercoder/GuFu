@@ -57,8 +57,8 @@ Prices on the hosted edition are the previous close; everything else is identica
 
 ### Publishing the hosted edition (repo owner, one-time)
 1. Repo **Settings → Pages → Source: GitHub Actions**.
-2. **Settings → Secrets and variables → Actions → New repository secret**: `GUFU_SEC_USER_AGENT` =
-   `GuFu nightly build your@email` (the SEC requires a contact on every request).
+2. (Optional) **Settings → Secrets and variables → Actions**: `GUFU_SEC_USER_AGENT` to override the
+   built-in SEC contact.
 3. **Actions → "Nightly data build & Pages deploy" → Run workflow**. The first run takes 30–60 minutes
    (every S&P 500 company's XBRL data, older 10-Ks and price history); later runs reuse the previous
    night's cache. It also publishes the cache as the `data-latest` release asset, which every other way of
@@ -138,7 +138,7 @@ make lint       # ruff + tsc
 make e2e        # Playwright: fixture-mode smoke test + the first-run setup flow
 ```
 
-`GUFU_SEC_USER_AGENT` can also be set in `.env` or the environment; that skips the setup screen. Facts are
+`GUFU_SEC_USER_AGENT` in `.env` or the environment overrides the built-in SEC contact. Facts are
 refreshed weekly (only re-parsed when a newer filing appears), prices daily. `make refresh` forces a rebuild.
 
 ## Project layout

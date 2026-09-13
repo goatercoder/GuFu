@@ -3,8 +3,8 @@
 #      on first start so they never have to build locally), and
 #   2. deploys the static edition of the site (no backend) to GitHub Pages.
 #
-# One-time setup in the repo: Settings → Pages → Source: "GitHub Actions";
-# Settings → Secrets → Actions → GUFU_SEC_USER_AGENT = "GuFu nightly build you@example.com".
+# One-time setup in the repo: Settings → Pages → Source: "GitHub Actions".
+# Optional: Settings → Secrets → Actions → GUFU_SEC_USER_AGENT to override the built-in SEC contact.
 name: Nightly data build & Pages deploy
 
 on:
@@ -59,9 +59,7 @@ jobs:
         run: |
           FIX=""
           if [ "${{ inputs.fixture }}" = "true" ]; then FIX="--fixture"; fi
-          if [ -z "$GUFU_SEC_USER_AGENT" ] && [ -z "$FIX" ]; then
-            echo "::error::Set the GUFU_SEC_USER_AGENT repository secret (SEC requires a contact User-Agent)"; exit 1
-          fi
+          if [ -z "$GUFU_SEC_USER_AGENT" ]; then unset GUFU_SEC_USER_AGENT; fi   # empty secret -> built-in preset
           python scripts/build_dataset.py $FIX --db build/gufu.sqlite --slim build/gufu-data.sqlite
       - name: Export static site
         run: |

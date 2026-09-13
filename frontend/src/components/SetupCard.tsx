@@ -11,9 +11,8 @@ export default function SetupCard() {
     <div className="max-w-xl mx-auto card mt-8" data-testid="setup-card">
       <h1 className="text-2xl font-bold mb-1">Welcome to GuFu</h1>
       <p className="text-2 text-sm mb-4">
-        One quick thing before we fetch data: the SEC's EDGAR service requires every request to identify who is asking.
-        Enter a name and email and GuFu will include them in its requests to sec.gov. This is saved on this computer
-        (in <code>.env</code>) and is never sent anywhere else.
+        The SEC contact was cleared in this installation's settings. The SEC's EDGAR service requires every request to
+        identify who is asking, so enter a name and email (saved locally in <code>.env</code>, never sent anywhere else).
       </p>
       <form onSubmit={(e) => { e.preventDefault(); setup.mutate({ name, email }); }} className="space-y-3">
         <label className="block text-sm">

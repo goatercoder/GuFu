@@ -14,7 +14,8 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="GUFU_", env_file=REPO_DIR / ".env", extra="ignore")
 
     # SEC requires a descriptive User-Agent ("App name contact@email"). Requests without one get 403.
-    sec_user_agent: str = ""
+    # A preset contact is built in so nothing has to be configured; override with GUFU_SEC_USER_AGENT.
+    sec_user_agent: str = "GuFu/0.1 (John; johndoe@gmail.com)"
     # Serve everything from bundled fixtures + deterministic synthetic data (no network).
     fixture_mode: bool = False
     fixture_dir: Path = BACKEND_DIR / "fixtures"
