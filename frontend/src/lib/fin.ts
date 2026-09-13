@@ -97,7 +97,7 @@ export function colLabel(p: Period): string {
   return `${MONTHS3[m - 1]} ${p.end.slice(2, 4)}`;
 }
 
-/** density 0 = full numbers in $M; 1 = abbreviated (10.5B / 525M); 2 = tighter (3 significant chars) */
+/** density 0 = full numbers in $M; 1 = abbreviated (10.5B / 525M); 2-3 = progressively tighter */
 export function fmtDense(v: Cell, kind: Kind, density: number): string {
   if (v === null || Number.isNaN(v)) return "-";
   const a = Math.abs(v);
@@ -106,16 +106,19 @@ export function fmtDense(v: Cell, kind: Kind, density: number): string {
   switch (kind) {
     case "pct": return sign + (a * 100).toFixed(density >= 2 ? 0 : 1) + (density >= 2 ? "%" : "");
     case "ratio": return sign + (a >= 100 ? a.toFixed(0) : a.toFixed(density >= 2 ? 1 : 2));
-    case "pershare": return sign + (a >= 1000 ? fix(a, 0) : a.toFixed(2));
-    case "price": return sign + (a >= 1000 ? fix(a, 0) : a.toFixed(2));
+    case "pershare":
+    case "price":
+      if (density >= 3) return sign + (a >= 1000 ? (a / 1000).toFixed(1) + "K" : a >= 100 ? a.toFixed(0) : a >= 10 ? a.toFixed(1) : a.toFixed(2));
+      if (density >= 2) return sign + (a >= 1000 ? fix(a, 0) : a >= 100 ? a.toFixed(1) : a.toFixed(2));
+      return sign + (a >= 1000 ? fix(a, 0) : a.toFixed(2));
     case "shares":
     case "money": {
       const m = a / 1e6;
       if (density === 0) return sign + (m >= 1000 ? fix(m, 0) : m >= 10 ? fix(m, 1) : fix(m, 2));
       if (a >= 1e12) return sign + (a / 1e12).toFixed(density >= 2 ? 1 : 2) + "T";
-      if (a >= 1e9) return sign + (a / 1e9).toFixed(a >= 1e11 ? 0 : 1) + "B";
-      if (a >= 1e6) return sign + (a / 1e6).toFixed(a >= 1e8 ? 0 : 1) + "M";
-      return sign + (a / 1e6).toFixed(2) + "M";
+      if (a >= 1e9) return sign + (a / 1e9).toFixed(a >= 1e10 && density >= 2 ? 0 : a >= 1e11 ? 0 : 1) + "B";
+      if (a >= 1e6) return sign + (a / 1e6).toFixed(a >= 1e7 && density >= 2 ? 0 : a >= 1e8 ? 0 : 1) + "M";
+      return sign + (a / 1e6).toFixed(density >= 2 ? 1 : 2) + "M";
     }
   }
 }

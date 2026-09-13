@@ -89,6 +89,8 @@ table.data td.num, table.data th.num { text-align: right; font-variant-numeric: 
 .fy-scroll { overflow-x: auto; }
 table.fy { border-collapse: collapse; font-variant-numeric: tabular-nums; }
 table.fy th, table.fy td { padding: 3px 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid var(--grid); }
+table.fy.dense th, table.fy.dense td { padding: 2px 1px; letter-spacing: -0.2px; }
+table.fy.dense thead th { line-height: 1.15; white-space: normal; }
 table.fy thead th { position: sticky; top: 0; background: var(--surface-2); color: var(--text-2); font-weight: 600; text-align: right; z-index: 1; }
 table.fy th.lab, table.fy td.lab { text-align: left; position: sticky; left: 0; background: var(--surface); z-index: 2; padding-left: 10px; }
 table.fy thead th.lab { background: var(--surface-2); z-index: 3; }

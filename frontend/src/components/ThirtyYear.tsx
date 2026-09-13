@@ -47,11 +47,13 @@ export default function ThirtyYear({ ticker, name }: { ticker: string; name: str
   }, [annual.data, quarterly.data, years]);
 
   const nAnnual = cols.filter((c) => c.kind === "annual").length;
-  const labelW = width < 900 ? 150 : 190;
-  const trendW = width < 900 ? 0 : 56;
-  const colW = cols.length ? Math.max(30, Math.floor((width - labelW - trendW - 16) / cols.length)) : 60;
-  const density = colW >= 68 ? 0 : colW >= 44 ? 1 : 2;
-  const fontPx = colW >= 60 ? 12 : colW >= 44 ? 11 : colW >= 36 ? 10 : 9;
+  const provisional = cols.length ? (width - 190 - 56 - 16) / cols.length : 60;
+  const labelW = width < 900 ? 130 : provisional < 40 ? 150 : 190;
+  const trendW = width < 900 ? 0 : provisional < 40 ? 40 : 56;
+  const colW = cols.length ? Math.max(26, Math.floor((width - labelW - trendW - 12) / cols.length)) : 60;
+  const density = colW >= 68 ? 0 : colW >= 46 ? 1 : colW >= 34 ? 2 : 3;
+  const fontPx = colW >= 60 ? 12 : colW >= 46 ? 11 : colW >= 38 ? 10 : 9;
+  const twoLine = colW < 48;
 
   const cellsFor = (row: RowDef): Cell[] => cols.map((c) => (c.period ? row.get(c.period.v, c.period.px ?? null) : null));
   const yoyFor = (row: RowDef): string[] => cols.map((c) => {
@@ -105,7 +107,7 @@ export default function ThirtyYear({ ticker, name }: { ticker: string; name: str
                 <div className="text-xs muted">Annuals ({nAnnual}) · TTM · last 5 quarters</div>
               </div>
               <div className="fy-scroll">
-                <table className="fy" style={{ fontSize: fontPx, width: "100%", tableLayout: "fixed" }}>
+                <table className={`fy ${density >= 2 ? "dense" : ""}`} style={{ fontSize: fontPx, width: "100%", tableLayout: "fixed" }}>
                   <colgroup>
                     <col style={{ width: labelW }} />
                     {trendW > 0 && <col style={{ width: trendW }} />}
@@ -117,7 +119,7 @@ export default function ThirtyYear({ ticker, name }: { ticker: string; name: str
                       {trendW > 0 && <th className="trend">Trend</th>}
                       {cols.map((c) => (
                         <th key={c.id} className={`num ${c.kind} ${c.legacy ? "legacy" : ""}`} title={headerTitle(c)}>
-                          {c.legacy && c.period?.source ? <a href={c.period.source.url} target="_blank" rel="noreferrer">{c.label}</a> : c.label}
+                          {(() => { const lab = twoLine && c.label.includes(" ") ? <>{c.label.split(" ")[0]}<br />{c.label.split(" ")[1]}</> : c.label; return c.legacy && c.period?.source ? <a href={c.period.source.url} target="_blank" rel="noreferrer">{lab}</a> : lab; })()}
                         </th>
                       ))}
                     </tr>

@@ -75,7 +75,7 @@ test("30-Y Financials tab: five GuruFocus-style sections, 30 years + TTM + quart
   const income = page.getByTestId("section-income");
   const headers = income.locator("thead th");
   const texts = await headers.allTextContents();
-  const annual = texts.filter((t) => /^[A-Z][a-z]{2} \d{2}$/.test(t.trim()));
+  const annual = texts.filter((t) => /^[A-Z][a-z]{2}\s?\d{2}$/.test(t.trim()));
   expect(annual.length).toBe(35); // 30 fiscal years + 5 quarters (same label style)
   expect(texts).toContain("TTM");
   expect(await income.locator("th.legacy").count()).toBeGreaterThan(10);
