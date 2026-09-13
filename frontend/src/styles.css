@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --bg: #f3f4f2;
+  --surface: #ffffff;
+  --surface-2: #f9f9f7;
+  --text: #0b0b0b;
+  --text-2: #52514e;
+  --muted: #898781;
+  --grid: #e1e0d9;
+  --border: rgba(11, 11, 11, 0.1);
+  --brand: #2a78d6;
+  --brand-2: #eb6834;
+  --series-3: #1baf7a;
+  --good: #006300;
+  --good-bg: #e3f4e3;
+  --bad: #d03b3b;
+  --bad-bg: #fbe5e5;
+  --neutral-bg: #ecebe7;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0d0d0d;
+    --surface: #1a1a19;
+    --surface-2: #222221;
+    --text: #ffffff;
+    --text-2: #c3c2b7;
+    --muted: #898781;
+    --grid: #2c2c2a;
+    --border: rgba(255, 255, 255, 0.1);
+    --brand: #3987e5;
+    --brand-2: #d95926;
+    --series-3: #199e70;
+    --good: #0ca30c;
+    --good-bg: #14361a;
+    --bad: #e66767;
+    --bad-bg: #3d1a1a;
+    --neutral-bg: #2c2c2a;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0d0d0d; --surface: #1a1a19; --surface-2: #222221; --text: #ffffff; --text-2: #c3c2b7; --grid: #2c2c2a;
+  --border: rgba(255, 255, 255, 0.1); --brand: #3987e5; --brand-2: #d95926; --series-3: #199e70; --good: #0ca30c;
+  --good-bg: #14361a; --bad: #e66767; --bad-bg: #3d1a1a; --neutral-bg: #2c2c2a;
+}
+
+html, body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+a { color: inherit; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
+.muted { color: var(--muted); }
+.text-2 { color: var(--text-2); }
+.tnum { font-variant-numeric: tabular-nums; }
+.pill { display: inline-block; min-width: 3.5rem; text-align: right; padding: 0.1rem 0.5rem; border-radius: 999px; font-weight: 600; }
+.pill-good { background: var(--good-bg); color: var(--good); }
+.pill-bad { background: var(--bad-bg); color: var(--bad); }
+.pill-neutral { background: var(--neutral-bg); color: var(--text); }
+.pill-na { color: var(--muted); }
+.btn { border: 1px solid var(--border); border-radius: 6px; padding: 0.25rem 0.6rem; font-size: 0.8rem; background: var(--surface); color: var(--text-2); cursor: pointer; }
+.btn:hover { border-color: var(--brand); color: var(--text); }
+.btn-active { background: var(--brand); color: #fff; border-color: var(--brand); }
+.input { border: 1px solid var(--border); border-radius: 6px; padding: 0.3rem 0.5rem; background: var(--surface); color: var(--text); font-size: 0.85rem; width: 100%; }
+.input:focus { outline: 2px solid var(--brand); outline-offset: 0; }
+table.data { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+table.data th { text-align: left; font-weight: 600; color: var(--text-2); padding: 0.45rem 0.5rem; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+table.data td { padding: 0.4rem 0.5rem; border-bottom: 1px solid var(--grid); }
+table.data tr:last-child td { border-bottom: none; }
+table.data td.num, table.data th.num { text-align: right; font-variant-numeric: tabular-nums; }
+.up { color: var(--good); }
+.down { color: var(--bad); }
+.recharts-tooltip-wrapper { outline: none; }
+.viz-tip { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.45rem 0.6rem; font-size: 0.8rem; box-shadow: 0 4px 16px rgba(0,0,0,0.12); }
+.skeleton { background: linear-gradient(90deg, var(--surface-2), var(--neutral-bg), var(--surface-2)); background-size: 200% 100%; animation: sh 1.3s infinite; border-radius: 8px; }
+@keyframes sh { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
