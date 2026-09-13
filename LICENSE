@@ -1,0 +1,36 @@
+GuFu — Proprietary License (All Rights Reserved)
+
+Copyright (c) 2026 goatercoder ("the Author"). All rights reserved.
+
+This repository is published in source-available form so that its contents can be read and so that the
+GuFu website can be hosted on GitHub Pages. Publication does not grant an open-source license.
+
+1. What you may do
+   a. View and read the source code and data files in this repository on GitHub.
+   b. Use the published GuFu website for your own personal, non-commercial, informational purposes.
+
+2. What you may not do without the Author's prior written permission
+   a. Copy, reproduce, modify, adapt, translate, or create derivative works of any part of the code,
+      design, or data.
+   b. Publish, distribute, sublicense, sell, rent, lease, or otherwise make any part of it available to
+      third parties, including hosting your own copy of the application or its data.
+   c. Use any part of the code or data in another product, service, dataset, or publication.
+   d. Use it for any commercial purpose.
+   Forking on GitHub is permitted only to the extent GitHub's Terms of Service require, and a fork carries
+   this same license; the restrictions above apply to the fork.
+
+3. Third-party content
+   Financial statement data is derived from filings published by the U.S. Securities and Exchange
+   Commission (public domain). Price data is retrieved from third-party services subject to their own
+   terms. Nothing here grants rights in third-party trademarks; GuruFocus is a trademark of its owner and
+   is referenced descriptively only.
+
+4. No warranty; not investment advice
+   THE SOFTWARE, WEBSITE, AND DATA ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED.
+   Figures may be incomplete or wrong. Nothing here is investment, financial, legal, or tax advice. In no
+   event shall the Author be liable for any claim, damages, or other liability arising from the use of
+   the software, website, or data.
+
+5. Permission requests
+   To request permission for any use not allowed above, contact the Author through GitHub
+   (https://github.com/goatercoder).

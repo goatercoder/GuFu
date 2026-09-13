@@ -203,3 +203,9 @@ make e2e      # Playwright smoke test against a fixture-mode backend (home, comp
   back to Stooq. Quotes are delayed per Yahoo's feed.
 - Banks and insurers report no cost of revenue, inventory or current assets; the affected ratios show N/A.
 - Nothing here is investment advice.
+
+## License
+
+Source-available, **all rights reserved**. You may read the code here and use the hosted website for
+personal, non-commercial purposes; copying, modifying, redistributing, hosting a copy, or any commercial use
+requires the author's written permission. See [LICENSE](LICENSE).

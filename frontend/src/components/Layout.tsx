@@ -39,6 +39,7 @@ export default function Layout({ children }: { children: ReactNode }) {
       <main className="max-w-[1500px] mx-auto px-4 py-4">{!STATIC && health.data?.setup_required ? <SetupCard /> : children}</main>
       <footer className="max-w-[1500px] mx-auto px-4 py-6 text-xs muted">
         Financial statements: SEC EDGAR XBRL (10-K / 10-Q filings). Prices: Yahoo Finance. Metrics computed by GuFu. Not investment advice.
+        <span className="block mt-1">© 2026 goatercoder. All rights reserved. Personal, non-commercial use only.</span>
       </footer>
     </div>
   );
