@@ -1,7 +1,7 @@
 PY=.venv/bin/python
 UVICORN=.venv/bin/uvicorn
 
-.PHONY: setup start dev dev-fixture backend frontend test e2e build lint refresh sp500 clean
+.PHONY: setup start dev dev-fixture backend frontend test e2e build lint refresh dataset static static-test sp500 clean
 
 setup:            ## create venv, install backend + frontend deps
 	python3 -m venv .venv
@@ -41,6 +41,18 @@ e2e:              ## Playwright smoke test (starts a fixture-mode backend itself
 
 refresh:          ## force a full data rebuild on a running backend
 	curl -s -X POST "http://127.0.0.1:8000/api/admin/refresh?kind=all&force=true"
+
+dataset:          ## build the full cache headlessly (needs GUFU_SEC_USER_AGENT); writes build/gufu-data.sqlite.gz
+	$(PY) scripts/build_dataset.py --db build/gufu.sqlite --slim build/gufu-data.sqlite
+
+static:           ## static edition (no backend) into frontend/dist + data, from build/gufu.sqlite
+	cd frontend && VITE_STATIC_DATA=1 VITE_BASE=$${VITE_BASE:-/} npm run build
+	$(PY) scripts/export_static.py --db build/gufu.sqlite --out frontend/dist/data
+
+static-test:      ## offline copy of the static edition for `make e2e` (synthetic data)
+	$(PY) scripts/build_dataset.py --fixture --db build/fixture.sqlite --slim ""
+	cd frontend && VITE_STATIC_DATA=1 VITE_BASE=/GuFu/ npx vite build --outDir .static-site/GuFu --emptyOutDir
+	$(PY) scripts/export_static.py --db build/fixture.sqlite --out frontend/.static-site/GuFu/data
 
 sp500:            ## regenerate data/sp500.json from Wikipedia
 	$(PY) scripts/refresh_sp500.py

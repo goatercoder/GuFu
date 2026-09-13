@@ -47,9 +47,12 @@
   --good-bg: #14361a; --bad: #e66767; --bad-bg: #3d1a1a; --neutral-bg: #2c2c2a;
 }
 
-html, body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; }
+html, body { background: var(--bg); color: var(--text); font-family: system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 13.5px; }
+.gf-header { background: linear-gradient(90deg, #1c4f9c, #2a6fd0); color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+.gf-header .input { background: #fff; color: #0b0b0b; border-color: transparent; }
+.gf-nav-active { background: rgba(255,255,255,0.18); }
 a { color: inherit; }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 0.85rem; }
 .muted { color: var(--muted); }
 .text-2 { color: var(--text-2); }
 .tnum { font-variant-numeric: tabular-nums; }
@@ -82,3 +85,20 @@ table.data td.num, table.data th.num { text-align: right; font-variant-numeric: 
 .fin-table .group-row td { background: var(--surface-2); padding-top: 0.5rem; }
 .fin-table .legacy-cell { font-style: italic; color: var(--text-2); }
 .legacy-tag { display: inline-block; margin-left: 0.25rem; padding: 0 0.25rem; font-size: 0.6rem; font-style: normal; font-weight: 600; border-radius: 3px; background: var(--neutral-bg); color: var(--text-2); vertical-align: middle; }
+/* GuruFocus-style 30-Y tables */
+.fy-scroll { overflow-x: auto; }
+table.fy { border-collapse: collapse; font-variant-numeric: tabular-nums; }
+table.fy th, table.fy td { padding: 3px 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid var(--grid); }
+table.fy thead th { position: sticky; top: 0; background: var(--surface-2); color: var(--text-2); font-weight: 600; text-align: right; z-index: 1; }
+table.fy th.lab, table.fy td.lab { text-align: left; position: sticky; left: 0; background: var(--surface); z-index: 2; padding-left: 10px; }
+table.fy thead th.lab { background: var(--surface-2); z-index: 3; }
+table.fy td.num { text-align: right; }
+table.fy .trend { text-align: center; }
+table.fy .ttm { background: color-mix(in srgb, var(--brand) 10%, transparent); font-weight: 600; }
+table.fy thead th.ttm { background: color-mix(in srgb, var(--brand) 18%, var(--surface-2)); }
+table.fy .quarter { background: color-mix(in srgb, var(--brand-2) 6%, transparent); }
+table.fy thead th.quarter { background: color-mix(in srgb, var(--brand-2) 14%, var(--surface-2)); }
+table.fy td.legacy { font-style: italic; color: var(--text-2); }
+table.fy th.legacy a { text-decoration: underline dotted; }
+table.fy td.neg { color: var(--bad); }
+table.fy tbody tr:hover td { background: color-mix(in srgb, var(--brand) 7%, var(--surface)); }

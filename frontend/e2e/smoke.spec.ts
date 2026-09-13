@@ -64,33 +64,51 @@ test("screener filters reduce the match count and sorting works", async ({ page 
   await page.screenshot({ path: "test-results/screener.png", fullPage: true });
 });
 
-test("30-Y Financials tab shows three decades with legacy sources and CSV export", async ({ page }) => {
+test("30-Y Financials tab: five GuruFocus-style sections, 30 years + TTM + quarters, sparklines, CSV", async ({ page }) => {
   await page.goto("/company/AAPL");
   await expect(page.getByTestId("price")).not.toHaveText("N/A", { timeout: 60_000 });
+  await expect(page.getByTestId("rank-badges")).toContainText("Financial Strength");
   await page.getByTestId("tab-financials").click();
   await expect(page).toHaveURL(/\/company\/AAPL\/financials$/);
-  const table = page.getByTestId("financials-table");
-  await expect(table).toBeVisible({ timeout: 60_000 });
-  // wait for the older-filing extraction to finish (fixture mode: seconds)
   await expect(page.getByTestId("coverage")).toContainText(/30 of 30 years available/, { timeout: 90_000 });
-  const yearHeaders = table.locator("thead th").filter({ hasText: /^FY\d{4}/ });
-  expect(await yearHeaders.count()).toBe(30);
-  expect(await table.locator(".legacy-tag").count()).toBeGreaterThan(10);
-  await expect(table).toContainText("Income Statement");
-  await expect(table).toContainText("Balance Sheet");
-  await expect(table).toContainText("Cash Flow");
-  await expect(table).toContainText("Per Share");
-  await expect(table).toContainText("Ratios");
-  // a legacy revenue cell has a value and a source tooltip pointing at the filing
-  const revenueRow = table.locator("tbody tr", { hasText: /^Revenue/ }).first();
-  const firstLegacyCell = revenueRow.locator("td.legacy-cell").first();
-  await expect(firstLegacyCell).not.toHaveText("–");
-  expect(await firstLegacyCell.getAttribute("title")).toMatch(/From the 10-K/);
-  // CSV export is wired to a download
+  for (const id of ["per-share", "ratios", "income", "balance", "cashflow"]) await expect(page.getByTestId(`section-${id}`)).toBeVisible();
+  const income = page.getByTestId("section-income");
+  const headers = income.locator("thead th");
+  const texts = await headers.allTextContents();
+  const annual = texts.filter((t) => /^[A-Z][a-z]{2} \d{2}$/.test(t.trim()));
+  expect(annual.length).toBe(35); // 30 fiscal years + 5 quarters (same label style)
+  expect(texts).toContain("TTM");
+  expect(await income.locator("th.legacy").count()).toBeGreaterThan(10);
+  expect(await income.locator("svg").count()).toBeGreaterThan(5); // trend sparklines
+  // no horizontal overflow on a wide screen: the table fits its container
+  const box = await income.locator("table").boundingBox();
+  const wrap = await income.locator(".fy-scroll").boundingBox();
+  expect(box!.width).toBeLessThanOrEqual(wrap!.width + 1);
+  await expect(page.getByTestId("section-ratios")).toContainText("P/E Ratio");
+  await expect(page.getByTestId("section-per-share")).toContainText("Month End Stock Price");
+  await page.getByRole("button", { name: "YoY %" }).click();
+  await expect(income.locator("tbody td.num").filter({ hasText: /%$/ }).first()).toBeVisible();
+  await page.getByRole("button", { name: "$", exact: true }).click();
   const [download] = await Promise.all([page.waitForEvent("download"), page.getByTestId("csv-button").click()]);
-  expect(download.suggestedFilename()).toBe("AAPL_annual_financials.csv");
+  expect(download.suggestedFilename()).toBe("AAPL_30y_financials.csv");
   await page.screenshot({ path: "test-results/financials.png", fullPage: true });
-  // quarterly view is XBRL-only and still renders
-  await page.getByRole("button", { name: "Quarterly" }).last().click();
-  await expect(table.locator("thead th").filter({ hasText: /^Q\d '/ }).first()).toBeVisible();
+});
+
+test("valuation, dividend and peers tabs render", async ({ page }) => {
+  // peers are drawn from the universe index, which fills in as the background build runs
+  await page.goto("/");
+  await expect.poll(async () => {
+    const r = await page.request.get("/api/health");
+    return ((await r.json()) as { metrics_cached: number }).metrics_cached;
+  }, { timeout: 120_000, intervals: [2000] }).toBeGreaterThan(400);
+  await page.goto("/company/MSFT/valuation");
+  await expect(page.getByTestId("valuation-page")).toContainText("Historical valuation", { timeout: 60_000 });
+  await expect(page.getByTestId("valuation-page").locator("svg.recharts-surface").first()).toBeVisible();
+  await page.getByTestId("tab-dividend").click();
+  await expect(page.getByTestId("dividend-page")).toContainText("Dividend history");
+  await page.getByTestId("tab-peers").click();
+  const rows = page.getByTestId("peers-page").locator("tbody tr");
+  await expect(rows.first()).toContainText("MSFT");
+  await expect.poll(() => rows.count()).toBeGreaterThan(3);
+  await page.screenshot({ path: "test-results/peers.png", fullPage: true });
 });

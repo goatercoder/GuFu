@@ -6,7 +6,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 
 from gufu.api.deps import get_state
 from gufu.metrics.definitions import METRIC_DEFS
-from gufu.prices import downsample, slice_range
+from gufu.prices import close_on_or_before, downsample, slice_range
 from gufu.services.company_service import (
     DataUnavailable,
     UnknownTicker,
@@ -78,15 +78,20 @@ async def financials(ticker: str, freq: str = Query("annual", pattern="^(annual|
             attach_legacy(state, fin, profile["cik"])
     rows = fin.annual if freq == "annual" else fin.quarterly
     fields = [{"key": k, "label": field_label(k), "kind": field_kind(k), "unit": field_unit(k)} for k in CHART_FIELDS]
+    ph = await load_prices(state, profile["ticker"]) if profile["cik"] else None
     periods = []
     for r in rows:
         d = r.to_dict()
         d["legacy"] = "legacy" in r.derived
         d["source"] = legacy_period_source(fin, r.fiscal_year) if d["legacy"] else None
+        d["px"] = close_on_or_before(ph, r.end.isoformat()) if ph else None
         periods.append(d)
+    ttm_d = fin.ttm.to_dict() if fin.ttm else None
+    if ttm_d and ph:
+        ttm_d["px"] = ph.last_price
     return {
         "ticker": profile["ticker"], "freq": freq, "fye_month": fin.fye_month, "fields": fields,
-        "periods": periods, "ttm": fin.ttm.to_dict() if fin.ttm else None,
+        "periods": periods, "ttm": ttm_d,
         "warnings": fin.warnings, "legacy_status": legacy_status, **legacy_summary(fin),
         "source": "SEC EDGAR: XBRL companyfacts (10-K / 10-Q, 2009+) and Selected Financial Data / statements parsed from "
                   "older 10-K filings",

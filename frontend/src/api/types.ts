@@ -20,22 +20,27 @@ export interface DcfBlock {
   assumptions: { base_eps: number | null; base_fcf_per_share: number | null; discount_rate: number; terminal_growth: number; stage1_years: number; stage2_years: number; growth_cap: number };
 }
 
+export interface RankDetail { metric: string; value: number; percentile: number }
+export interface Rank { rank: number | null; percentile: number | null; detail: RankDetail[] }
+export interface Peer { ticker: string; name: string; sub_industry: string; price: number | null; change_pct: number | null; market_cap: number | null; pe: number | null; peg: number | null; pb: number | null; ev_ebitda: number | null; dividend_yield: number | null; roe: number | null; roic: number | null; net_margin: number | null; revenue_growth_5y: number | null; piotroski_f: number | null }
 export interface CompanyBundle {
   profile: { ticker: string; name: string; sector: string; sub_industry: string; cik: number | null };
   quote: Quote;
   metrics: Record<string, number | null>;
+  ranks: Record<"financial_strength" | "profitability" | "growth" | "valuation", Rank>;
+  peers: Peer[];
   groups: MetricGroup[];
   scores: Scores;
   dcf: DcfBlock;
   inputs: { shares: number | null; ttm_end: string | null; ttm_basis: string; balance_end: string | null; tax_rate: number };
   data_status: {
     latest_10k_filed: string | null; latest_10q_filed: string | null; fye_month: number; annual_years: number; quarters: number;
-    first_fiscal_year: number | null; last_fiscal_year: number | null; warnings: string[]; entity_name: string; fixture_mode: boolean;
+    first_fiscal_year: number | null; last_fiscal_year: number | null; warnings: string[]; entity_name: string; fixture_mode: boolean; built_at?: string;
   };
 }
 
 export interface PeriodSource { accn: string; form: string; filed: string; url: string; filing_fy: number | null; methods: string[]; fields: Record<string, string> }
-export interface Period { key: string; end: string; start: string | null; fy: number; fq: number | null; label: string; form: string; filed: string | null; v: Record<string, number>; src: Record<string, string>; derived: string[]; legacy?: boolean; source?: PeriodSource | null }
+export interface Period { key: string; end: string; start: string | null; fy: number; fq: number | null; label: string; form: string; filed: string | null; v: Record<string, number>; src: Record<string, string>; derived: string[]; legacy?: boolean; source?: PeriodSource | null; px?: number | null }
 export interface Coverage { window_from: number; window_to: number | null; xbrl_from: number | null; xbrl_to: number | null; legacy_from: number | null; legacy_to: number | null; years_available: number; missing_years: number[] }
 export interface LegacyFiling { accn: string; form: string; filed: string; fiscal_year: number | null; url: string; years: number[]; documents: string[]; sections: Record<string, boolean> }
 export interface FinancialsResponse {
@@ -61,5 +66,5 @@ export interface HomeResponse {
   cheapest_pe: HomePick[]; highest_roe: HomePick[]; undervalued_dcf: HomePick[]; quality: HomePick[]; largest: HomePick[];
   job: { id: number; kind: string; status: string; total: number; done: number; failed: number } | null;
 }
-export interface Health { status: string; fixture_mode: boolean; setup_required: boolean; companies: number; metrics_cached: number; building: boolean; current_job_id: number | null }
+export interface Health { status: string; fixture_mode: boolean; setup_required: boolean; companies: number; metrics_cached: number; building: boolean; current_job_id: number | null; static?: boolean; built_at?: string }
 export interface SetupResponse { status: string; user_agent: string; persisted: "env" | "db"; setup_required: boolean }

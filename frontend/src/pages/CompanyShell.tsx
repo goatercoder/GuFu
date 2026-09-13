@@ -37,6 +37,9 @@ export default function CompanyShell() {
       <nav className="flex gap-1" style={{ borderBottom: "1px solid var(--grid)" }} aria-label="Company sections">
         <NavLink to={`/company/${t}`} end className={tab}>Summary</NavLink>
         <NavLink to={`/company/${t}/financials`} className={tab} data-testid="tab-financials">30-Y Financials</NavLink>
+        <NavLink to={`/company/${t}/valuation`} className={tab} data-testid="tab-valuation">Valuation</NavLink>
+        <NavLink to={`/company/${t}/dividend`} className={tab} data-testid="tab-dividend">Dividend</NavLink>
+        <NavLink to={`/company/${t}/peers`} className={tab} data-testid="tab-peers">Peers</NavLink>
       </nav>
       <Outlet context={{ data, ticker: t } satisfies CompanyContext} />
     </div>

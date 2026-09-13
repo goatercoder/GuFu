@@ -151,3 +151,68 @@ def home_summary(state: AppState, profiles_total: int) -> dict:
         "largest": [pick(r) for r in biggest],
         "job": job,
     }
+
+
+# --------------------------------------------------------------------------------------------
+# GuruFocus-style 1-10 rank badges and peer lists, computed from the cached universe
+# --------------------------------------------------------------------------------------------
+
+RANK_DEFS: dict[str, list[tuple[str, bool]]] = {
+    # group: [(metric, higher_is_better)]
+    "financial_strength": [("altman_z", True), ("interest_coverage", True), ("debt_to_equity", False), ("cash_to_debt", True),
+                           ("equity_to_assets", True), ("current_ratio", True)],
+    "profitability": [("roe", True), ("roic", True), ("operating_margin", True), ("net_margin", True), ("gross_margin", True),
+                      ("piotroski_f", True)],
+    "growth": [("revenue_growth_5y", True), ("eps_growth_5y", True), ("revenue_growth_10y", True), ("fcf_growth_5y", True),
+               ("revenue_growth_ttm", True)],
+    "valuation": [("pe", False), ("ev_ebitda", False), ("pb", False), ("ps", False), ("fcf_yield", True), ("peg", False)],
+}
+
+
+def _percentile(sorted_vals: list[float], v: float) -> float:
+    if not sorted_vals:
+        return 0.5
+    lo, hi = 0, len(sorted_vals)
+    while lo < hi:
+        mid = (lo + hi) // 2
+        if sorted_vals[mid] < v:
+            lo = mid + 1
+        else:
+            hi = mid
+    return lo / len(sorted_vals)
+
+
+def compute_ranks(rows: list[dict], ticker: str, values: dict[str, float | None] | None = None) -> dict:
+    """1 (worst) .. 10 (best) per group = average percentile of the group's metrics across the S&P 500."""
+    me = values or next((r for r in rows if r["ticker"] == ticker), None)
+    if me is None:
+        return {}
+    out: dict[str, dict] = {}
+    for group, metrics in RANK_DEFS.items():
+        pcts: list[float] = []
+        detail: list[dict] = []
+        for key, higher in metrics:
+            v = _num(me.get(key))
+            if v is None:
+                continue
+            pool = sorted(x for x in (_num(r.get(key)) for r in rows) if x is not None)
+            p = _percentile(pool, v)
+            if not higher:
+                p = 1.0 - p
+            pcts.append(p)
+            detail.append({"metric": key, "value": v, "percentile": round(p * 100)})
+        if not pcts:
+            out[group] = {"rank": None, "percentile": None, "detail": []}
+            continue
+        avg = sum(pcts) / len(pcts)
+        out[group] = {"rank": max(1, min(10, int(avg * 10) + 1)), "percentile": round(avg * 100), "detail": detail}
+    return out
+
+
+def peers(rows: list[dict], ticker: str, sector: str, sub_industry: str, limit: int = 8) -> list[dict]:
+    same_sub = [r for r in rows if r.get("sub_industry") == sub_industry and r["ticker"] != ticker]
+    pool = same_sub if len(same_sub) >= 3 else [r for r in rows if r.get("sector") == sector and r["ticker"] != ticker]
+    pool = sorted(pool, key=lambda r: -(_num(r.get("market_cap")) or 0))[:limit]
+    keys = ["ticker", "name", "sub_industry", "price", "change_pct", "market_cap", "pe", "peg", "pb", "ev_ebitda", "dividend_yield",
+            "roe", "roic", "net_margin", "revenue_growth_5y", "piotroski_f"]
+    return [{k: r.get(k) for k in keys} for r in pool]

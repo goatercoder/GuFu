@@ -13,6 +13,7 @@ from fastapi.staticfiles import StaticFiles
 
 from gufu.api import routes_admin, routes_companies, routes_home, routes_screener
 from gufu.config import Settings, get_settings
+from gufu.dataset import db_has_data, download_dataset
 from gufu.fetch.fixtures import make_fetchers
 from gufu.jobs.scheduler import scheduler_loop
 from gufu.services.screener_service import rebuild_screener
@@ -26,6 +27,9 @@ log = logging.getLogger("gufu")
 
 
 def build_state(settings: Settings) -> AppState:
+    if settings.dataset_url and not settings.fixture_mode and not db_has_data(settings.db_path):
+        log.info("no local cache yet; trying the prebuilt dataset at %s", settings.dataset_url)
+        download_dataset(settings.dataset_url, settings.db_path)
     db = Database(settings.db_path)
     repo = Repo(db)
     if settings.setup_required:

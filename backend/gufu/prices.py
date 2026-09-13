@@ -138,3 +138,17 @@ def downsample(dates: list[str], closes: list[float], vols: list[int], max_point
     if idx[-1] != n - 1:
         idx.append(n - 1)
     return [dates[i] for i in idx], [closes[i] for i in idx], [vols[i] for i in idx], True
+
+
+def close_on_or_before(ph: PriceHistory, iso_date: str) -> float | None:
+    """Last close on or before a date (bisect on the sorted ISO date list)."""
+    import bisect
+
+    if not ph.dates:
+        return None
+    i = bisect.bisect_right(ph.dates, iso_date) - 1
+    if i < 0:
+        return None
+    if (date.fromisoformat(iso_date) - date.fromisoformat(ph.dates[i])).days > 14:
+        return None
+    return ph.close[i]

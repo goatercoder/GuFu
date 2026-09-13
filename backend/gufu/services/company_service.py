@@ -11,6 +11,7 @@ from gufu.legacy.pipeline import coverage
 from gufu.metrics.engine import compute_metrics, grouped_metrics
 from gufu.prices import PriceHistory
 from gufu.services.quote_service import get_quote
+from gufu.services.screener_service import compute_ranks, flatten, peers
 from gufu.state import AppState
 from gufu.xbrl.models import Financials
 
@@ -120,10 +121,13 @@ async def company_bundle(state: AppState, ticker: str) -> dict:
     quote = await get_quote(state, profile["ticker"])
     res = compute_metrics(fin, quote, profile["sector"])
     ttm = fin.ttm
+    me = flatten({**profile, "values": res["values"], "quote": quote.to_dict()})
     return {
         "profile": profile,
         "quote": quote.to_dict(),
         "metrics": res["values"],
+        "ranks": compute_ranks(state.screener_rows, profile["ticker"], me),
+        "peers": peers(state.screener_rows, profile["ticker"], profile["sector"], profile["sub_industry"]),
         "groups": grouped_metrics(res["values"]),
         "scores": res["scores"],
         "dcf": res["dcf"],

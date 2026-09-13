@@ -5,14 +5,19 @@ company from **real SEC filings** and **live market prices**, and presents them 
 
 - **Overview page** — market stat tiles, market cap by sector, top gainers/losers, lowest P/E, highest ROE,
   largest DCF discount, highest Piotroski F-score, plus a search bar over all constituents.
-- **Company page** — live price and 52-week range, an interactive price chart (1M → MAX), ~60 metrics in
-  colour-coded tables (P/E, PEG, P/S, P/B, P/FCF, EV/EBITDA, ROE, ROA, ROIC, margins, leverage, coverage,
-  1/3/5/10-year growth rates, yields, payout), Altman Z and Piotroski F badges with the underlying tests,
-  a **30-year financials chart** (annual or quarterly, any line item, compare two items), and an
-  interactive two-stage DCF panel.
-- **30-Y Financials tab** — a GuruFocus-style table of 30 fiscal years × income statement, balance sheet,
-  cash flow, per-share figures and ratios, with quarterly view and CSV export. Years from 2009 on come from
-  SEC XBRL data; earlier years are parsed from the company's older 10-K filings (see below).
+- **Company page** — live price and 52-week range, GuruFocus-style **rank badges** (Financial Strength,
+  Profitability, Growth, Valuation, 1–10 against the S&P 500), an interactive price chart (1M → MAX), ~60
+  metrics in colour-coded tables (P/E, PEG, P/S, P/B, P/FCF, EV/EBITDA, ROE, ROA, ROIC, margins, leverage,
+  coverage, 1/3/5/10-year growth rates, yields, payout), Altman Z and Piotroski F badges with the underlying
+  tests, a 30-year financials chart, and an interactive two-stage DCF panel.
+- **30-Y Financials tab** — five GuruFocus-style tables (Per Share Data, Ratios, Income Statement, Balance
+  Sheet, Cashflow Statement): 30 fiscal years fitted to your screen width, then TTM and the last five
+  quarters, a trend sparkline per row, $ / YoY % view, historical P/E, P/S, P/B and yield at each year-end,
+  CSV export. Years from 2009 on come from SEC XBRL data; earlier years are parsed from the company's older
+  10-K filings (see below), shown in italics and linked to the filing.
+- **Valuation, Dividend and Peers tabs** — historical valuation multiples with a chart, the DCF model,
+  dividend history with growth/payout/yield, and a comparison table of the largest companies in the same
+  industry.
 - **Screener** — filter the whole index on any screenable metric (sector, market cap, P/E, PEG, P/B,
   yield, ROE, ROIC, growth, F/Z-score, margin of safety…), sort by any column, pick your own columns.
 
@@ -41,9 +46,28 @@ tag, every one links to the filing it came from, restatements in later filings w
 expect an occasional missing or mislabeled figure; the "notes from parsing" list on the tab says what
 was dropped and why.
 
-## Run it
+## Just open it (nothing to install)
 
-Only Python 3.11+ is needed. Nothing to configure: the first time you open the app it asks for your name and
+The easiest way for anyone, on any device, is the **hosted edition**: a static website rebuilt every night
+from SEC filings and closing prices and published on GitHub Pages. Once the nightly workflow has run
+(see *Publishing* below) it lives at **https://goatercoder.github.io/GuFu/**. Open the link, type a
+company name, done. It never sleeps, loads instantly, and on a phone or tablet you can add it to the home
+screen like an app (Share → *Add to Home Screen* on iPhone, the ⋮ menu → *Install app* on Android/Chrome).
+Prices on the hosted edition are the previous close; everything else is identical.
+
+### Publishing the hosted edition (repo owner, one-time)
+1. Repo **Settings → Pages → Source: GitHub Actions**.
+2. **Settings → Secrets and variables → Actions → New repository secret**: `GUFU_SEC_USER_AGENT` =
+   `GuFu nightly build your@email` (the SEC requires a contact on every request).
+3. **Actions → "Nightly data build & Pages deploy" → Run workflow**. The first run takes 30–60 minutes
+   (every S&P 500 company's XBRL data, older 10-Ks and price history); later runs reuse the previous
+   night's cache. It also publishes the cache as the `data-latest` release asset, which every other way of
+   running GuFu downloads on first start so nobody has to wait for a build again.
+
+## Run it on your own computer
+
+Only Python 3.11+ is needed. On first start it downloads the nightly dataset (~30 MB) when one has been
+published, so the app is fully populated within seconds; otherwise it builds the cache itself. Nothing to configure: the first time you open the app it asks for your name and
 email (the SEC requires a contact on every request to its filing database) and then builds its data cache.
 
 **macOS**
@@ -59,8 +83,8 @@ email (the SEC requires a contact on every request to its filing database) and t
 **Linux**: `./start.sh` (or `make start`).
 
 Your browser opens at <http://127.0.0.1:8000>. The first run installs dependencies (about a minute). Keep the
-window open while you use GuFu; close it to stop. The S&P 500 cache builds in the background (10–20 minutes,
-progress bar on the overview page); company pages work immediately.
+window open while you use GuFu; close it to stop. If no nightly dataset is available yet, the S&P 500 cache
+builds in the background (progress bar on the overview page) and company pages work immediately.
 
 **Docker**: `docker compose up` then open <http://localhost:8000>. Data persists in the `gufu-data` volume.
 

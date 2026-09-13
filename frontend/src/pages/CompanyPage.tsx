@@ -4,6 +4,7 @@ import PriceChart from "../components/PriceChart";
 import FinancialChart from "../components/FinancialChart";
 import DcfPanel from "../components/DcfPanel";
 import { FScoreBadge, ZScoreBadge } from "../components/ScoreBadge";
+import RankBadges from "../components/RankBadges";
 import type { CompanyContext } from "./CompanyShell";
 
 export default function CompanyPage() {
@@ -11,6 +12,7 @@ export default function CompanyPage() {
   const groups = Object.fromEntries(data.groups.map((g) => [g.group, g]));
   return (
     <div className="space-y-4">
+      <RankBadges ranks={data.ranks} />
       <div className="grid lg:grid-cols-3 gap-4">
         <div className="lg:col-span-2"><PriceChart ticker={t} fairValue={data.dcf.eps.value} /></div>
         <div className="grid grid-rows-2 gap-4">

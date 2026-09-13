@@ -11,3 +11,6 @@ frontend/test-results/
 frontend/playwright-report/
 # env
 .env
+build/
+frontend/dist/data/
+frontend/.static-site/

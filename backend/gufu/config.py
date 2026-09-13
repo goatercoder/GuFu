@@ -32,6 +32,8 @@ class Settings(BaseSettings):
     legacy_enabled: bool = True
     legacy_max_filings: int = 6
     legacy_on_demand_timeout: float = 45.0
+    # Prebuilt nightly dataset (built by GitHub Actions). Empty string disables the download.
+    dataset_url: str = "https://github.com/goatercoder/GuFu/releases/download/data-latest/gufu-data.sqlite.gz"
     frontend_dist: Path = REPO_DIR / "frontend" / "dist"
     cors_origins: list[str] = ["http://localhost:5173", "http://127.0.0.1:5173"]
     # Where the in-app setup screen persists the SEC User-Agent.

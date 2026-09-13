@@ -1,0 +1,89 @@
+# Nightly data build: fetches every S&P 500 company's SEC filings and prices, computes all metrics, then
+#   1. publishes the slim SQLite cache as the "data-latest" release asset (used by laptops/Docker/Render
+#      on first start so they never have to build locally), and
+#   2. deploys the static edition of the site (no backend) to GitHub Pages.
+#
+# One-time setup in the repo: Settings → Pages → Source: "GitHub Actions";
+# Settings → Secrets → Actions → GUFU_SEC_USER_AGENT = "GuFu nightly build you@example.com".
+name: Nightly data build & Pages deploy
+
+on:
+  schedule:
+    - cron: "30 6 * * *"   # 06:30 UTC daily, after US markets close and EDGAR's nightly updates
+  workflow_dispatch:
+    inputs:
+      fixture:
+        description: "Use synthetic sample data instead of SEC/Yahoo (pipeline smoke test)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: data-build
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install
+        run: |
+          pip install -r backend/requirements.txt
+          cd frontend && npm ci --no-audit --no-fund
+      - name: Reuse yesterday's cache (incremental refresh)
+        continue-on-error: true
+        run: |
+          mkdir -p build
+          curl -sSfL -o build/prev.sqlite.gz "https://github.com/${GITHUB_REPOSITORY}/releases/download/data-latest/gufu-data.sqlite.gz" \
+            && gunzip -c build/prev.sqlite.gz > build/gufu.sqlite && echo "reusing previous dataset" || echo "no previous dataset"
+      - name: Build dataset (SEC EDGAR + prices)
+        env:
+          GUFU_SEC_USER_AGENT: ${{ secrets.GUFU_SEC_USER_AGENT }}
+          GUFU_SEC_CONCURRENCY: "4"
+          GUFU_YAHOO_CONCURRENCY: "2"
+        run: |
+          FIX=""
+          if [ "${{ inputs.fixture }}" = "true" ]; then FIX="--fixture"; fi
+          if [ -z "$GUFU_SEC_USER_AGENT" ] && [ -z "$FIX" ]; then
+            echo "::error::Set the GUFU_SEC_USER_AGENT repository secret (SEC requires a contact User-Agent)"; exit 1
+          fi
+          python scripts/build_dataset.py $FIX --db build/gufu.sqlite --slim build/gufu-data.sqlite
+      - name: Export static site
+        run: |
+          cd frontend && VITE_STATIC_DATA=1 VITE_BASE="/${GITHUB_REPOSITORY#*/}/" npm run build && cd ..
+          python scripts/export_static.py --db build/gufu.sqlite --out frontend/dist/data
+          du -sh frontend/dist
+      - name: Publish dataset release asset
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view data-latest >/dev/null 2>&1 || gh release create data-latest --title "Nightly dataset" --notes "Prebuilt GuFu cache, refreshed nightly." --latest=false
+          gh release upload data-latest build/gufu-data.sqlite.gz --clobber
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: frontend/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
