@@ -54,4 +54,5 @@ export interface HomeResponse {
   cheapest_pe: HomePick[]; highest_roe: HomePick[]; undervalued_dcf: HomePick[]; quality: HomePick[]; largest: HomePick[];
   job: { id: number; kind: string; status: string; total: number; done: number; failed: number } | null;
 }
-export interface Health { status: string; fixture_mode: boolean; companies: number; metrics_cached: number; building: boolean; current_job_id: number | null }
+export interface Health { status: string; fixture_mode: boolean; setup_required: boolean; companies: number; metrics_cached: number; building: boolean; current_job_id: number | null }
+export interface SetupResponse { status: string; user_agent: string; persisted: "env" | "db"; setup_required: boolean }

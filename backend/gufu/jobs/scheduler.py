@@ -15,6 +15,7 @@ log = logging.getLogger("gufu.scheduler")
 async def scheduler_loop(state: AppState) -> None:
     b = Builder(state)
     try:
+        await state.setup_done.wait()  # live mode: blocks until the setup screen has provided a SEC User-Agent
         await b.ensure_ciks()
         rebuild_screener(state)
         n_metrics = state.repo.count_metrics()

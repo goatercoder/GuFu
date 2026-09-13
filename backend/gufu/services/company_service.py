@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from gufu.fetch.fixtures import SetupRequiredFetchers
 from gufu.jobs.builder import Builder
 from gufu.metrics.engine import compute_metrics, grouped_metrics
 from gufu.prices import PriceHistory
@@ -24,6 +25,8 @@ async def load_financials(state: AppState, ticker: str) -> tuple[Financials, dic
         raise UnknownTicker(ticker)
     cached = state.repo.get_financials(p.cik) if p.cik else None
     if cached is None:
+        if state.setup_required:
+            raise DataUnavailable(SetupRequiredFetchers.MESSAGE)
         try:
             await Builder(state).build_one(p.ticker)
         except Exception as exc:  # noqa: BLE001

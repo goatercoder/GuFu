@@ -1,14 +1,17 @@
 PY=.venv/bin/python
 UVICORN=.venv/bin/uvicorn
 
-.PHONY: setup dev dev-fixture backend frontend test e2e build lint refresh sp500 clean
+.PHONY: setup start dev dev-fixture backend frontend test e2e build lint refresh sp500 clean
 
 setup:            ## create venv, install backend + frontend deps
 	python3 -m venv .venv
 	.venv/bin/pip install -r backend/requirements-dev.txt
 	cd frontend && npm install
 
-backend:          ## run the API (live mode; needs GUFU_SEC_USER_AGENT)
+start:            ## one-process app on http://127.0.0.1:8000 (same as double-clicking start.sh / start.command / start.bat)
+	cd backend && ../$(PY) -m gufu.launch
+
+backend:          ## run the API only (dev)
 	cd backend && ../$(UVICORN) gufu.main:app --reload --port 8000
 
 frontend:         ## run the Vite dev server (proxies /api to :8000)

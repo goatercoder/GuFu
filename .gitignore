@@ -7,7 +7,6 @@ __pycache__/
 backend/data/*.sqlite*
 # node
 node_modules/
-frontend/dist/
 frontend/test-results/
 frontend/playwright-report/
 # env

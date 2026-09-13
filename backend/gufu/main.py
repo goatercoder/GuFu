@@ -26,9 +26,11 @@ log = logging.getLogger("gufu")
 
 
 def build_state(settings: Settings) -> AppState:
-    settings.validate_runtime()
     db = Database(settings.db_path)
     repo = Repo(db)
+    if settings.setup_required:
+        # Precedence: GUFU_SEC_USER_AGENT env var > .env file > value saved by the in-app setup screen.
+        settings.sec_user_agent = repo.kv_get("sec_user_agent") or ""
     profiles = load_sp500(settings.sp500_path)
     cached = {p.ticker: p for p in repo.get_companies()}
     merged = []
@@ -37,6 +39,8 @@ def build_state(settings: Settings) -> AppState:
         merged.append(type(p)(p.ticker, p.name, p.sector, p.sub_industry, p.cik or (c.cik if c else None)))
     state = AppState(settings=settings, db=db, repo=repo, fetchers=make_fetchers(settings), profiles=merged)
     state.profile_by_ticker = {p.ticker: p for p in merged}
+    if not state.setup_required:
+        state.setup_done.set()
     repo.upsert_companies(merged)
     rebuild_screener(state)
     return state
@@ -49,8 +53,10 @@ def create_app(settings: Settings | None = None, run_scheduler: bool = True) -> 
     async def lifespan(app: FastAPI):
         state = build_state(settings)
         app.state.gufu = state
-        log.info("GuFu starting: %d companies, fixture_mode=%s, db=%s", len(state.profiles), settings.fixture_mode,
-                 settings.db_path)
+        log.info("GuFu starting: %d companies, fixture_mode=%s, setup_required=%s, db=%s", len(state.profiles),
+                 settings.fixture_mode, state.setup_required, settings.db_path)
+        if state.setup_required:
+            log.info("Waiting for one-time setup: open the app in your browser and enter your name and email.")
         task = asyncio.create_task(scheduler_loop(state)) if run_scheduler else None
         try:
             yield

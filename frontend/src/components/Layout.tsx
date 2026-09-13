@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { useHealth } from "../api/client";
+import SetupCard from "./SetupCard";
 
 export default function Layout({ children }: { children: ReactNode }) {
   const { pathname } = useLocation();
@@ -30,7 +31,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           )}
         </div>
       </header>
-      <main className="max-w-7xl mx-auto px-4 py-5">{children}</main>
+      <main className="max-w-7xl mx-auto px-4 py-5">{health.data?.setup_required ? <SetupCard /> : children}</main>
       <footer className="max-w-7xl mx-auto px-4 py-6 text-xs muted">
         Financial statements: SEC EDGAR XBRL (10-K / 10-Q filings). Prices: Yahoo Finance. Metrics computed by GuFu. Not investment advice.
       </footer>

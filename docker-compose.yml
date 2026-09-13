@@ -1,0 +1,15 @@
+services:
+  gufu:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      # Optional: set in a repo-root .env or your shell. Leave empty and the app asks for name + email on first open.
+      GUFU_SEC_USER_AGENT: ${GUFU_SEC_USER_AGENT:-}
+      GUFU_KEEP_RAW_FACTS: ${GUFU_KEEP_RAW_FACTS:-1}
+    volumes:
+      - gufu-data:/app/backend/data
+    restart: unless-stopped
+
+volumes:
+  gufu-data: {}

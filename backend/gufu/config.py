@@ -30,14 +30,13 @@ class Settings(BaseSettings):
     quote_ttl_seconds: int = 60
     frontend_dist: Path = REPO_DIR / "frontend" / "dist"
     cors_origins: list[str] = ["http://localhost:5173", "http://127.0.0.1:5173"]
+    # Where the in-app setup screen persists the SEC User-Agent.
+    env_path: Path = REPO_DIR / ".env"
 
-    def validate_runtime(self) -> None:
-        if not self.fixture_mode and not self.sec_user_agent.strip():
-            raise RuntimeError(
-                "GUFU_SEC_USER_AGENT is required (e.g. 'GuFu research app you@example.com'). "
-                "SEC EDGAR rejects requests without a descriptive User-Agent. "
-                "Set GUFU_FIXTURE_MODE=1 to run offline on bundled sample data."
-            )
+    @property
+    def setup_required(self) -> bool:
+        """Live mode cannot talk to SEC EDGAR until a contact User-Agent has been provided."""
+        return not self.fixture_mode and not self.sec_user_agent.strip()
 
 
 _settings: Settings | None = None

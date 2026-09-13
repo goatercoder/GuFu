@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
-import type { CompanyBundle, CompanyListItem, Facets, FinancialsResponse, Health, HomeResponse, MetricDef, PricesResponse, ScreenerResponse } from "./types";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import type { CompanyBundle, CompanyListItem, Facets, FinancialsResponse, Health, HomeResponse, MetricDef, PricesResponse, ScreenerResponse, SetupResponse } from "./types";
 
 export class ApiError extends Error {
   status: number;
@@ -25,3 +25,18 @@ export const useFacets = () => useQuery({ queryKey: ["facets"], queryFn: () => g
 export const useMetricDefs = () => useQuery({ queryKey: ["metricdefs"], queryFn: () => get<MetricDef[]>("/api/metrics/definitions"), staleTime: Infinity });
 export const useHome = () => useQuery({ queryKey: ["home"], queryFn: () => get<HomeResponse>("/api/home"), refetchInterval: (q) => (q.state.data?.job?.status === "running" ? 5000 : 60_000) });
 export const useHealth = () => useQuery({ queryKey: ["health"], queryFn: () => get<Health>("/api/health"), refetchInterval: 15_000 });
+
+export async function postSetup(name: string, email: string): Promise<SetupResponse> {
+  const r = await fetch("/api/admin/setup", { method: "POST", headers: { "Content-Type": "application/json", Accept: "application/json" }, body: JSON.stringify({ name, email }) });
+  if (!r.ok) {
+    let detail = r.statusText;
+    try { const j = await r.json(); detail = typeof j.detail === "string" ? j.detail : JSON.stringify(j.detail); } catch { /* ignore */ }
+    throw new ApiError(r.status, detail);
+  }
+  return (await r.json()) as SetupResponse;
+}
+
+export function useSetup() {
+  const qc = useQueryClient();
+  return useMutation({ mutationFn: ({ name, email }: { name: string; email: string }) => postSetup(name, email), onSuccess: () => qc.invalidateQueries() });
+}

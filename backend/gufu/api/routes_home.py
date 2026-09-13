@@ -17,7 +17,8 @@ def home(state: AppState = Depends(get_state)):
 @router.get("/health")
 def health(state: AppState = Depends(get_state)):
     return {
-        "status": "ok", "fixture_mode": state.fetchers.fixture, "companies": len(state.profiles),
+        "status": "ok", "fixture_mode": state.fetchers.fixture, "setup_required": state.setup_required,
+        "companies": len(state.profiles),
         "metrics_cached": state.repo.count_metrics(), "screener_built_at": state.screener_built_at,
         "last_facts_build": state.repo.kv_get("last_facts_build"), "last_prices_build": state.repo.kv_get("last_prices_build"),
         "building": state.build_lock.locked(), "current_job_id": state.current_job_id,

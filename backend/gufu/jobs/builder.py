@@ -7,6 +7,7 @@ import logging
 from datetime import UTC, datetime
 from typing import Any
 
+from gufu.fetch.fixtures import SetupRequired
 from gufu.fetch.sec import max_filed
 from gufu.metrics.engine import Quote, compute_metrics
 from gufu.prices import PriceHistory
@@ -84,6 +85,8 @@ class Builder:
             try:
                 tmap = await self.s.fetchers.company_tickers(merged)
                 merged = resolve_ciks(merged, tmap)
+            except SetupRequired:
+                raise
             except Exception as exc:  # noqa: BLE001
                 log.warning("could not fetch SEC ticker map: %s", exc)
         self.s.profiles = merged

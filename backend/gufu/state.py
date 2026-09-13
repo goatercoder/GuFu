@@ -28,6 +28,12 @@ class AppState:
     inflight: dict[str, asyncio.Future] = field(default_factory=dict)
     background_tasks: set[asyncio.Task] = field(default_factory=set)
     current_job_id: int | None = None
+    # Set once a SEC User-Agent is available; the scheduler waits on it before building.
+    setup_done: asyncio.Event = field(default_factory=asyncio.Event)
+
+    @property
+    def setup_required(self) -> bool:
+        return not self.fetchers.fixture and not self.settings.sec_user_agent.strip()
 
     def profile(self, ticker: str) -> CompanyProfile | None:
         return self.profile_by_ticker.get(ticker.upper().replace("-", "."))

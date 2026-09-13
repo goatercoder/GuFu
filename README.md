@@ -29,34 +29,60 @@ scraped from GuruFocus.
 "30-year" chart therefore has a 30-year axis but plots the ~15–17 years that exist in machine-readable
 filings; pre-2009 years are not available from 10-K/10-Q filings in structured form.
 
-## Quick start
+## Run it
 
-```bash
-git clone https://github.com/goatercoder/GuFu && cd GuFu
-make setup                     # python venv + pip install, npm install
-cp .env.example .env           # then edit GUFU_SEC_USER_AGENT
-make dev                       # backend on :8000, frontend on :5173
-```
+Only Python 3.11+ is needed. Nothing to configure: the first time you open the app it asks for your name and
+email (the SEC requires a contact on every request to its filing database) and then builds its data cache.
 
-Open <http://localhost:5173>. The SEC **requires** a descriptive `User-Agent` on every request, so live mode
-refuses to start until `GUFU_SEC_USER_AGENT="GuFu research app your-name your@email"` is set.
+**macOS**
+1. Install Python from <https://www.python.org/downloads/> if you don't have it.
+2. Download this repo (green **Code** button → **Download ZIP**) and unzip it, or `git clone` it.
+3. Double-click **`start.command`**. If macOS says it can't be opened, right-click it → **Open** (first time only).
 
-On first start the backend builds the whole S&P 500 cache in the background: ~505 companyfacts documents
-(rate-limited to 8 req/s), ~505 price histories, then all metrics. Expect 10–20 minutes; the overview page
-shows a progress bar and fills in as it goes. Company pages work immediately, fetching on demand. Facts are
-refreshed weekly (only re-parsed when a newer filing appears), prices daily. `make refresh` forces a rebuild.
+**Windows**
+1. Install Python from <https://www.python.org/downloads/windows/> and tick **"Add python.exe to PATH"**.
+2. Download ZIP and unzip it, or `git clone`.
+3. Double-click **`start.bat`**.
 
-Requirements: Python 3.11+, Node 22+.
+**Linux**: `./start.sh` (or `make start`).
+
+Your browser opens at <http://127.0.0.1:8000>. The first run installs dependencies (about a minute). Keep the
+window open while you use GuFu; close it to stop. The S&P 500 cache builds in the background (10–20 minutes,
+progress bar on the overview page); company pages work immediately.
+
+**Docker**: `docker compose up` then open <http://localhost:8000>. Data persists in the `gufu-data` volume.
+
+**Web link (hosted)**: [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/goatercoder/GuFu)
+gives you a public URL on Render's free tier. Render asks for `GUFU_SEC_USER_AGENT` at deploy time
+(format `GuFu/0.1 (Your Name; you@example.com)`); leave it blank and the app asks in the browser instead.
+Free-tier caveats: the service sleeps after 15 minutes idle and its disk is wiped on every deploy or restart, so
+the cache rebuilds afterwards; company pages still work immediately. The URL is public, so anyone with it can
+use the app and its `/api/admin` endpoints. A paid instance with a persistent disk at `/app/backend/data` keeps
+the cache.
 
 ### Offline / sample mode
 
 ```bash
-make dev-fixture      # GUFU_FIXTURE_MODE=1
+GUFU_FIXTURE_MODE=1 make start      # or: make dev-fixture for the two-server dev setup
 ```
 
 Runs the full app with **no network** on deterministic synthetic data shaped exactly like the SEC and
 Yahoo responses (the header shows a red *SAMPLE DATA MODE* badge). This is what the automated tests use;
 it is not real market data.
+
+## For developers
+
+```bash
+make setup      # python venv + pip install, npm install (needs Node 22+)
+make dev        # backend on :8000 with reload, Vite dev server on :5173
+make build      # rebuild frontend/dist  (commit it: end users run the built UI without Node)
+make test       # pytest
+make lint       # ruff + tsc
+make e2e        # Playwright: fixture-mode smoke test + the first-run setup flow
+```
+
+`GUFU_SEC_USER_AGENT` can also be set in `.env` or the environment; that skips the setup screen. Facts are
+refreshed weekly (only re-parsed when a newer filing appears), prices daily. `make refresh` forces a rebuild.
 
 ## Project layout
 

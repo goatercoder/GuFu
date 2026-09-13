@@ -116,7 +116,38 @@ class FixtureFetchers:
         return None
 
 
+class SetupRequired(RuntimeError):
+    """Raised by every fetch while the app is waiting for the one-time setup (name + email)."""
+
+
+class SetupRequiredFetchers:
+    """Placeholder used in live mode until a SEC User-Agent has been configured."""
+
+    fixture = False
+    MESSAGE = "GuFu needs your name and email first. Open the app in your browser to finish setup."
+
+    def __init__(self, settings: Settings):
+        self.settings = settings
+
+    async def company_tickers(self, profiles: list[CompanyProfile]) -> dict[str, int]:
+        raise SetupRequired(self.MESSAGE)
+
+    async def companyfacts(self, cik: int, ticker: str = "") -> dict:
+        raise SetupRequired(self.MESSAGE)
+
+    async def price_history(self, ticker: str) -> PriceHistory:
+        raise SetupRequired(self.MESSAGE)
+
+    async def quote(self, ticker: str) -> PriceHistory:
+        raise SetupRequired(self.MESSAGE)
+
+    async def close(self) -> None:
+        return None
+
+
 def make_fetchers(settings: Settings) -> Fetchers:
     if settings.fixture_mode:
         return FixtureFetchers(settings)
+    if not settings.sec_user_agent.strip():
+        return SetupRequiredFetchers(settings)
     return LiveFetchers(settings)
