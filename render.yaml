@@ -14,4 +14,4 @@ services:
       - key: GUFU_KEEP_RAW_FACTS
         value: "0"
       - key: GUFU_SEC_CONCURRENCY
-        value: "3"
+        value: "2"

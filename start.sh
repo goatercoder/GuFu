@@ -20,7 +20,15 @@ Install it from https://www.python.org/downloads/ and then run this again."
 if [ ! -x .venv/bin/python ] || ! .venv/bin/python -c "import sys" >/dev/null 2>&1; then
   echo "Creating the Python environment (first run only)..."
   rm -rf .venv
-  "$PY" -m venv .venv || fail "Could not create .venv (on Debian/Ubuntu: sudo apt install python3-venv)."
+  if ! "$PY" -m venv .venv 2>/dev/null; then
+    # Debian/Ubuntu (including Linux on ChromeOS) ship python3 without the venv module; try to add it quietly.
+    if command -v apt-get >/dev/null 2>&1; then
+      echo "Installing python3-venv (needs sudo)..."
+      sudo -n apt-get install -y python3-venv >/dev/null 2>&1 || sudo apt-get install -y python3-venv
+    fi
+    rm -rf .venv
+    "$PY" -m venv .venv || fail "Could not create .venv. On Debian/Ubuntu run: sudo apt install python3-venv"
+  fi
 fi
 
 if ! cmp -s backend/requirements.txt .venv/requirements.installed; then

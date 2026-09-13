@@ -1,0 +1,15 @@
+{
+  "name": "GuFu",
+  "image": "mcr.microsoft.com/devcontainers/python:3.12",
+  "hostRequirements": { "cpus": 2, "memory": "4gb" },
+  "postCreateCommand": "pip install --disable-pip-version-check -r backend/requirements.txt",
+  "postStartCommand": "cd backend && nohup env GUFU_NO_BROWSER=1 python -m gufu.launch > /tmp/gufu.log 2>&1 &",
+  "forwardPorts": [8000],
+  "portsAttributes": {
+    "8000": { "label": "GuFu", "onAutoForward": "openBrowser" }
+  },
+  "customizations": {
+    "codespaces": { "openFiles": ["README.md"] },
+    "vscode": { "extensions": ["ms-python.python"] }
+  }
+}

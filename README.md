@@ -60,6 +60,27 @@ the cache rebuilds afterwards; company pages still work immediately. The URL is 
 use the app and its `/api/admin` endpoints. A paid instance with a persistent disk at `/app/backend/data` keeps
 the cache.
 
+### On a Chromebook
+
+Chromebooks can't run the double-click launchers or Docker, so use one of these instead:
+
+1. **Web link, nothing to install** — click
+   [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/goatercoder/GuFu),
+   sign in with GitHub, click **Deploy**, then open the URL Render shows you. Enter your name and email on
+   the welcome screen. (Free tier: sleeps when idle, cache rebuilds after restarts, URL is public.)
+2. **GitHub Codespaces, private and in the browser** — click
+   [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/goatercoder/GuFu?quickstart=1).
+   A browser-based editor starts, installs GuFu, launches it, and opens the app in a new tab (if the tab is
+   blocked, click the **Ports** tab at the bottom and open port 8000). Only your GitHub account can open that
+   URL. Data persists as long as the codespace exists; free accounts get 60 core-hours a month, and idle
+   codespaces stop automatically (reopen the same codespace from github.com/codespaces to resume).
+3. **Linux on ChromeOS** — Settings → About ChromeOS → Developers → Linux development environment → **Turn on**.
+   Then in the Terminal app:
+   ```bash
+   git clone https://github.com/goatercoder/GuFu && cd GuFu && ./start.sh
+   ```
+   Chrome opens <http://localhost:8000> (open it yourself if it doesn't). Next time: `cd GuFu && ./start.sh`.
+
 ### Offline / sample mode
 
 ```bash
