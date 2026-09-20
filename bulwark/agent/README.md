@@ -17,7 +17,7 @@ the optional scheduled task you ask for.
 
 ## What it collects
 
-39 checks on Windows, 33 on Linux and 35 on macOS, covering:
+40 checks on Windows, 33 on Linux and 34 on macOS, covering:
 
 - **Accounts and access**: administrator count, guest account, blank passwords, inactive accounts,
   automatic logon, User Account Control.

@@ -1,0 +1,15 @@
+services:
+  bulwark:
+    build: .
+    ports:
+      - "127.0.0.1:8800:8800"
+    volumes:
+      - bulwark-data:/data
+    environment:
+      # Set a password of your own, or read the generated one from the container logs.
+      BULWARK_ADMIN_PASSWORD: ${BULWARK_ADMIN_PASSWORD:-}
+      # The URL agents should report to, if it differs from where you browse.
+      BULWARK_SERVER_URL: ${BULWARK_SERVER_URL:-}
+    restart: unless-stopped
+volumes:
+  bulwark-data:
