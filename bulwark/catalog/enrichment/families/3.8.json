@@ -1,0 +1,349 @@
+{
+  "family_id": "3.8",
+  "controls": {
+    "3.8.1": {
+      "name": "Media Protection",
+      "nist_800_53": [
+        "MP-2",
+        "MP-4",
+        "MP-6"
+      ],
+      "weight_claimed": 3,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "Any physical thing that holds CUI - printed drawings and travelers, USB sticks, external drives, backup drives, optical discs, even hard disks pulled from old PCs - has to be tracked and locked up when not in use. 'Physically controlled' means you know what CUI media exists, where it is and who has it; 'securely stored' means it lives in a locked drawer, cabinet, safe or room that only authorized people can open. The requirement applies to paper and digital media equally.",
+        "machine_shop_example": "The shop keeps CUI drawings and travelers in a locked flat file in the engineering office; shop-floor copies travel on numbered job clipboards that go back into the locked cabinet at the end of each shift, and the office manager confirms all clipboards are back. Digital CUI lives on the file server (or the GCC High SharePoint site); the only removable media allowed are three serial-numbered, hardware-encrypted USB drives listed in a media log with the current holder's name and kept in the IT closet safe when not signed out. Backup drives rotate through a locked fire safe, and retired hard disks sit in a locked bin until the recycler shreds them.",
+        "typical_evidence": [
+          "Media protection policy or procedure defining what counts as CUI media (paper and digital), where it may be stored and who may access it",
+          "Media inventory or log listing each CUI USB drive, external disk, backup drive and paper file set with serial number, storage location and custodian",
+          "Photos of the locked cabinet, safe or media closet and the list of who holds keys or combinations",
+          "Check-out and check-in log for drawing packages, travelers and removable drives",
+          "Periodic inventory reconciliation record (for example quarterly) signed by the responsible person",
+          "Screenshot of the endpoint setting that blocks unapproved USB storage, supporting physical control of digital media"
+        ],
+        "common_gaps": [
+          "CUI prints left on the shop floor, in the printer output tray or in unlocked desk drawers overnight",
+          "Unlabeled USB drives and old external disks in desk drawers with no inventory, so nobody can say what CUI media exists",
+          "Backup drives or a NAS sitting on an open shelf in a shared office",
+          "The policy says 'locked storage' but the cabinet key hangs on a hook next to it or the office door is never locked"
+        ],
+        "remediation_steps": [
+          "Define CUI media in the policy: paper (drawings, travelers, inspection reports, purchase orders that carry CUI) and digital (USB drives, external and backup drives, optical media, removed hard disks, printer and CNC controller storage).",
+          "Build a media inventory: serial-number and label every approved removable drive and backup drive, record its custodian and storage location, and list the paper file locations; reconcile the inventory quarterly and record the result.",
+          "Provide locked storage: a locked cabinet or flat file for paper CUI and a safe or locked IT closet for drives and backup media; limit keys and combinations to named people and record who has them.",
+          "Set handling rules: CUI prints go back to the locked cabinet at end of shift, nothing is left in printers or on benches, and removable drives are signed out and back in on the log.",
+          "Enforce control of digital media technically: block unapproved USB storage on all PCs and controllers by Group Policy (Removable Storage Access) or endpoint management, allowing only the inventoried encrypted drives, and keep CUI files on the file server or GCC High rather than scattered on media.",
+          "Train employees on the rules at hire and annually, and spot-check storage areas monthly for the first year, then quarterly."
+        ]
+      }
+    },
+    "3.8.2": {
+      "name": "Media Access",
+      "nist_800_53": [
+        "MP-2"
+      ],
+      "weight_claimed": 3,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "Only people who are authorized to see CUI may get at CUI media, whether that is a paper drawing set or a USB drive. In practice that means keeping a written list of who is authorized (usually the same people who have CUI system accounts), keeping media where only they can reach it, and having whoever hands out media check the list. It builds on 3.8.1: that one locks media up, this one decides who gets the key.",
+        "machine_shop_example": "The shop's CUI access list names the 12 employees cleared for CUI: engineering, CNC programming, quality, the two owners and the IT admin. Only those people have the combination to the engineering flat file and the IT closet, and the removable-drive log only allows sign-out to names on the list. Drawings needed on the floor are issued to the operator running that job by the engineering lead and collected when the job closes; they stay with the traveler, never in the break room. MSP technicians are not on the CUI list and are told they may not remove media from the building.",
+        "typical_evidence": [
+          "List of personnel authorized to access CUI, approved and dated, consistent with the system account authorization list",
+          "Media protection procedure showing media is issued only to authorized users and how the check is performed",
+          "Key or combination register for locked media storage showing only authorized names",
+          "Removable-media sign-out log with names matching the authorized list",
+          "Screenshot of file-server or SharePoint permissions restricting CUI folders to the CUI security group"
+        ],
+        "common_gaps": [
+          "No written list of who is authorized for CUI, so 'authorized' means whoever asks",
+          "Everyone in the office has the cabinet key, including front-desk and part-time staff with no CUI need",
+          "MSP staff or contract programmers copy CUI to their own laptops or drives without any authorization",
+          "Drawings are copied freely on the shop copier and the extras pile up on benches"
+        ],
+        "remediation_steps": [
+          "Create and approve a CUI-authorized personnel list (name, role, date authorized) and keep it current with hiring, role changes and terminations (tie it to the 3.9.2 process).",
+          "Reissue keys or combinations for locked media storage only to people on the list, and change combinations whenever someone leaves.",
+          "Update the media procedure so paper and removable media are issued only by a named custodian, only to people on the list, and recorded on a log.",
+          "Keep digital CUI in access-controlled locations (a file server share or SharePoint library restricted to the CUI security group) and block ad hoc copies to unapproved USB devices.",
+          "Review the list and the sign-out log quarterly, correct discrepancies, and keep the review record."
+        ]
+      }
+    },
+    "3.8.3": {
+      "name": "Media Disposal",
+      "nist_800_53": [
+        "MP-6"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "Before you throw away, sell, donate, return (a leased copier, an RMA'd drive) or reassign anything that has held CUI, the CUI has to be made unrecoverable. For paper that means cross-cut shredding or a shredding service; for drives and devices it means wiping with a NIST SP 800-88 method (or cryptographic erase), degaussing, or physical destruction, and keeping a record of it. This includes hard drives inside PCs, laptops, copiers and CNC controllers, not just USB sticks.",
+        "machine_shop_example": "Paper CUI goes into locked shred bins emptied by a bonded shredding vendor that issues a certificate of destruction each month. When a PC is retired, IT pulls the drive: if it will be reused in the shop it is wiped with a NIST 800-88 Purge (ATA secure erase or the vendor's sanitize utility) and the tool's report is filed; if it is being disposed of, it goes into the locked e-waste bin and is drilled or shredded by the recycler, who provides a serialized certificate. When the copier lease ended, the shop had the vendor wipe the copier's internal drive on site before pickup and kept the signed form. USB drives are fully wiped before being reused on a different customer's job.",
+        "typical_evidence": [
+          "Media sanitization and disposal procedure referencing NIST SP 800-88 methods (Clear, Purge, Destroy) for each media type",
+          "Sanitization log: asset tag, serial number, date, method, tool used, person, and disposition (reused or destroyed)",
+          "Certificates of destruction from the shredding or e-waste vendor listing serial numbers",
+          "Wipe tool reports or screenshots (secure-erase log, BitLocker cryptographic erase record)",
+          "Asset inventory showing retired devices and their disposal status",
+          "Copier or printer lease-return paperwork showing drive removal or wipe"
+        ],
+        "common_gaps": [
+          "Old PCs, laptops and external drives stacked in a storeroom 'to deal with later' with no process, or donated after a quick format",
+          "Copiers and CNC controllers returned to the vendor with their internal drives intact",
+          "Paper CUI in the regular recycling or trash",
+          "Drives wiped but no record kept, so there is nothing for the assessor to examine"
+        ],
+        "remediation_steps": [
+          "Write the procedure: for each media type (paper, HDD, SSD, USB flash, optical, phone or tablet, copier drive, controller drive) specify the NIST 800-88 method and who performs it; reuse inside the shop requires at least Purge, disposal requires Purge or Destroy.",
+          "Acquire the means: a cross-cut shredder (DIN P-4 or better) or a shredding service that issues certificates, and a wipe tool plus a drill or crusher for drives; put a locked 'awaiting sanitization' bin in the IT closet.",
+          "Start a sanitization log and require an entry (serial, method, date, person, result) before any asset leaves inventory or is reassigned; file vendor certificates with it.",
+          "Turn on BitLocker on all PCs and laptops so a retired drive can be cryptographically erased by destroying the key, and record that as the method when used.",
+          "Add a disposal checkpoint to the asset-retirement and lease-return process: no device leaves the building until the log shows it was sanitized.",
+          "Sweep the building once for stray old drives, laptops and USB sticks, sanitize them, and log the batch."
+        ]
+      }
+    },
+    "3.8.4": {
+      "name": "Media Markings",
+      "nist_800_53": [
+        "MP-3"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "Media that holds CUI has to be labeled so anyone handling it knows it is CUI and knows any limits on who it can go to. For paper that means the CUI banner (for example 'CUI' or 'CUI//SP-CTI') plus any limited dissemination control such as NOFORN or the export-control distribution statement on the drawing; for digital media it means a physical label on the drive and a marking in the file, folder or document. Follow the CUI Registry, 32 CFR 2002 and the markings the customer or DoD applied.",
+        "machine_shop_example": "The shop puts the CUI banner and designation indicator block on the cover sheet of every drawing package and traveler that contains customer CUI, and keeps the distribution statement (usually Distribution Statement D or F with the export-control warning) printed on the drawings exactly as received. The three approved encrypted USB drives carry a printed 'CUI - Property of the shop - Return to IT' label. On the file server CUI lives under a top-level 'CUI' folder, and the GCC High SharePoint library applies a 'CUI' sensitivity label so files carry the marking in their header.",
+        "typical_evidence": [
+          "Marking procedure with examples of the CUI banner, designation indicator and distribution statements the shop uses",
+          "Sample marked drawing package, traveler and cover sheet",
+          "Photos of labeled USB drives, backup drives and file boxes",
+          "Screenshot of the CUI folder structure or the sensitivity label configuration",
+          "Training record showing employees were taught how to recognize and apply markings"
+        ],
+        "common_gaps": [
+          "Assuming markings only matter for paper and leaving USB drives and backup disks unlabeled",
+          "Stripping the distribution statement when drawings are redrawn or converted into shop travelers",
+          "Nobody at the shop knows what a limited dissemination control means, so nothing is marked",
+          "Marking everything 'CUI', including public catalogs, so the real markings lose their meaning"
+        ],
+        "remediation_steps": [
+          "Identify which contracts and documents carry CUI and copy the markings and distribution statements exactly as the customer or DoD applied them (CUI Registry categories such as CTI, 32 CFR 2002 format).",
+          "Create a one-page marking guide: banner text, designation indicator block (controlled by, category, distribution or LDC, point of contact), and when to add the export-control warning.",
+          "Mark paper at creation: a cover sheet template with the banner and distribution statement, and a rule that shop copies of drawings keep the original statement.",
+          "Label physical digital media (printed label with 'CUI' and owner) and mark digital containers (folder names, sensitivity labels, document headers and footers).",
+          "Train the people who create or copy CUI (engineering, quality, programming, front office) and spot-check a sample of packages quarterly."
+        ]
+      }
+    },
+    "3.8.5": {
+      "name": "Media Accountability",
+      "nist_800_53": [
+        "MP-5"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "When CUI media leaves your controlled area - a drawing set going to a subcontractor, a USB drive going with a programmer to another building, backup disks going off site - you must control who can get at it in transit and be able to show where it was and who had it. That means locked containers or tamper-evident packaging, a named employee or tracked carrier responsible for it, and a log of what left, when, with whom and when it arrived.",
+        "machine_shop_example": "When the shop sends CUI drawings to its plating subcontractor, they go in a tamper-evident envelope inside a locked document case, hand-carried by the shipping lead or sent by a tracked carrier with signature required; the transport log records the package contents, tracking number, sender, recipient and delivery confirmation. Weekly backup drives travel to the owner's home safe in a locked hard case and each rotation is logged. Wherever possible the shop avoids physical transport entirely by exchanging files through the GCC High SharePoint site.",
+        "typical_evidence": [
+          "Media transport procedure covering approved containers, approved carriers, custody log and encryption requirements",
+          "Media transport or custody log entries with tracking numbers and signatures",
+          "Photos of the locked transport cases or tamper-evident envelopes in use",
+          "Carrier shipment records with delivery confirmation for CUI packages",
+          "Backup media rotation log showing custodian and location"
+        ],
+        "common_gaps": [
+          "Drawings mailed in a plain envelope or handed to a driver with no record",
+          "Backup drives ride home in a glove box with no case and no log",
+          "Employees carry CUI on personal unencrypted USB sticks between the office, the shop floor and home",
+          "Nobody can say what CUI media is currently outside the building"
+        ],
+        "remediation_steps": [
+          "Minimize transport: send CUI to customers and subcontractors through an approved encrypted channel (GCC High, the customer's portal, FIPS-validated encrypted email) and reserve physical transport for cases that need it.",
+          "Define the transport procedure: authorized couriers (named employees or tracked carriers with signature), locked or tamper-evident containers, and mandatory encryption for digital media (see 3.8.6).",
+          "Start a custody log with date, description, media ID, sender, carrier, tracking number, recipient and delivery confirmation, and keep it with the media inventory.",
+          "Buy locked document and drive cases and tamper-evident envelopes and keep them with the shipping lead.",
+          "Review the log monthly against the media inventory to confirm everything that left came back or was received."
+        ]
+      }
+    },
+    "3.8.6": {
+      "name": "Portable Storage Encryption",
+      "nist_800_53": [
+        "SC-28(1)"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "Digital media that carries CUI outside your controlled area - USB drives, external disks, backup drives - must be encrypted so that losing it does not disclose CUI, and the encryption should come from a FIPS 140-2 or 140-3 validated module. The only alternative is a documented physical safeguard instead, such as a locked container hand-carried by an authorized employee, and you should state exactly when that applies.",
+        "machine_shop_example": "The shop allows only three inventoried hardware-encrypted USB drives (FIPS 140-2 Level 3 validated, certificate number recorded) for moving CNC programs to the controllers or data packages to a subcontractor, and blocks every other USB storage device. The external backup drives that rotate off site are BitLocker-encrypted with the FIPS-compliant algorithms policy enabled and their recovery keys escrowed in Active Directory. One older CNC controller cannot read encrypted drives, so its program drive is hand-carried by the programmer inside the building in a locked case and never leaves the site; the SSP records that as the alternative physical safeguard.",
+        "typical_evidence": [
+          "Policy requiring FIPS-validated encryption for CUI on portable media, with the documented exception for physical safeguards",
+          "Inventory of approved encrypted drives with model, FIPS certificate number and custodian",
+          "Screenshot of the Group Policy settings 'Deny write access to removable drives not protected by BitLocker' and 'System cryptography: Use FIPS compliant algorithms'",
+          "Screenshot of BitLocker recovery keys escrowed in Active Directory or Entra ID",
+          "Screenshot of the USB device-control rule that blocks non-approved storage"
+        ],
+        "common_gaps": [
+          "Any USB stick from the drawer gets used to carry programs to the controllers",
+          "BitLocker is used on laptops but backup drives and external disks are left unencrypted",
+          "Encryption is switched on but the product or mode is not FIPS-validated and nobody can produce the certificate",
+          "Recovery keys stored on the same drive or nowhere at all"
+        ],
+        "remediation_steps": [
+          "Buy hardware-encrypted, FIPS 140-2 or 140-3 validated USB drives for the few legitimate transport cases, record their certificate numbers, and add them to the media inventory.",
+          "Enforce BitLocker on removable drives by Group Policy: 'Control use of BitLocker on removable drives' and 'Deny write access to removable drives not protected by BitLocker', with 'System cryptography: Use FIPS compliant algorithms for encryption, hashing, and signing' enabled; escrow recovery keys to Active Directory or Entra ID.",
+          "Encrypt external backup drives with BitLocker or the backup product's FIPS-validated encryption and record where the keys are kept.",
+          "Block all other USB mass storage by Group Policy (Removable Storage Access) or endpoint device control, allowing only the approved drives by hardware ID.",
+          "Document in the SSP the alternative physical safeguard for any device that cannot use encrypted media: which media, who carries it, the locked container, and that it never leaves the site.",
+          "Verify quarterly that the approved drives are still encrypted and inventoried and that no exceptions have crept in."
+        ]
+      }
+    },
+    "3.8.7": {
+      "name": "Removable Media",
+      "nist_800_53": [
+        "MP-7"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "You decide, in writing and technically, which removable media (USB sticks, external drives, SD cards, optical discs) may be used on which computers and for what purpose, and you block everything else. 'Controlled' can mean restricted to approved devices, restricted to specific PCs, read-only, or prohibited entirely. The point is that a random stick cannot be plugged into a PC or CNC controller and read from or written to.",
+        "machine_shop_example": "Group Policy on all 25 PCs denies read and write access to removable storage, and an endpoint device-control rule allows the three approved encrypted drives by hardware ID on the two CAM programming PCs only. The CNC controllers that run a supported Windows build get the same policy; the two older controllers have USB port locks installed and receive programs over the isolated shop VLAN through DNC instead. The policy states removable media is only for transferring CNC programs and customer data packages, and IT reviews the device-control log monthly for blocked attempts.",
+        "typical_evidence": [
+          "Removable media policy stating which media is allowed, on which systems, for what purposes and who approves exceptions",
+          "Group Policy Results (gpresult) report or endpoint-management policy showing Removable Storage Access restrictions",
+          "Device-control or endpoint-protection report listing allowed device IDs and blocked events",
+          "Approved removable media inventory (shared with 3.8.1)",
+          "Photos of USB port locks on legacy CNC controllers and a description of the DNC alternative",
+          "Monthly review record of blocked-device events"
+        ],
+        "common_gaps": [
+          "No technical control at all; the only 'control' is a sentence in the employee handbook",
+          "USB blocked on office PCs but wide open on the shop-floor controllers, where sticks are used the most",
+          "Exceptions granted to individuals without a record and never removed",
+          "Vendor technicians plug in their own drives during maintenance with no oversight"
+        ],
+        "remediation_steps": [
+          "Write the removable media policy: only inventoried, encrypted, shop-owned media; approved use cases; who may approve exceptions; vendor media must be scanned on an isolated PC first (ties to 3.7.4).",
+          "Deploy the Group Policy 'Computer Configuration > Administrative Templates > System > Removable Storage Access > All Removable Storage classes: Deny all access' to the domain, with a separate GPO or WMI filter for the few PCs that need the approved drives.",
+          "Use device control (Windows Defender device control, Intune, or the EDR product) to allow only the specific hardware IDs of the approved encrypted drives and to log blocked events.",
+          "Handle CNC controllers: apply the same policy where the OS supports it; for legacy controllers install USB port locks and move program transfer to DNC or network shares.",
+          "Review device-control logs monthly and the exception list quarterly, removing exceptions that are no longer needed.",
+          "Cover the rules in new-hire and annual training and post a short notice on the shop floor."
+        ]
+      }
+    },
+    "3.8.8": {
+      "name": "Shared Media",
+      "nist_800_53": [
+        "MP-7"
+      ],
+      "weight_claimed": 3,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "If nobody can say who owns a USB stick or external drive, it must not be used on your systems. That covers drives found in the parking lot, giveaway drives from trade shows, drives left behind by a vendor, and the unlabeled sticks in the desk drawer. You need both a written rule and a practical way to know which drives are yours: labels, an inventory, and technical allow-listing.",
+        "machine_shop_example": "Every shop-owned drive is labeled with an asset number and custodian and listed in the media inventory; the policy says any drive without a label and inventory entry is treated as unowned and must not be plugged into anything - it goes to IT, who wipes and destroys it or returns it to the vendor. The USB device-control allow-list makes the rule enforceable, because an unknown drive is blocked automatically. Employees covered the rule in security training, including the trade-show-USB example, and signed the acknowledgement.",
+        "typical_evidence": [
+          "Policy statement prohibiting use of portable storage without an identifiable owner and describing how to handle found or vendor drives",
+          "Media inventory showing owner or custodian for each portable device",
+          "Photos of labeled shop-owned drives",
+          "Device-control configuration showing only inventoried devices are allowed",
+          "Training material or acknowledgement covering unknown-drive handling"
+        ],
+        "common_gaps": [
+          "A drawer of anonymous USB sticks that everyone dips into",
+          "A policy exists but there is no labeling or inventory, so ownership cannot be established",
+          "Vendor-supplied drives with machine software are plugged straight into the controller",
+          "No technical enforcement, so the rule depends entirely on memory"
+        ],
+        "remediation_steps": [
+          "Add a clause to the removable media policy: portable storage with no identifiable owner is prohibited; found drives go to IT; vendor drives are scanned on the isolated station and their owner recorded before use.",
+          "Label and inventory every shop-owned portable device with asset number and custodian; wipe or destroy any unlabeled drives collected during the sweep.",
+          "Configure device control to allow only inventoried device IDs so unknown drives are blocked rather than trusted.",
+          "Cover the rule in annual training with concrete examples and keep the signed acknowledgement.",
+          "Reconcile the inventory quarterly and re-sweep desks and the shop floor for stray media."
+        ]
+      }
+    },
+    "3.8.9": {
+      "name": "Protect Backups",
+      "nist_800_53": [
+        "CP-9"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "Backups of CUI have to be protected wherever they sit: the local backup appliance, external drives, the off-site copy and the cloud backup tenant. Protection means encryption (FIPS-validated when you rely on it), access limited to a few named people, and physical security of the storage location. A backup is a complete copy of your CUI, so it needs at least the protection the original gets.",
+        "machine_shop_example": "The file server backs up nightly to a local NAS with an encrypted backup repository and weekly to a cloud backup service that stores data in US data centers with AES-256 encryption under a key the shop controls; only the IT admin and the MSP's backup account can log in to the backup console, both with MFA. The rotating external drive is BitLocker-encrypted and stored in the fireproof safe in the owner's office. Microsoft 365 GCC High data is backed up with a service that itself runs in a FedRAMP High environment. Restores are tested quarterly and the backup-system access list is reviewed at the same time.",
+        "typical_evidence": [
+          "Backup policy or procedure describing what is backed up, where each copy is stored, and the encryption and access rules",
+          "Screenshot of backup job configuration showing encryption enabled and where the key is managed",
+          "Screenshot of the backup console user list showing a small set of administrators with MFA",
+          "Photos or description of the physical storage location of backup media (safe, locked closet, off-site custodian)",
+          "Cloud backup provider's FIPS or FedRAMP statement or the contract clause",
+          "Quarterly restore test and access review records"
+        ],
+        "common_gaps": [
+          "Backup NAS on the open network with the default admin password and no encryption",
+          "External backup drives unencrypted and stored on a desk or carried home in a bag",
+          "Consumer cloud sync (personal Dropbox or Google Drive) used for CUI backups",
+          "The MSP has unrestricted access to backup data and nobody knows where the off-site copy physically is"
+        ],
+        "remediation_steps": [
+          "Inventory every backup copy of CUI (local appliance, external drives, cloud, MSP-held copies) and record location, encryption status and who has access.",
+          "Enable encryption at rest for every backup target using the product's FIPS-validated option; store encryption keys and passphrases in the password manager, not on the appliance.",
+          "Lock down access: dedicated backup admin accounts with MFA, no shared logins, default accounts removed; restrict the backup repository share so ordinary users cannot browse it.",
+          "Secure the physical location: appliance in the locked server closet, external drives in a safe, off-site copies in a locked location with a documented custodian.",
+          "Confirm cloud backup services store data in the US and meet contract requirements (FedRAMP Moderate equivalent or better for GCC High data) and file the evidence.",
+          "Review backup access and test a restore quarterly, and log both."
+        ]
+      }
+    }
+  }
+}

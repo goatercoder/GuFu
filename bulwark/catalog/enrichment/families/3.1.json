@@ -1,0 +1,822 @@
+{
+  "family_id": "3.1",
+  "controls": {
+    "3.1.1": {
+      "name": "Authorized Access Control",
+      "nist_800_53": [
+        "AC-2",
+        "AC-3",
+        "AC-17"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Keep a current list of who is allowed on your systems, which service accounts and background processes act on their behalf, and which computers and other systems may connect. Then make sure the system actually enforces that list: every login is a named account you approved, every service or scheduled task runs under an account you know about, and unknown devices cannot join the network or the domain.",
+        "machine_shop_example": "The shop runs Active Directory (or Entra ID with GCC High) and every employee has one named account created through a ticket approved by the owner. A spreadsheet or the AD export lists all 40 users, the 6 service accounts (backup, ERP integration, CNC file transfer), and the 27 authorized computers including the two CNC controllers, and the MSP reconciles it quarterly. New PCs can only be joined to the domain by IT, the shop-floor switch ports are limited to known MAC addresses or 802.1X, and the firewall only allows the customer portal and Microsoft 365 as external systems.",
+        "typical_evidence": [
+          "Access control policy naming who approves user accounts and device connections",
+          "Active Directory / Entra ID user and computer export (Get-ADUser, Get-ADComputer) reconciled against the HR roster and hardware inventory",
+          "List of service accounts and scheduled tasks with owner and purpose",
+          "Onboarding and offboarding tickets showing approval before an account was created and disable date at departure",
+          "Screenshots of domain-join restrictions, 802.1X or MAC filtering, and DHCP reservations on the shop-floor VLAN",
+          "Quarterly account review sign-off with disabled or removed accounts noted"
+        ],
+        "common_gaps": [
+          "Shared logins on CNC controllers or the shop-floor PC (operator/operator) with no record of who is authorized to use them",
+          "Service accounts and scheduled tasks nobody can explain, often created by a vendor years ago",
+          "Departed employees whose accounts are still enabled because HR never told IT",
+          "Personal laptops and phones joining the office Wi-Fi with no inventory of authorized devices"
+        ],
+        "remediation_steps": [
+          "Write a one-page access control procedure: the owner or operations manager approves each user account and each device by email or ticket before IT creates it, and the approval is kept.",
+          "Export all AD/Entra accounts (Get-ADUser -Filter * | Export-Csv) and mark each as employee, contractor, service, or unknown; disable anything unknown, and disable accounts within 1 business day of departure.",
+          "Inventory every service account, scheduled task, and integration (backup, ERP, CNC DNC software) with an owner and purpose; give each its own account with a long password and 'Deny log on locally'.",
+          "Inventory authorized devices (Get-ADComputer, firewall DHCP leases, Intune or RMM list) and put CNC controllers on a separate VLAN; block unknown MAC addresses or enable 802.1X on shop-floor switch ports and Wi-Fi.",
+          "Restrict who can join computers to the domain (GPO user right 'Add workstations to domain' limited to IT) and require domain-join or MDM enrollment before a device can reach the file server or Microsoft 365 (Conditional Access: require compliant device).",
+          "Review the user, service account, and device lists every quarter, and sign and date the review."
+        ]
+      }
+    },
+    "3.1.2": {
+      "name": "Transaction & Function Control",
+      "nist_800_53": [
+        "AC-2",
+        "AC-3",
+        "AC-17"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Beyond deciding who can log in, decide what each type of user is allowed to do: which folders they can read or change, which applications they can run, and which admin functions are off-limits. Then set the permissions so the system enforces those decisions instead of leaving everything open to everyone.",
+        "machine_shop_example": "The shop defines four roles: office/quoting, shop floor, engineering, and IT admin. Engineering can read and write the CUI drawing share, shop-floor operators can only read released job packets, office staff have no access to drawings, and only the two IT admins can install software or change firewall rules. NTFS and SharePoint permissions are assigned to AD security groups matching those roles, and nobody is a local administrator on their own PC.",
+        "typical_evidence": [
+          "Role/permission matrix listing each role and what it may read, write, run, or administer",
+          "NTFS or SharePoint permission report for the CUI folders showing group-based access only",
+          "AD security group membership export (Get-ADGroupMember) matching the matrix",
+          "Screenshot showing standard users are not members of local Administrators",
+          "Application allow-list or AppLocker/WDAC policy, if used",
+          "Access request tickets showing role assignment at onboarding or role change"
+        ],
+        "common_gaps": [
+          "The CUI share is 'Everyone: Full Control' or 'Domain Users: Modify' because it was easier",
+          "All users are local administrators so they can install printer drivers or CAM software",
+          "Roles exist only in someone's head; there is no written matrix to compare permissions against",
+          "ERP or quoting software uses one shared login with full rights"
+        ],
+        "remediation_steps": [
+          "Write a role/permission matrix: for each role (office, shop floor, engineering, quality, IT) list the shares, SharePoint sites, applications, and admin functions that are allowed.",
+          "Create an AD/Entra security group per role and per CUI folder (for example CUI-Drawings-RW, CUI-Drawings-RO); assign NTFS/SharePoint permissions only to groups and remove direct user and 'Everyone' entries.",
+          "Remove users from the local Administrators group on all PCs (GPO Restricted Groups or Intune account protection policy); give IT staff separate admin accounts.",
+          "In the ERP, quoting, and CAM applications create per-user logins and use the built-in roles to restrict who can change pricing, delete jobs, or export data.",
+          "Run a permission report (icacls, AccessEnum, or SharePoint site permissions) every 6 months and fix anything that does not match the matrix."
+        ]
+      }
+    },
+    "3.1.3": {
+      "name": "Control CUI Flow",
+      "nist_800_53": [
+        "AC-4"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Decide where CUI is allowed to travel: which folders, systems, email accounts, people, and outside parties may send or receive it, and by what methods. Write that down as a policy, then use technical controls (firewall rules, DLP, share permissions, approved transfer tools) so CUI cannot leave the approved paths, for example by being emailed to a personal account or uploaded to a consumer file-sharing site.",
+        "machine_shop_example": "The shop's data flow diagram shows CUI entering from customer portals (DoD SAFE or a prime's supplier portal) into the CUI share on the file server or a GCC High SharePoint library, moving to engineering PCs for CAM programming, and to the CNC controllers as G-code over the shop VLAN. Outbound CUI goes only through GCC High encrypted email or the customer's portal. The firewall blocks Dropbox, Google Drive, and personal webmail, Purview DLP blocks external email containing files marked CUI, and USB storage is blocked by GPO except on the one approved transfer PC.",
+        "typical_evidence": [
+          "Data flow diagram and written information flow policy naming approved sources, destinations, and transfer methods for CUI",
+          "Firewall or web-filter rule export blocking unapproved cloud storage and webmail",
+          "DLP policy configuration and a sample alert or report (for example Microsoft Purview)",
+          "Share and SharePoint permission reports limiting CUI to the enclave",
+          "GPO or Intune setting blocking removable storage, with the exception list",
+          "Customer portal or encrypted-email logs showing how CUI is actually exchanged"
+        ],
+        "common_gaps": [
+          "No diagram or policy: staff email drawings to whoever asks, including from personal phones",
+          "CUI mixed into general shares and OneDrive accounts outside the enclave",
+          "Firewall allows everything outbound with no web filtering or DLP",
+          "Vendors or outside programmers receive CUI through ad-hoc methods such as WeTransfer or text message"
+        ],
+        "remediation_steps": [
+          "Draw a one-page data flow diagram: every place CUI enters (customer portal, email), lives (CUI share, SharePoint, CAM PCs, CNC controllers), and leaves (customer portal, encrypted email, approved suppliers).",
+          "Write the flow control policy from the diagram: approved sources, destinations, people, and methods; state that everything else is prohibited.",
+          "Enforce it at the boundary: firewall/web-filter rules that block personal webmail and unapproved cloud storage, and outbound rules that only allow the CNC VLAN to reach the DNC/file server.",
+          "Enable DLP in Microsoft 365 GCC High (or your mail gateway) to block or quarantine outbound email containing CUI markings or drawing file types sent to non-approved domains.",
+          "Block USB mass storage by GPO/Intune except on a named transfer workstation, and require any supplier exchange to go through the approved encrypted method.",
+          "Review the diagram, rules, and DLP alerts every 6 months or whenever a customer, supplier, or system changes."
+        ]
+      }
+    },
+    "3.1.4": {
+      "name": "Separation of Duties",
+      "nist_800_53": [
+        "AC-5"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Identify the tasks that would be dangerous if one person could do all of them alone, such as creating user accounts and also approving access, changing firewall rules and also reviewing the logs, or releasing a job and also inspecting it. Assign those tasks to different people, and set system permissions so that each person only has the rights for their part. In a small shop this usually means splitting duties among the IT person, the MSP, and the owner.",
+        "machine_shop_example": "The shop's IT person creates accounts but the owner approves each request in the ticket, and the MSP, not the IT person, reviews the monthly audit-log report and holds the audit-management role. Quality inspectors sign off jobs that a different person ran. The written duty matrix shows these splits, and AD group membership shows the IT person is not in the log-review group and the owner has no admin rights.",
+        "typical_evidence": [
+          "Separation of duties matrix listing each sensitive duty and the role or person assigned to each side",
+          "Account request tickets showing requester, approver, and implementer are different people",
+          "AD/Entra group membership showing audit-review and admin roles held by different people",
+          "MSP contract or SOW naming the duties the MSP performs independently",
+          "Change-management records with separate implementer and approver"
+        ],
+        "common_gaps": [
+          "One IT person holds every role and there is no documented compensating review by the owner or MSP",
+          "Duties are separated on paper but the same admin account can still do all of them",
+          "Approvals are verbal and leave no evidence"
+        ],
+        "remediation_steps": [
+          "List the duties that need separation: account creation vs. approval, system changes vs. change approval, log/audit review vs. system administration, backup operation vs. restore verification, and any customer-data release steps.",
+          "Assign each side of every pair to a different named person or the MSP; where only one technical person exists, make the owner the approver and the MSP the independent reviewer, and write it in the matrix.",
+          "Match permissions to the matrix: separate AD groups for admins vs. log reviewers (see 3.3.9), remove admin rights from approvers, and keep approvals in a ticket or email trail.",
+          "Review the matrix at least annually and whenever staff or the MSP change."
+        ]
+      }
+    },
+    "3.1.5": {
+      "name": "Least Privilege",
+      "nist_800_53": [
+        "AC-6",
+        "AC-6(1)",
+        "AC-6(5)"
+      ],
+      "weight_claimed": 3,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Give every account only the rights it needs for its job and nothing more. Keep a list of all privileged accounts (domain admins, local admins, Microsoft 365 global admins, firewall admins, service accounts with elevated rights) and a list of security functions (managing accounts, changing audit settings, editing firewall and antivirus policy, managing backups), and limit each to the few people who must have them.",
+        "machine_shop_example": "The shop has exactly two Domain Admin accounts (the IT person's separate admin account and the MSP's), each documented with the owner's approval. Standard users, including the owner, are not local admins. The firewall, Microsoft 365 admin center, backup console, and antivirus portal each have named admin logins limited to IT and the MSP, and the tenant has a separate break-glass Global Admin account kept in the safe. A quarterly review confirms the privileged list has not grown.",
+        "typical_evidence": [
+          "Privileged account inventory with owner, purpose, and approval date",
+          "List of security functions and who is authorized to perform each",
+          "Export of Domain Admins, Enterprise Admins, local Administrators, and Microsoft 365 role assignments (Get-ADGroupMember, Entra 'Roles and administrators')",
+          "Screenshots of firewall, backup, and EDR/antivirus consoles showing admin users",
+          "Quarterly privileged-access review sign-off",
+          "Access request tickets showing justification for admin rights"
+        ],
+        "common_gaps": [
+          "Everyone is a local admin and several people are Domain Admins 'just in case'",
+          "The IT person's daily-use account is also the Domain Admin account",
+          "Vendor or MSP accounts with full rights and no expiry or review",
+          "The Microsoft 365 tenant has four or five Global Admins instead of two plus a break-glass account"
+        ],
+        "remediation_steps": [
+          "Build the privileged account inventory: Domain Admins, local Administrators on every PC and CNC controller, Microsoft 365 Global/Security admins, firewall, switch, backup, EDR and RMM admins, and privileged service accounts.",
+          "List the security functions (create/disable accounts, change GPO/Intune policy, edit audit or log settings, change firewall rules, manage antivirus/EDR, run backups and restores) and name the one or two people allowed to do each.",
+          "Remove admin rights that are not on the list: take users out of local Administrators (GPO Restricted Groups), reduce Domain Admins to two, limit Global Admins to two plus a break-glass account, and use least-privileged Microsoft 365 roles (for example Helpdesk Administrator) elsewhere.",
+          "Give service accounts only the specific rights they need (folder permissions, 'Log on as a service') instead of admin group membership.",
+          "Require an approval ticket for any new privileged right, and review the inventory every quarter, removing anything no longer justified."
+        ]
+      }
+    },
+    "3.1.6": {
+      "name": "Non-Privileged Account Use",
+      "nist_800_53": [
+        "AC-6(2)"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "People who have admin rights must do their everyday work (email, browsing, CAD/CAM, quoting) from a normal user account and switch to their admin account only when performing an admin task. Define which activities are non-security everyday functions and make sure the admin accounts are never used for them.",
+        "machine_shop_example": "The IT person has two accounts: jsmith for email, web, and the ERP, and adm-jsmith for domain administration. adm-jsmith has no mailbox or Microsoft 365 license, is denied interactive logon to workstations, and cannot browse the web; the MSP's technicians follow the same pattern. The written policy lists email, web browsing, CAD/CAM, quoting, and document editing as non-security functions that must never be performed from an admin account.",
+        "typical_evidence": [
+          "Policy defining non-security functions and requiring separate admin accounts",
+          "AD/Entra export showing paired standard and admin accounts for every administrator",
+          "GPO or Conditional Access policy denying admin accounts interactive logon to workstations, email, or web",
+          "Logon audit logs (Event ID 4624) showing admin accounts used only for admin tasks",
+          "Screenshot showing the admin account has no Microsoft 365 license or mailbox"
+        ],
+        "common_gaps": [
+          "The IT person runs everything, including Outlook and web browsing, as Domain Admin",
+          "Shop-floor PCs are logged in as a local admin account all day",
+          "MSP technicians use a single shared admin account for daily remote support"
+        ],
+        "remediation_steps": [
+          "Define non-security functions in policy: email, web, office documents, CAD/CAM, ERP/quoting, and CNC program editing.",
+          "Create a separate admin account (adm-<name>) for each person with admin rights and remove admin group membership from their daily account.",
+          "Restrict admin accounts by GPO user rights 'Deny log on locally' and 'Deny log on through Remote Desktop Services' on workstations (except admin jump hosts), do not license them for Microsoft 365 email, and block web browsing from them with a proxy rule or Conditional Access.",
+          "Use 'Run as different user', UAC credential prompts, or a privileged access tool for elevation instead of logging in as admin.",
+          "Spot-check logon events monthly to confirm admin accounts are not being used for routine work."
+        ]
+      }
+    },
+    "3.1.7": {
+      "name": "Privileged Functions",
+      "nist_800_53": [
+        "AC-6(9)",
+        "AC-6(10)"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Write down which actions are privileged (installing software, changing security settings, creating accounts, disabling antivirus, changing firewall rules, running patches) and which users are non-privileged. Configure systems so normal users cannot perform those actions, and turn on logging so that every use of a privileged function is recorded with who did it and when.",
+        "machine_shop_example": "The shop's policy defines the privileged functions and states that all employees except the IT person and the MSP are non-privileged users. Standard users cannot install software (not local admins, UAC set to prompt for admin credentials), cannot stop the EDR agent (tamper protection on), and cannot change local firewall settings. Windows Advanced Audit Policy logs privilege use, account management, and policy changes (Event IDs 4672, 4720-4738, 4719), and those logs are forwarded to the MSP's log collector.",
+        "typical_evidence": [
+          "Policy listing privileged functions and defining privileged vs. non-privileged users",
+          "GPO/Intune settings: standard users not in Administrators, UAC 'Prompt for credentials on the secure desktop', software installation restricted",
+          "Screenshot of a standard user being denied a privileged action (for example a failed software install)",
+          "Advanced Audit Policy export (auditpol /get /category:*) showing Privilege Use, Account Management, and Policy Change enabled",
+          "Sample security log entries or SIEM report of privileged function use",
+          "EDR/antivirus tamper protection setting"
+        ],
+        "common_gaps": [
+          "Users are local admins, so every privileged function is available to everyone",
+          "Audit policy is default, so privileged actions are not logged or the log overwrites itself in days",
+          "No written definition of what counts as a privileged function or who is non-privileged",
+          "CNC controller PCs run permanently as an admin account"
+        ],
+        "remediation_steps": [
+          "Write the privileged function list (account creation and changes, software install, security or audit setting changes, firewall/EDR changes, patching, backup and restore, key management) and state that everyone not in the privileged inventory (3.1.5) is a non-privileged user.",
+          "Remove local admin rights from all standard users via GPO Restricted Groups or Intune, set UAC to 'Prompt for credentials on the secure desktop' for standard users, and enable EDR/antivirus tamper protection.",
+          "Enable Windows Advanced Audit Policy for Account Management, Policy Change, Privilege Use (Sensitive Privilege Use), and Security System Extension, success and failure, via GPO.",
+          "Forward the logs to a central collector or SIEM (Windows Event Forwarding, the MSP's tool, or Microsoft Sentinel) so privileged use across all 25 PCs and the servers is searchable.",
+          "Test quarterly: have a standard user attempt to install software or stop the antivirus, confirm it is blocked, and confirm the attempt and real admin actions appear in the logs."
+        ]
+      }
+    },
+    "3.1.8": {
+      "name": "Unsuccessful Logon Attempts",
+      "nist_800_53": [
+        "AC-7"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Decide how many wrong password attempts are allowed before the account is locked or delayed, and for how long, and write it down. Then configure that limit on the domain, local accounts, Microsoft 365, the VPN, and any other place someone can log in with a password.",
+        "machine_shop_example": "The shop's policy says accounts lock after 5 failed attempts within 15 minutes and stay locked for 30 minutes (or until IT unlocks). This is set in the Default Domain Policy account lockout settings and applies to all PCs and the domain-joined CNC controllers. Entra ID Smart Lockout is set to 5 attempts / 60 seconds for GCC High, and the firewall VPN locks the source after 5 failures.",
+        "typical_evidence": [
+          "Written policy or standard stating the threshold, window, and lockout duration",
+          "GPO report (gpresult /h or Group Policy Management) showing the Account Lockout Policy values",
+          "Entra ID Smart Lockout settings screenshot",
+          "VPN/firewall and remote-access lockout configuration screenshots",
+          "Security log entries showing Event ID 4740 lockouts, or a test lockout record"
+        ],
+        "common_gaps": [
+          "Lockout threshold is 0 (never lock) because it was never changed from default or shop-floor users complained",
+          "Domain policy is set but standalone CNC PCs and local admin accounts are not covered",
+          "VPN, firewall admin login, or ERP web login have no lockout at all"
+        ],
+        "remediation_steps": [
+          "Define the values in policy: for example 5 failed attempts within 15 minutes, lockout 30 minutes (or admin unlock), counter reset after 15 minutes.",
+          "Set them in the Default Domain Policy: Account lockout threshold, Account lockout duration, Reset account lockout counter after; confirm with gpresult on a workstation and on each CNC controller.",
+          "Apply the same values to local accounts on non-domain devices with local security policy or Intune, and configure Entra ID Smart Lockout to match.",
+          "Enable lockout on the VPN, firewall admin interface, ERP, and any other password login; document any system that cannot lock out and its compensating delay.",
+          "Test by entering a wrong password 6 times on a test account and keep the screenshot and the 4740 event as evidence."
+        ]
+      }
+    },
+    "3.1.9": {
+      "name": "Privacy & Security Notices",
+      "nist_800_53": [
+        "AC-8"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Work out which privacy and security notices apply to the kinds of CUI you handle (for a DoD supplier, typically a system-use warning banner stating that the system is for authorized use only, is monitored, and contains CUI, plus any export-control statement), and then display that notice before login on your PCs, servers, VPN, and remote-access portals. Where a screen banner is impossible, a printed notice can be used.",
+        "machine_shop_example": "The shop's IT person reviewed the CUI categories in its contracts (controlled technical information and export-controlled data) and adopted a DoD-style consent banner approved by the owner. The banner is pushed by GPO to all workstations, servers, and the two CNC controllers (Interactive logon: Message title/text), configured in Entra ID as the sign-in page text for Microsoft 365, and shown on the VPN login page. A laminated version is posted next to the one shop-floor CNC that cannot display a banner.",
+        "typical_evidence": [
+          "Document identifying the CUI categories handled and the notice text chosen for each",
+          "GPO settings screenshot for 'Interactive logon: Message title/text for users attempting to log on'",
+          "Photo or screenshot of the banner on a workstation, a CNC controller, the VPN portal, and the Microsoft 365 sign-in page",
+          "Photo of a printed notice where a screen banner is not possible",
+          "Management approval of the banner text"
+        ],
+        "common_gaps": [
+          "No banner at all, or one shown only on domain PCs but not on the VPN, Microsoft 365, or CNC controllers",
+          "Banner text does not mention monitoring or CUI, or was never approved by management",
+          "The notice was never linked to the actual CUI categories the shop handles"
+        ],
+        "remediation_steps": [
+          "Identify the CUI categories in your contracts (check the CUI Registry markings and the contract clauses) and record the notice requirements for each, including export-control statements if you hold ITAR/EAR data.",
+          "Write and have management approve the banner text: authorized use only, monitoring and recording, system contains CUI, consequences for misuse.",
+          "Deploy it via GPO (Computer Configuration > Windows Settings > Security Settings > Local Policies > Security Options: 'Interactive logon: Message title' and 'Message text') to all domain devices, and via Intune or local policy on non-domain PCs.",
+          "Add the same text to the Entra ID/Microsoft 365 sign-in page branding, the VPN portal, the RDP or remote-support gateway, and any web application login.",
+          "Post a printed notice at any device that cannot show a banner and record which devices those are."
+        ]
+      }
+    },
+    "3.1.10": {
+      "name": "Session Lock",
+      "nist_800_53": [
+        "AC-11",
+        "AC-11(1)"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Define how long a computer can sit idle before it locks (15 minutes is a common choice), and configure every PC so that after that time the screen is locked, requires a password to resume, and hides what was on screen behind a blank or image screen saver. Users should also lock manually when they walk away.",
+        "machine_shop_example": "The shop sets a 15-minute idle lock via GPO on all office and engineering PCs and the file server, using the 'Machine inactivity limit' setting plus a password-protected blank screen saver, so the drawing that was open is not visible. The two CNC controllers, which sit in a supervised area and would interrupt long-running jobs if the HMI locked, are configured with a 15-minute lock on the Windows desktop while the machine keeps running, which was tested with the machine builder and documented.",
+        "typical_evidence": [
+          "Policy stating the inactivity period and the requirement for a pattern-hiding lock",
+          "GPO report showing 'Interactive logon: Machine inactivity limit' = 900 seconds and screen saver settings (enabled, password protected, timeout, blank screen saver)",
+          "Intune device configuration profile for non-domain devices",
+          "Screenshot or photo of a locked workstation showing only the lock screen",
+          "List of exceptions (for example CNC controllers) with compensating controls"
+        ],
+        "common_gaps": [
+          "Users disable the screen saver, or the setting is only in a user GPO that shop-floor accounts bypass",
+          "Lock is set but the screen saver shows a photo slideshow of the desktop or the drawing left open",
+          "CNC controllers and the shipping PC never lock because it interrupts work, with no documented compensation"
+        ],
+        "remediation_steps": [
+          "Set the period in policy: 15 minutes of inactivity for workstations and servers, and 5 minutes for any shared or publicly visible PC.",
+          "Apply via GPO: 'Interactive logon: Machine inactivity limit' = 900 seconds, and User Configuration > Administrative Templates > Control Panel > Personalization: Enable screen saver, Password protect the screen saver, Screen saver timeout = 900, Force specific screen saver = scrnsave.scr (blank).",
+          "Cover non-domain devices (laptops, CNC controllers, standalone PCs) with Intune or local policy and verify each one by hand.",
+          "For CNC controllers where a lock would stop production, configure the lock on the Windows HMI only after confirming with the machine builder, or physically restrict the screen and document the exception.",
+          "Train users to press Win+L when stepping away, and spot-check monthly by walking the floor."
+        ]
+      }
+    },
+    "3.1.11": {
+      "name": "Session Termination",
+      "nist_800_53": [
+        "AC-12"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Define the conditions under which a logged-in session should be ended automatically, not just locked: for example after a set period of inactivity on remote access or web apps, after a maximum duration, or when an account is disabled or an incident occurs. Then configure the VPN, remote desktop, Microsoft 365, and other systems to actually terminate sessions when those conditions occur.",
+        "machine_shop_example": "The shop's policy says VPN and remote desktop sessions end after 30 minutes idle and 12 hours maximum, Microsoft 365 web sessions require re-authentication daily via a Conditional Access sign-in frequency policy, and a user's sessions are revoked immediately when the account is disabled. The firewall VPN idle timeout is 30 minutes, RDP to the file server is set by GPO to end disconnected sessions after 30 minutes and cap active sessions at 12 hours, and the ERP web app logs out after 20 minutes idle.",
+        "typical_evidence": [
+          "Policy listing termination conditions (idle time, maximum duration, incident, account disable)",
+          "VPN/firewall configuration screenshot showing idle and maximum session timeouts",
+          "GPO report for Remote Desktop Session Host 'Set time limit for disconnected sessions' and 'Set time limit for active but idle sessions'",
+          "Entra ID Conditional Access sign-in frequency / persistent browser session policy screenshot",
+          "Application timeout settings for ERP, quoting, or portal logins",
+          "Logs showing sessions terminated by timeout"
+        ],
+        "common_gaps": [
+          "Confusing session lock (3.1.10) with termination; nothing ever ends a session",
+          "VPN sessions stay connected for weeks from home PCs and laptops",
+          "Disabled users' Microsoft 365 tokens remain valid for hours because sessions were not revoked"
+        ],
+        "remediation_steps": [
+          "Write the conditions: 30 minutes idle and 12 hours maximum for VPN/RDP; daily re-authentication for cloud sessions; immediate termination on account disable or incident; optional after-hours cutoff for shop-floor accounts.",
+          "Configure the firewall VPN idle timeout and maximum session length to match.",
+          "Set GPO Computer Configuration > Administrative Templates > Windows Components > Remote Desktop Services > Remote Desktop Session Host > Session Time Limits on servers and any RDP-enabled PC.",
+          "In Entra ID, create a Conditional Access policy with sign-in frequency (for example 24 hours) and 'Persistent browser session: never' for CUI apps; add 'Revoke sessions' to the offboarding checklist.",
+          "Set inactivity logout in the ERP, quoting, and portal applications and document any that cannot, with a compensating control."
+        ]
+      }
+    },
+    "3.1.12": {
+      "name": "Control Remote Access",
+      "nist_800_53": [
+        "AC-17(1)"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Decide whether remote access is allowed at all and, if so, which kinds (VPN, remote desktop through a gateway, the MSP's remote-support tool, cloud apps from home). Control it so only approved users, devices, and methods can connect, and monitor it by logging every session so you can see who connected, when, and from where.",
+        "machine_shop_example": "The shop permits three types of remote access: the firewall's SSL VPN with MFA for the IT person and two engineers using company laptops, the MSP's remote management tool for support, and Microsoft 365 GCC High from managed devices only. Direct RDP from the internet is blocked, VPN users must be in a specific AD group, the MSP tool requires MFA and records sessions, and VPN and Entra sign-in logs are reviewed weekly with alerts on logins from outside the US.",
+        "typical_evidence": [
+          "Remote access policy stating permitted types, who may use them, and device requirements",
+          "Firewall VPN configuration: user group restriction, MFA, tunnel settings, session logging",
+          "Entra Conditional Access policies requiring compliant/managed device and MFA for sign-in from outside the office",
+          "MSP remote-support tool settings and session recordings or logs",
+          "VPN and Entra sign-in log samples and the weekly review record",
+          "Firewall rule set showing RDP (3389) and other admin ports not exposed to the internet"
+        ],
+        "common_gaps": [
+          "RDP or the ERP server is exposed directly to the internet",
+          "VPN available to all domain users from any device, with no MFA",
+          "MSP or machine-builder remote tools (TeamViewer, AnyDesk) installed on CNC controllers with no control or logs",
+          "Logs exist but nobody looks at them"
+        ],
+        "remediation_steps": [
+          "Write the remote access policy: state that remote access is permitted, list the permitted types (VPN, MSP tool, cloud apps), who may use each, and that only company-managed devices may connect.",
+          "Close every direct exposure: no RDP, SMB, or ERP ports open on the firewall; all access goes through the VPN or an authenticated gateway (see 3.1.14).",
+          "Restrict the VPN to an AD group, require MFA, and enforce a managed-device check (certificate or endpoint compliance); in Entra, require compliant device plus MFA for Microsoft 365 access from outside the office.",
+          "Standardize remote support on one MSP tool with MFA and session logging; remove other remote tools from PCs and CNC controllers, or route the machine builder's access through the VPN with a time-limited account.",
+          "Send VPN, gateway, and Entra sign-in logs to the SIEM or log collector; review weekly and alert on impossible travel, foreign logins, and off-hours admin sessions."
+        ]
+      }
+    },
+    "3.1.13": {
+      "name": "Remote Access Confidentiality",
+      "nist_800_53": [
+        "AC-17(2)"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Every remote connection into the shop's systems must be encrypted so CUI cannot be read in transit, and the encryption must be a documented, approved method (for CMMC, FIPS-validated cryptography such as a FIPS-mode VPN or TLS 1.2+ using validated modules). Identify what encryption each remote access method uses and confirm it is actually configured.",
+        "machine_shop_example": "The shop's VPN runs on a firewall model listed on the NIST CMVP with FIPS mode enabled, using IKEv2/IPsec with AES-256; the MSP remote tool uses TLS 1.2 with a FIPS-validated library per its vendor documentation; and access to GCC High is over TLS 1.2+. The IT person keeps a table listing each remote access type, its protocol and cipher, and the CMVP certificate number, and has disabled legacy protocols (PPTP, SSLv3, TLS 1.0/1.1).",
+        "typical_evidence": [
+          "Table of remote access methods with the cryptographic protocol, cipher suite, and FIPS 140 validation reference for each",
+          "Firewall/VPN configuration screenshots showing FIPS mode and the allowed ciphers",
+          "Vendor documentation or CMVP certificate for the VPN and remote-support products",
+          "GPO screenshot of 'System cryptography: Use FIPS compliant algorithms' if enabled on endpoints",
+          "Scan or test output showing weak protocols disabled (for example nmap --script ssl-enum-ciphers against the gateway)"
+        ],
+        "common_gaps": [
+          "Using a consumer VPN or PPTP, or a firewall that is not FIPS-validated and cannot be put in FIPS mode",
+          "Remote tools that encrypt but nobody has checked whether the module is validated, so the shop cannot say what cryptography is in use",
+          "Legacy TLS 1.0/1.1 or weak ciphers still enabled on the VPN or RDP gateway"
+        ],
+        "remediation_steps": [
+          "List every remote access path (VPN, MSP tool, RDP gateway, cloud apps) and record the protocol, cipher, and the vendor's FIPS 140-2/140-3 certificate number from the NIST CMVP list.",
+          "Enable FIPS mode on the firewall/VPN and restrict it to AES-128/256 with SHA-256 or better over IKEv2 or TLS 1.2+; disable PPTP, L2TP without IPsec, SSLv3, and TLS 1.0/1.1.",
+          "Replace any remote-support or VPN product that cannot document validated cryptography.",
+          "Configure Windows RDP by GPO to require the TLS security layer and 'High' encryption level, and keep RDP behind the VPN or gateway.",
+          "Re-verify annually and whenever the firewall firmware is upgraded, since FIPS validation is version-specific."
+        ]
+      }
+    },
+    "3.1.14": {
+      "name": "Remote Access Routing",
+      "nist_800_53": [
+        "AC-17(3)"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "All remote access must enter through a small number of defined, managed entry points, such as the firewall's VPN gateway or an authenticated remote desktop gateway, rather than through direct connections to individual PCs or servers. Identify those entry points, harden and monitor them, and block every other path in.",
+        "machine_shop_example": "The shop has two managed access control points: the firewall's VPN gateway and the MSP's remote management relay, both drawn on the network diagram. Every server and PC blocks inbound RDP from anything except the internal VLAN, no port forwards exist on the firewall, and the CNC builder's remote diagnostics go through a VPN account that IT enables only for the scheduled session. GCC High is accessed directly as a cloud service but only from managed devices under Conditional Access.",
+        "typical_evidence": [
+          "Network diagram marking each managed access control point",
+          "Firewall configuration export showing no inbound port forwards except to the VPN/gateway",
+          "External port scan results showing only the VPN/gateway exposed",
+          "Windows Firewall GPO restricting RDP, SMB, and WinRM to internal addresses",
+          "List of any vendor remote tools and how each is routed"
+        ],
+        "common_gaps": [
+          "Port forwards to the file server, ERP, or a CNC controller for vendor convenience",
+          "Employees using personal remote tools (Chrome Remote Desktop, TeamViewer) that bypass the VPN",
+          "No diagram, so nobody can say how many ways in exist"
+        ],
+        "remediation_steps": [
+          "Update the network diagram to show the managed access control points (VPN gateway, remote-support relay) and state in the remote access policy that these are the only permitted entry points.",
+          "Remove all firewall port forwards and inbound rules except to the gateway; run an external port scan (or have the MSP run one) and keep the result.",
+          "Block inbound RDP, SMB, WinRM, and VNC from non-internal addresses on all hosts via Windows Firewall GPO, and disable RDP on PCs that do not need it.",
+          "Uninstall unmanaged remote tools with the RMM/EDR and block their domains at the firewall; route vendor and machine-builder access through the VPN with time-limited accounts.",
+          "Review the firewall rules and repeat the external scan quarterly."
+        ]
+      }
+    },
+    "3.1.15": {
+      "name": "Privileged Remote Access",
+      "nist_800_53": [
+        "AC-17(4)"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Decide which administrative commands and which security-sensitive information (firewall configuration, audit logs, account settings, backup consoles, the SSP) may be used or viewed over a remote connection at all, and by whom. Then grant that remote privileged access explicitly, typically only to IT and the MSP over the VPN with MFA, and record the authorization.",
+        "machine_shop_example": "The shop's remote access policy lists the privileged commands allowed remotely (AD account management, GPO changes, server patching, firewall administration, backup restores) and the security-relevant information (audit logs, firewall and EDR consoles, SSP and network diagrams), and authorizes only the IT person's admin account and the MSP's named technicians to use them over the VPN with MFA. Firewall administration is limited to the management VLAN reached through the VPN, and the authorization is signed by the owner and re-approved yearly.",
+        "typical_evidence": [
+          "Policy section or table listing privileged commands and security-relevant information approved for remote access and the approved roles",
+          "Signed authorization (ticket or memo) for each person or MSP with remote privileged access",
+          "VPN group membership and firewall rules limiting admin interfaces to the admin VPN group or management VLAN",
+          "MFA configuration for admin remote sessions",
+          "Logs of remote admin sessions (VPN log plus Windows 4624/4672 events or MSP session records)"
+        ],
+        "common_gaps": [
+          "The rule is unstated: anyone with VPN can reach the firewall admin page or the domain controller",
+          "The MSP has blanket remote admin rights with no written authorization from the shop",
+          "Security tools' cloud consoles (EDR, backup) reachable from anywhere with a password only"
+        ],
+        "remediation_steps": [
+          "List privileged commands and security-relevant information (reuse the 3.1.5 and 3.1.7 lists) and mark which are allowed remotely; anything not listed is prohibited remotely.",
+          "Name the authorized people and roles (IT admin account, MSP technicians) and have the owner sign the authorization; renew it annually.",
+          "Technically limit it: a firewall rule allowing admin interfaces, domain controllers, and the log server only from the admin VPN group or management VLAN; require MFA on the VPN and on every cloud security console.",
+          "Ensure remote admin sessions are logged (VPN logs, Windows logon and privilege events, MSP session recordings) and include them in the weekly log review.",
+          "Remove remote privileged access promptly when a technician or employee leaves."
+        ]
+      }
+    },
+    "3.1.16": {
+      "name": "Wireless Access Authorization",
+      "nist_800_53": [
+        "AC-18"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Know every wireless access point in the building, including ones built into printers, CNC controllers, or a consumer router someone plugged in, and decide which are allowed. Set usage rules for wireless and require that a user or device be explicitly authorized before it can connect to any wireless network that reaches CUI.",
+        "machine_shop_example": "The shop has three business access points on a managed controller and one guest network isolated from the LAN, all listed in the inventory with location and SSID. Company laptops and the wireless barcode scanners are authorized by certificate on the business SSID; personal phones may only use the guest SSID. The IT person runs a wireless scan quarterly with a free analyzer, and the MSP disabled the Wi-Fi radio on the new CNC controller and the office printer.",
+        "typical_evidence": [
+          "Wireless access point inventory (make, model, location, SSID, purpose)",
+          "Wireless policy stating who and what may connect and the authorization process",
+          "Wireless controller or AP screenshots showing SSIDs, VLAN assignment, and guest isolation",
+          "List of authorized wireless devices (certificate or MAC list) and approval records",
+          "Quarterly rogue AP scan results"
+        ],
+        "common_gaps": [
+          "Unknown APs: a consumer router in the break room, or Wi-Fi enabled on a CNC controller or printer",
+          "One flat Wi-Fi network with a shared password on a sticky note, used by employees' phones and the CAM laptop alike",
+          "No process; anyone who knows the password is considered authorized"
+        ],
+        "remediation_steps": [
+          "Walk the building and scan for SSIDs; record every AP, including those built into printers, CNC controllers, IoT devices, and phone hotspots, and remove or disable the unauthorized ones.",
+          "Write the wireless policy: business SSID for company-managed devices only, guest SSID for everything else with no LAN access, and an approval step (ticket) before a device is added.",
+          "Configure the business SSID for WPA2/WPA3-Enterprise with certificate or RADIUS authentication tied to AD/Entra so only authorized devices and users can join (see 3.1.17); keep the CNC VLAN wired where possible.",
+          "Disable Wi-Fi radios on devices that do not need them (printers, CNC controllers) and disable WPS everywhere.",
+          "Re-scan for rogue APs quarterly and review the authorized device list."
+        ]
+      }
+    },
+    "3.1.17": {
+      "name": "Wireless Access Protection",
+      "nist_800_53": [
+        "AC-18(1)"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Any wireless network that can reach CUI must require each user or device to authenticate (not just a shared password everyone knows) and must encrypt traffic with a current standard (WPA2-AES at minimum, preferably WPA3 or WPA2-Enterprise with FIPS-validated components). Open, WEP, or WPA-TKIP networks and shared pre-shared keys are not acceptable on the CUI network.",
+        "machine_shop_example": "The shop's business SSID uses WPA2-Enterprise (802.1X) with RADIUS on the Windows server (NPS) tied to Active Directory; company laptops authenticate with device certificates and the SSID is AES-CCMP only. The guest SSID is WPA2 with a rotating password and cannot reach the LAN. The APs run the vendor's FIPS-validated firmware and the shop documents this in the SSP.",
+        "typical_evidence": [
+          "AP/controller screenshots showing security mode (WPA2/WPA3-Enterprise), AES encryption, and the RADIUS server",
+          "RADIUS/NPS or cloud RADIUS configuration showing user or certificate authentication",
+          "Guest network isolation settings",
+          "Vendor FIPS validation reference for the wireless equipment, if claimed",
+          "Wireless scan output showing no open or WEP/WPA-TKIP networks"
+        ],
+        "common_gaps": [
+          "Business Wi-Fi uses a single pre-shared key that never changes and former employees still know",
+          "TKIP or 'WPA/WPA2 mixed' mode left enabled for an old device",
+          "Wireless barcode scanners or tablets on the CUI SSID using an old protocol that forces weak settings"
+        ],
+        "remediation_steps": [
+          "Set the business SSID to WPA2-Enterprise or WPA3-Enterprise with AES-CCMP/GCMP only; disable TKIP, WEP, WPS, and mixed modes.",
+          "Stand up RADIUS (Windows NPS on the server, the firewall's RADIUS, or a cloud RADIUS service tied to Entra) and authenticate laptops with device certificates from an internal CA or Intune SCEP; use per-user credentials only where certificates are impossible.",
+          "If a PSK network must remain for legacy scanners, move it to its own VLAN with no route to CUI, use a 20+ character key, rotate it when staff leave, and document it as an exception.",
+          "Keep guest Wi-Fi isolated with client isolation enabled and no access to the LAN.",
+          "Verify settings with a wireless scan after each change and annually."
+        ]
+      }
+    },
+    "3.1.18": {
+      "name": "Mobile Device Connection",
+      "nist_800_53": [
+        "AC-19"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Identify every phone, tablet, or other mobile device that touches CUI (for example reading CUI email or viewing drawings on a phone), require those devices to be explicitly authorized and enrolled before they can connect, and log and monitor their connections. The simplest passing approach at a small shop is to prohibit CUI on mobile devices except a few enrolled, company-managed ones.",
+        "machine_shop_example": "The shop's policy prohibits CUI on personal phones; only three company-owned phones (owner, IT, sales) are authorized for GCC High email and they are enrolled in Intune with a compliance policy. Entra Conditional Access blocks Microsoft 365 access from any unenrolled mobile device, so an employee's personal phone simply cannot connect. Intune's device list is the inventory, and the Entra sign-in log and Intune compliance reports are reviewed weekly.",
+        "typical_evidence": [
+          "Mobile device policy and inventory of authorized devices (Intune or MDM device list)",
+          "Conditional Access policy requiring a compliant or enrolled device for mobile access to Microsoft 365 and CUI apps",
+          "Intune compliance and enrollment reports",
+          "Entra sign-in logs filtered to mobile platforms, with review notes",
+          "Wireless or MDM logs showing mobile connections to the corporate network",
+          "Signed user agreements for company mobile devices"
+        ],
+        "common_gaps": [
+          "Everyone has the Outlook app on a personal phone with no MDM, so CUI email is on unmanaged devices",
+          "The shop has no inventory and cannot say which phones hold CUI",
+          "Connections are allowed but nothing logs or reviews them"
+        ],
+        "remediation_steps": [
+          "Decide the policy: either no CUI on mobile devices at all (then block it technically) or CUI only on enrolled company devices; write it down and have users sign it.",
+          "Inventory the authorized devices in Intune/MDM with owner, model, and OS version; remove Microsoft 365 access from everything else.",
+          "Create a Conditional Access policy: for iOS and Android platforms, require the device to be marked compliant (or an approved app with an app protection policy) for all Microsoft 365 GCC High apps; block legacy authentication.",
+          "Set Intune compliance to require PIN or biometric, encryption, a current OS, and remote wipe; block mobile devices from the business Wi-Fi SSID unless enrolled.",
+          "Review Entra sign-in and Intune compliance reports weekly and record the review; treat non-compliant devices as a ticket to fix or wipe."
+        ]
+      }
+    },
+    "3.1.19": {
+      "name": "Encrypt CUI on Mobile",
+      "nist_800_53": [
+        "AC-19(5)"
+      ],
+      "weight_claimed": 3,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Every laptop, tablet, or phone that can hold CUI must encrypt its storage (whole-disk or a managed encrypted container) so that a lost or stolen device does not expose CUI. Identify those devices first, then enforce and prove the encryption; for CMMC, use FIPS-validated methods such as BitLocker with FIPS mode or the vendor's validated mobile encryption.",
+        "machine_shop_example": "The shop lists its five company laptops (engineering and sales) and three company phones as the mobile platforms that hold CUI. BitLocker with TPM and a PIN is enforced on the laptops through GPO/Intune with XTS-AES 256 and recovery keys escrowed to AD/Entra; the phones are enrolled in Intune with encryption required and a 6-digit passcode, and the Intune report shows all eight compliant. Personal devices are blocked from CUI entirely.",
+        "typical_evidence": [
+          "Inventory of mobile devices and platforms that process or store CUI",
+          "GPO or Intune BitLocker policy screenshot and manage-bde -status or Intune encryption report for every laptop",
+          "Recovery key escrow evidence (AD or Entra BitLocker keys)",
+          "Intune compliance report showing mobile device encryption required and met",
+          "Documentation of FIPS 140 validation for the encryption used (Windows CMVP certificate, iOS/Android data protection)"
+        ],
+        "common_gaps": [
+          "Laptops have BitLocker available but it was never turned on, or it is on without a PIN so the drive unlocks at boot",
+          "USB drives and external disks holding CUI are unencrypted",
+          "No inventory, so a lost laptop cannot be assessed"
+        ],
+        "remediation_steps": [
+          "List every mobile device and platform that could hold CUI (laptops, tablets, phones, portable drives) with owner and location.",
+          "Enforce BitLocker on all laptops via GPO (Computer Configuration > Administrative Templates > Windows Components > BitLocker Drive Encryption) or Intune endpoint security: TPM + PIN, XTS-AES 256 for OS and fixed drives, recovery keys escrowed to AD/Entra, and 'System cryptography: Use FIPS compliant algorithms' enabled.",
+          "Require encryption and a passcode on phones and tablets through the Intune compliance policy and block non-compliant devices from Microsoft 365.",
+          "Encrypt any portable drives with BitLocker To Go or FIPS-validated hardware-encrypted drives, and block others by GPO.",
+          "Report on encryption status monthly (Intune report or a manage-bde script) and fix any device that shows unencrypted."
+        ]
+      }
+    },
+    "3.1.20": {
+      "name": "External Connections",
+      "nist_800_53": [
+        "AC-20",
+        "AC-20(1)"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Know every outside system the shop connects to or uses for CUI: cloud services (Microsoft 365 GCC High, customer portals, the ERP vendor's cloud), the MSP's tools, customer and supplier systems, and any personal or contractor devices. Verify that each meets your security expectations (contract terms, FedRAMP or DoD authorization, MSP attestation) and limit what can connect and how; anything unverified is not allowed to handle CUI.",
+        "machine_shop_example": "The shop maintains a list of external systems: GCC High (FedRAMP High and DFARS 7012 support documented by Microsoft), the prime's supplier portal, DoD SAFE, the MSP's RMM and backup platform (covered by the MSP's shared responsibility matrix and attestation), and the machine builder's support connection. Personal devices are prohibited from connecting to the network or Microsoft 365, enforced through Conditional Access and 802.1X. The list is reviewed annually and each entry records how it was verified.",
+        "typical_evidence": [
+          "External system inventory with purpose, CUI involvement, owner, and verification method",
+          "Contracts, FedRAMP/DoD authorization evidence, MSP attestation, or shared responsibility matrix for each external system",
+          "Policy prohibiting or limiting personal and contractor devices and unapproved cloud services",
+          "Firewall/web-filter rules and Conditional Access policies enforcing the limits",
+          "Annual review record of the external system list"
+        ],
+        "common_gaps": [
+          "CUI stored in commercial (non-GCC High) Microsoft 365, Dropbox, or Gmail without anyone realizing these are external systems",
+          "The MSP has full access but the shop has never asked what controls the MSP operates",
+          "Employees check email from home PCs with no restrictions",
+          "The shop cannot produce a list of external systems"
+        ],
+        "remediation_steps": [
+          "Build the external system inventory: cloud services, customer and supplier portals, MSP platforms, vendor remote access, personal or home devices, contractor systems; mark which carry CUI.",
+          "Verify each: for cloud services holding CUI, confirm FedRAMP Moderate-equivalent or DoD authorization and DFARS 7012 flow-down; for the MSP, obtain a written description of their controls or a shared responsibility matrix; for customers and suppliers, rely on the contract terms.",
+          "Write the policy: CUI only in the listed systems; personal devices may not connect to the network or Microsoft 365 for CUI; unapproved cloud storage is blocked.",
+          "Enforce it with firewall/web-filter blocks on unapproved services, Conditional Access requiring managed devices, and 802.1X or MAC control on the LAN and Wi-Fi.",
+          "Review the inventory and verification evidence annually and before adding any new service."
+        ]
+      }
+    },
+    "3.1.21": {
+      "name": "Portable Storage Use",
+      "nist_800_53": [
+        "AC-20(2)"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Decide whether shop-owned USB drives and other portable storage that hold CUI may ever be plugged into systems the shop does not control (a customer's PC, a home computer, a machine builder's laptop). Document the answer and the limits, and enforce them, usually by prohibiting it entirely and blocking USB storage on managed PCs except for approved encrypted drives.",
+        "machine_shop_example": "The shop's policy prohibits using company USB drives containing CUI on any external system; the one documented exception is delivering CUI to a customer on a company-issued FIPS-validated hardware-encrypted drive that is checked out and back in on the media log. GPO blocks all removable storage on workstations except the two approved encrypted drive models on the engineering transfer PC, and CNC program transfers use the network DNC share instead of thumb drives.",
+        "typical_evidence": [
+          "Media/portable storage policy stating the prohibition or the limited allowed uses on external systems",
+          "Media log showing issued encrypted drives and any use on external systems",
+          "GPO or Intune removable storage policy (deny read/write, or allow-list by device ID)",
+          "Inventory of approved encrypted USB drives",
+          "Training acknowledgement covering portable media rules"
+        ],
+        "common_gaps": [
+          "Operators carry G-code and drawings between the office and CNCs on personal thumb drives and take them home",
+          "No policy statement at all, so the objective 'identified and documented' is unmet even if nobody actually does it",
+          "USB blocked on office PCs but not on CNC controllers or the shipping PC"
+        ],
+        "remediation_steps": [
+          "Document the shop's position: identify whether portable storage with CUI is ever used on external systems (list the cases, for example customer deliveries or machine-builder service) and define the limits: only company-owned, encrypted, logged drives, and never on personal or unknown computers.",
+          "Deploy GPO/Intune 'Removable Storage Access' to deny all removable disks on workstations and CNC controllers, with an allow-list for approved encrypted drive hardware IDs on designated PCs.",
+          "Issue a small number of FIPS-validated encrypted USB drives, label them, and keep a check-out log.",
+          "Provide a network path (DNC share or SharePoint) for CNC program transfer so thumb drives are unnecessary on the floor.",
+          "Include the rule in annual training and spot-check USB device logs (Event ID 6416 or EDR device-control reports) quarterly."
+        ]
+      }
+    },
+    "3.1.22": {
+      "name": "Control Public Information",
+      "nist_800_53": [
+        "AC-22"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Only a few named people may post to the shop's website, social media, or other public-facing systems, and there must be a written check before anything goes up to make sure it contains no CUI (for example a photo of a part with a customer drawing visible in the background). If CUI is ever posted by mistake, there must be a procedure to take it down and report it.",
+        "machine_shop_example": "The shop's website and LinkedIn page can be updated only by the office manager and the owner. Before posting shop photos or capability statements, the poster completes a one-line checklist confirming no customer part numbers, drawings, or marked documents are visible, and the owner approves. The website content is reviewed quarterly, and the incident response plan includes steps to remove a post, contact the hosting vendor, and notify the customer and DoD if CUI was exposed.",
+        "typical_evidence": [
+          "Policy naming authorized posters and the pre-posting review procedure",
+          "Completed review checklists or approval emails for recent posts",
+          "Quarterly review record of website and social content",
+          "Website CMS and social media admin user list",
+          "Incident response procedure section for removing improperly posted CUI"
+        ],
+        "common_gaps": [
+          "Anyone with the marketing login posts photos from the shop floor with parts and drawings visible",
+          "No review step exists because 'we never post CUI', which does not satisfy the objectives",
+          "No plan for takedown if something slips through"
+        ],
+        "remediation_steps": [
+          "Name the one or two authorized posters in policy and restrict website CMS and social media admin logins to them, with MFA.",
+          "Write a short pre-posting checklist: no marked CUI, no customer drawings, part numbers, or specs, no photos with drawings or travelers visible; require owner approval for shop-floor photos.",
+          "Keep the completed checklists or approval emails as the review record and review existing public content quarterly.",
+          "Add a takedown procedure to the incident response plan: remove the content immediately, request cache/CDN purge, assess whether CUI was exposed, and report through the DFARS 7012 process if required.",
+          "Cover the rule in annual awareness training."
+        ]
+      }
+    }
+  }
+}

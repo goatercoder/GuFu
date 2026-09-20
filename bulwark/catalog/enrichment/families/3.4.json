@@ -1,0 +1,351 @@
+{
+  "family_id": "3.4",
+  "controls": {
+    "3.4.1": {
+      "name": "System Baselining",
+      "nist_800_53": [
+        "CM-2",
+        "CM-6",
+        "CM-8",
+        "CM-8(1)"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "You need a written, agreed-upon 'known good' build for each type of system in the CUI environment (OS version, installed software and versions, firmware, and the security settings applied) plus a complete inventory of the hardware, software and firmware that make up that environment, together with the documentation that goes with them (as-built notes, network diagram). Both the baseline and the inventory must be kept current: reviewed on a schedule and updated whenever something changes, not written once for the assessment and forgotten.",
+        "machine_shop_example": "The IT admin keeps a 'Standard Workstation Build v3' document: Windows 11 Pro 23H2, Microsoft 365 apps, the CAD/CAM package, the ERP client, the EDR agent, the list of hardening GPOs applied, and local admin removed. A second document covers the two CNC controllers (Windows 10 IoT LTSC, controller software version, no browser, USB blocked) and a third covers the firewall and switches (model, firmware, config backup location). The MSP's RMM tool exports the hardware/software inventory (hostname, serial, model, OS build, installed applications, BIOS version) monthly, and the admin reviews it against the baseline every quarter, recording any drift and the fix in a ticket.",
+        "typical_evidence": [
+          "Baseline configuration document per system type (workstation, server or GCC High tenant, CNC controller, firewall/switch) with version, date and management approval",
+          "Hardware/software inventory export from the RMM, Intune or AD showing hostname, serial, make/model, OS build, installed software, BIOS/firmware version, owner and location",
+          "Firewall and switch configuration backups with firmware version and export date",
+          "Quarterly inventory/baseline review records (ticket, dated checklist or meeting note) showing additions, removals and drift corrected",
+          "Change ticket showing the baseline was updated after a change (for example a new CAD/CAM version)",
+          "Current network diagram showing where each component sits"
+        ],
+        "common_gaps": [
+          "The inventory lives in someone's head or an old spreadsheet that does not match what the RMM reports",
+          "CNC controllers, printers, the firewall and switches are left out because 'they are not computers'",
+          "A baseline was written once for the assessment and never reviewed; new PCs are built from a different image than the document describes",
+          "Firmware/BIOS versions and documentation (as-built notes, network diagram) are missing from the inventory"
+        ],
+        "remediation_steps": [
+          "Define the CUI system boundary and list every asset class inside it: workstations, laptops, file server or GCC High tenant, CNC controllers, firewall, switches, Wi-Fi access points, printers/scanners and MSP-managed tools.",
+          "Pull a complete inventory from the RMM/Intune/AD (hostname, serial, make/model, OS build, installed software, BIOS/firmware version, owner, location, IP/MAC), reconcile it with a physical walk-through of the office and shop floor, and fix discrepancies.",
+          "Write a baseline configuration document per system type: OS version, approved software list with versions, GPO/Intune baseline names applied, disabled services and features, local accounts, required agents; attach as-built documentation and the network diagram, and have the owner approve it.",
+          "Build new PCs only from the baseline (golden image or Autopilot/Intune profile) and record any deviation as an approved exception in the baseline document.",
+          "Create a recurring task (at least quarterly and after any significant change) to re-export the inventory, compare it to the baseline, update both documents and keep the dated review record.",
+          "Keep configuration backups of the firewall and switches with firmware versions and refresh them whenever firmware or rules change."
+        ]
+      }
+    },
+    "3.4.2": {
+      "name": "Security Configuration Enforcement",
+      "nist_800_53": [
+        "CM-2",
+        "CM-6",
+        "CM-8",
+        "CM-8(1)"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "Beyond documenting the build, you must choose the specific security settings for each product in scope (password policy, screen lock, host firewall, disabled legacy protocols, USB restrictions, audit logging, encryption, and so on), write them into the baseline, and then enforce them with technology so they stay applied on every device. Hardening guides such as the CIS Benchmarks, Microsoft Security Baselines or DISA STIGs are the normal starting point, and you need a way to prove the settings are actually in place.",
+        "machine_shop_example": "The shop adopts a written Windows hardening standard derived from the Microsoft Security Baseline / CIS Level 1: screen lock at 15 minutes, Windows Firewall on for all profiles, SMBv1 and LLMNR disabled, BitLocker required, PowerShell script block logging on, and USB mass storage blocked except two approved drives. The settings are pushed by GPO on the domain (or Intune configuration and security baseline profiles in GCC High). The MSP runs the compliance report monthly showing all 25 PCs, the server and both CNC controllers compliant, and the firewall is checked quarterly against the vendor's hardening checklist (management interface restricted to the admin VLAN, default account removed, logging enabled).",
+        "typical_evidence": [
+          "Security configuration standard/checklist per platform (Windows workstation, server, firewall, M365 GCC High tenant, CNC controller) that names the benchmark used and lists each adopted setting",
+          "GPO reports (gpresult /h or Group Policy Management Console HTML export) or Intune configuration/security baseline profile screenshots showing the settings and their assignments",
+          "Intune compliance report, RMM policy-drift report, or CIS-CAT/vulnerability scanner configuration audit showing pass/fail per device",
+          "Firewall configuration export showing hardening items (admin access restricted, default credentials changed, logging on)",
+          "GCC High tenant settings screenshots (security defaults or Conditional Access, legacy authentication blocked)",
+          "Exception register for devices that cannot meet a setting (for example a CNC controller) with the compensating control and approval"
+        ],
+        "common_gaps": [
+          "Settings are 'recommended' in a policy document but never pushed by GPO or Intune, and PCs drift because users have local admin",
+          "CNC controllers and the firewall are excluded from any hardening standard",
+          "There is no way to prove enforcement: no compliance report, no periodic configuration scan",
+          "Default vendor credentials are still present on switches, printers or controller software"
+        ],
+        "remediation_steps": [
+          "Choose a benchmark per platform (CIS Benchmark Level 1 or Microsoft Security Baseline for Windows 10/11 and Server; the vendor hardening guide for the firewall and switches; Microsoft guidance for the GCC High tenant) and document which settings you adopt, with a justification for any you skip.",
+          "Implement the settings with GPO (on-prem domain) or Intune configuration and security baseline profiles (GCC High): screen lock, host firewall, SMBv1/LLMNR/NetBIOS off, BitLocker, audit policy, removable media control, and PowerShell logging.",
+          "For the CNC controllers, apply what the machine vendor supports (host firewall, disabled services, no browser, AutoRun off) and record the remainder as an approved exception with compensating controls such as VLAN isolation.",
+          "Turn on an enforcement check: Intune compliance policies, RMM policy-drift alerts, or a monthly CIS-CAT or vulnerability-scanner configuration audit; set a remediation deadline (for example 30 days) for non-compliant devices.",
+          "Remove local administrator rights from standard users so the settings cannot be undone, then review the compliance report monthly and keep each report as evidence.",
+          "Update the baseline document from 3.4.1 whenever the security settings change so the two stay in sync."
+        ]
+      }
+    },
+    "3.4.3": {
+      "name": "System Change Management",
+      "nist_800_53": [
+        "CM-3"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "Every change to in-scope systems (new or upgraded software, firmware updates, firewall rules, GPO or Intune changes, new servers or devices) has to be requested and tracked, reviewed by someone, explicitly approved or rejected, and logged with what was done and when. A simple ticket-based process is enough; the point is that changes do not happen ad hoc and there is a record an assessor can follow.",
+        "machine_shop_example": "The shop uses the MSP's ticketing system as its change log. When the CAM vendor releases a new version, the admin opens a 'Change' ticket describing the change, the PCs affected, the security impact and the rollback plan; the owner (or the admin, as the named approver for routine changes) approves inside the ticket; the MSP deploys it; the ticket is closed with the completion date. Firewall rule changes and CNC controller software updates follow the same path, and the firewall's own configuration change log is exported monthly to cross-check.",
+        "typical_evidence": [
+          "Change management procedure defining what counts as a change, change types (standard, normal, emergency), who approves each type and the required ticket fields",
+          "Sample change tickets showing request, review notes, approval or rejection with approver name and date, implementation date and outcome",
+          "Change log or ticket export for the last 12 months",
+          "Firewall configuration audit log and AD GPO version history that reconcile with the tickets",
+          "Approved list of standard/pre-approved changes (for example monthly OS patching) with its approval"
+        ],
+        "common_gaps": [
+          "The MSP or admin makes changes with no record; the only history is memory ('we updated that last spring')",
+          "Approval is verbal, so there is no approve/disapprove record",
+          "Patches, firewall rule edits and CNC controller software updates are treated as 'not a change'",
+          "A ticketing system exists but changes are logged after the fact with no review step"
+        ],
+        "remediation_steps": [
+          "Write a one-page change procedure: definitions (standard/pre-approved, normal, emergency), the approver for each type, and required fields (description, systems affected, security impact per 3.4.4, rollback, schedule, tester).",
+          "Configure a 'Change' ticket type in the ticketing or RMM tool with those fields and a mandatory approval step; a ticket cannot be closed without an approver name and date.",
+          "Agree in writing with the MSP that every change to in-scope systems (patch batches, firewall, GPO/Intune, server, CNC controller software) goes through this process, and give the MSP access to submit tickets.",
+          "Pre-approve routine changes (monthly OS and third-party patches, AV/EDR definition updates) through a documented standard-change list so the process stays workable.",
+          "Review the change log monthly, cross-check it against the firewall audit log and GPO/Intune change history, and record that review."
+        ]
+      }
+    },
+    "3.4.4": {
+      "name": "Security Impact Analysis",
+      "nist_800_53": [
+        "CM-4"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "Before a change is made, someone with enough technical knowledge has to think through and write down how it affects security: does it open ports or services, weaken a hardening setting, add a new path for CUI, create new accounts or privileges, or break an existing control? The analysis must happen before approval and implementation; a few specific sentences in the change ticket are sufficient.",
+        "machine_shop_example": "The shop's change ticket template has a mandatory 'Security impact analysis' field. When the shop wants to add a remote-support tool for the CNC vendor, the admin writes that it introduces inbound remote access, so it must require MFA and session logging (3.7.5), be limited to the CNC VLAN, and be disabled between sessions; the owner approves on that basis. For the monthly patch batch the field reads 'vendor security patches, no configuration changes, tested on two pilot PCs for 3 days before general deployment'.",
+        "typical_evidence": [
+          "Change procedure stating that a security impact analysis is required before approval",
+          "Change tickets with a completed security impact section, including at least one where the analysis led to added controls or a rejection",
+          "Pilot/test results for significant changes (for example patches tested on a pilot group before broad deployment)",
+          "Updated SSP, baseline or network diagram when a change altered the boundary or a control"
+        ],
+        "common_gaps": [
+          "Change tickets exist but have no security impact field, or it always says 'N/A'",
+          "The analysis is done by the MSP without the shop seeing it, or is written after the change is already live",
+          "Nobody with security knowledge is involved; the owner approves with no technical review"
+        ],
+        "remediation_steps": [
+          "Add a required 'Security impact analysis' field to the change ticket with prompts: new ports/protocols/services? new accounts or privileges? effect on encryption, logging, MFA or the hardening baseline? new CUI flow or boundary change? rollback plan?",
+          "Name who performs the analysis (IT admin and/or the MSP engineer) and require the approver to read it before approving.",
+          "For significant changes, test on a pilot device or during a maintenance window and record the results in the ticket before broad rollout.",
+          "When the analysis shows a control or the boundary is affected, update the SSP, the baseline (3.4.1) and the network diagram as part of closing the ticket.",
+          "Spot-check a sample of closed tickets each quarter to confirm the analysis is specific and not boilerplate."
+        ]
+      }
+    },
+    "3.4.5": {
+      "name": "Access Restrictions for Change",
+      "nist_800_53": [
+        "CM-5"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "Only specific, authorized people may make changes to in-scope systems, and that must be true both physically (who can get to the server, firewall and CNC controller cabinets) and logically (who holds admin rights on PCs, the domain or tenant, the firewall and the controllers). You must define those restrictions, document them, have management approve them, and enforce them with locks, access lists and permission settings.",
+        "machine_shop_example": "The shop's configuration management policy states that only the IT admin and two named MSP engineers may hold Domain Admin, Entra/Intune administrator and firewall administrator roles; all other employees are standard users; CNC operators have no administrative rights on the controllers. The server and firewall sit in a locked closet whose keys are held by the admin and the owner, and the controller PC cabinets are keyed. The admin exports privileged group membership monthly, and the MSP's named engineer list is reviewed whenever MSP staff change.",
+        "typical_evidence": [
+          "Policy or procedure section defining who may make physical and logical changes to each system class, signed or approved by management",
+          "Privileged group membership exports (Domain Admins, local Administrators, Entra/Intune admin roles, firewall and switch admin accounts) with review dates and initials",
+          "Key or badge holder list for the server closet and controller cabinets; photos showing the locked rack or closet",
+          "MSP contract or roster naming the authorized engineers and their access",
+          "Logs showing administrative logins to the firewall, server or tenant tied to change tickets"
+        ],
+        "common_gaps": [
+          "Everyone, or all shop leads, has local admin so anyone can install or change things",
+          "The MSP uses a shared generic admin account with no named individuals",
+          "The server or firewall sits in an unlocked office or on a shelf on the shop floor",
+          "Restrictions exist in practice but were never written down or approved"
+        ],
+        "remediation_steps": [
+          "Write into the configuration management (or access control) policy the roles allowed to change each system class (workstations, server/tenant, network gear, CNC controllers), including physical locations and who holds keys, and have the owner approve it.",
+          "Enforce logically: remove local admin from users, give the admin and each MSP engineer a separate named admin account, limit Domain Admins/Entra Global Administrator to those accounts, restrict firewall and switch management to a management VLAN or IP allow-list, and require MFA for all admin roles.",
+          "Enforce physically: lock the server/firewall closet and controller cabinets, keep a key/badge holder list, and log vendor visits.",
+          "Review privileged group membership and key holders at least quarterly and on any staff or MSP change; keep the export with reviewer initials.",
+          "Enable logging of administrative actions (firewall admin log, Windows Security log for group changes, Entra audit log) so enforcement can be demonstrated."
+        ]
+      }
+    },
+    "3.4.6": {
+      "name": "Least Functionality",
+      "nist_800_53": [
+        "CM-7"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "Decide what each type of system actually needs to do (its essential capabilities) and configure it to do only that: remove or disable unneeded software, Windows features, server roles, services and network functions. This is a documented decision per system type followed by configuration that matches it, and it applies to the CNC controllers and the firewall as much as to the office PCs.",
+        "machine_shop_example": "The shop's baseline defines a workstation's essential capabilities as office productivity, CAD/CAM, the ERP client and browsing to approved business sites; the file server only runs file services, Active Directory and backup; the CNC controllers run only the machine control software and receive part programs from a restricted share. Accordingly, workstations have no media, gaming or remote-desktop-host features, IIS, Telnet and SMBv1 are not installed, the server has only the required roles, and the controllers have Internet access blocked at the firewall and unused Windows features removed.",
+        "typical_evidence": [
+          "Baseline documents listing essential capabilities and functions per system type and what has been removed or disabled",
+          "Export of installed Windows optional features and server roles (Get-WindowsOptionalFeature, Get-WindowsFeature or Server Manager screenshot)",
+          "Services list export showing unnecessary services disabled",
+          "Firewall rule set restricting the CNC VLAN and server to required destinations only",
+          "Vulnerability or configuration scan output showing no unnecessary services listening"
+        ],
+        "common_gaps": [
+          "No written definition of what is essential; systems are left on vendor defaults",
+          "CNC controllers with full Internet access and a browser because operators like to look things up",
+          "The file server doubles as a workstation, print server and Wi-Fi controller",
+          "Unneeded Windows optional features (SMBv1, Telnet client, Remote Assistance, media features) left enabled"
+        ],
+        "remediation_steps": [
+          "For each system type, write a short list of essential capabilities (business functions, required software, required services and protocols) in the baseline document; anything not listed is nonessential by definition.",
+          "On workstations, remove unneeded applications, disable optional features (SMBv1, Telnet, TFTP, Remote Assistance, Windows Media features, XPS viewer) via GPO/Intune or DISM, and set unneeded services to Disabled.",
+          "On the server and tenant, keep only required roles and services; on the firewall, disable unused services (UPnP, unused VPN types, WAN-side administration, unused SSIDs).",
+          "On the CNC controllers, remove browsers and media software where the machine vendor allows, block Internet egress at the firewall, and restrict inbound access to the part-program share only.",
+          "Verify quarterly with a feature/service export or vulnerability scan, compare against the essential list, and fix drift through a change ticket."
+        ]
+      }
+    },
+    "3.4.7": {
+      "name": "Nonessential Functionality",
+      "nist_800_53": [
+        "CM-7(1)",
+        "CM-7(2)"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "This builds on 3.4.6 by requiring you to spell out, for each of programs, functions, ports, protocols and services, which ones are essential and which are not, and then to restrict, disable or block the nonessential ones on the endpoints and at the network. Assessors expect a written list (a ports/protocols/services table plus an approved software list) and proof, such as firewall rules, GPO settings and scan results, that the restrictions are really in place.",
+        "machine_shop_example": "The shop keeps a one-page PPS table: inbound to the file server, SMB 445 from the workstation and CNC VLANs and RDP 3389 from the admin's PC only; outbound, HTTPS 443, DNS to the firewall and NTP; everything else denied. FTP, Telnet, SMBv1, LLMNR, NetBIOS and Bluetooth file transfer are listed as prohibited and disabled by GPO. The approved software list names the CAD/CAM, ERP, Microsoft 365 and EDR packages, and AppLocker blocks anything else. The firewall rule set and a quarterly Nmap scan of each VLAN confirm only the listed ports respond, and the scan report is filed with the PPS table.",
+        "typical_evidence": [
+          "Ports/protocols/services (PPS) table listing essential and prohibited items per system type or VLAN with business justification",
+          "Approved software list and the list of prohibited software categories",
+          "Firewall rule export matching the PPS table, and the Windows Firewall GPO or Intune profile export",
+          "GPO/Intune settings disabling SMBv1, LLMNR, NetBIOS over TCP/IP, AutoRun/AutoPlay, Bluetooth and unused services",
+          "Network scan results (Nmap or vulnerability scanner) showing only expected ports open, with the reconciliation notes",
+          "AppLocker/WDAC or EDR application-control policy export"
+        ],
+        "common_gaps": [
+          "Firewall still carries 'any/any' inbound or outbound rules from an old vendor setup",
+          "No written list, so the shop cannot say which ports and services are essential",
+          "Legacy protocols (FTP to CNC controllers, SMBv1 for an old controller) still in use with no documented, mitigated exception",
+          "AutoRun and USB unrestricted on shop-floor PCs"
+        ],
+        "remediation_steps": [
+          "Build the PPS table: for each VLAN and system type, list the required programs, functions, ports, protocols and services with a business justification, mark everything else nonessential/prohibited, have it approved and reference it from the SSP.",
+          "Enforce at the network: rewrite firewall rules to default-deny between VLANs and outbound, allowing only the listed ports, and put the CNC controllers on their own VLAN separate from office PCs.",
+          "Enforce on endpoints with GPO/Intune: disable SMBv1, LLMNR, NetBIOS over TCP/IP, WPAD, AutoRun/AutoPlay, Bluetooth and unused services; enable Windows Firewall with inbound blocked by default.",
+          "Restrict programs: publish the approved software list and enforce it with AppLocker/WDAC or EDR application control (3.4.8), and prevent user installs (3.4.9).",
+          "Where an old controller genuinely needs a legacy protocol such as FTP, document the exception, confine it to a dedicated VLAN and host pair, and set a retirement date.",
+          "Scan each VLAN quarterly and after network changes, reconcile the results against the PPS table, and log any fixes."
+        ]
+      }
+    },
+    "3.4.8": {
+      "name": "Application Execution Policy",
+      "nist_800_53": [
+        "CM-7(4)",
+        "CM-7(5)"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "You must decide in writing whether you use an allow-list (only approved software may run) or a deny-list (specific software is blocked), list the software covered, and enforce that decision technically on the systems. Allow-listing is the stronger approach and what assessors generally expect on workstations; relying on antivirus signatures alone as a 'deny-list' is a weak answer.",
+        "machine_shop_example": "The shop's policy states that workstations, the server and the CNC controllers use an allow-list: only software in the approved software inventory may execute. The admin enforces it with AppLocker (or WDAC) rules pushed by GPO: publisher rules for Microsoft, the CAD/CAM and ERP vendors and the EDR agent, path rules for Program Files, and a default block for anything in user-writable folders such as Downloads and AppData. AppLocker block events (Event ID 8004) are forwarded to the log collector, and the admin reviews them monthly before adding any new rule through the change process.",
+        "typical_evidence": [
+          "Application execution policy stating the allow-list or deny-list approach and its scope",
+          "Approved software list (the allow-list) or the blocked-software list, with version and date",
+          "AppLocker/WDAC policy export (XML) or EDR application-control policy screenshot, plus the GPO/Intune assignment showing which devices receive it",
+          "Screenshot of a blocked execution attempt and the matching event log entry",
+          "Monthly review of block events and exception requests processed through change tickets"
+        ],
+        "common_gaps": [
+          "The policy says 'whitelisting' but only antivirus is deployed, which is deny-listing at best",
+          "AppLocker or WDAC left in audit-only mode indefinitely",
+          "Allow-list rules written so broadly (for example all of C:\\) that anything runs",
+          "CNC controllers and the server excluded from the policy"
+        ],
+        "remediation_steps": [
+          "Write the policy: state allow-listing (recommended) for workstations, server and CNC controllers, name the approved software inventory as the allow-list, and define how new software is added (change ticket with security impact analysis).",
+          "Build the allow-list from the software inventory (3.4.1) and generate AppLocker or WDAC rules (publisher rules preferred, path rules for Program Files and Windows) covering executables, DLLs, scripts, installers and packaged apps.",
+          "Run in audit mode for 2-4 weeks, review the AppLocker 8003/8004 events, fix false blocks, then switch to enforce and record the enforcement date.",
+          "Deploy the policy by GPO or Intune to every in-scope Windows device, including the CNC controllers after testing with the machine vendor.",
+          "Forward block events to central logging, review them monthly, and process additions through change management.",
+          "If a system class must use a deny-list, document why, list exactly what is blocked, and add compensating controls (no local admin, EDR with behavioral blocking)."
+        ]
+      }
+    },
+    "3.4.9": {
+      "name": "User-Installed Software",
+      "nist_800_53": [
+        "CM-11"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "Have a written rule on what software users may install (usually none, except from approved sources), technically enforce it so users cannot install arbitrary programs or browser extensions, and monitor what actually gets installed so violations are caught. It works hand in hand with removing local admin rights and with the allow-list in 3.4.8.",
+        "machine_shop_example": "The acceptable use policy says employees may not install software or browser extensions; requests go to IT by ticket. All users are standard users with no local admin, the Microsoft Store is restricted, and installers launched from Downloads are blocked by AppLocker. The MSP's RMM emails a weekly 'new software detected' report; the admin compares it with the approved list and files the review. A shop lead's portable PDF tool copied from a USB stick was caught this way, removed, and the incident noted in the ticket.",
+        "typical_evidence": [
+          "Acceptable use or software installation policy with user acknowledgement records",
+          "Report showing standard users are not members of the local Administrators group on any PC",
+          "GPO/Intune settings restricting installs (AppLocker installer and script rules, Windows Installer restrictions, Store restrictions, browser extension policy)",
+          "Weekly or monthly RMM/Intune 'newly installed software' report with the reviewer's notes",
+          "Tickets showing software requests, approvals and denials"
+        ],
+        "common_gaps": [
+          "Users kept as local admins so CAD/CAM add-ons 'just work'",
+          "A policy exists but nothing enforces it and nobody reviews what was installed",
+          "Portable apps and browser extensions are not treated as installed software",
+          "CNC operators installing USB-delivered vendor utilities on the controllers"
+        ],
+        "remediation_steps": [
+          "Add a software installation clause to the acceptable use policy: users may not install software or browser extensions; requests go through IT; approved sources are listed; have every user acknowledge it.",
+          "Remove local administrator rights from all standard users (manage the built-in local admin with LAPS) and route legitimate installs through the MSP or a privilege-elevation tool.",
+          "Enforce with GPO/Intune: AppLocker/WDAC rules for installers and scripts, block or restrict the Microsoft Store to a private store, and control browser extensions through browser policy.",
+          "Turn on software inventory reporting in the RMM or Intune with a weekly report or alert for newly installed software; review it and record the review.",
+          "Handle exceptions through change tickets and update the approved software list each time."
+        ]
+      }
+    }
+  }
+}

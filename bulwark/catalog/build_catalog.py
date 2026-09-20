@@ -64,6 +64,7 @@ def build() -> dict:
     names = load_json(ENRICH / "cmmc_names.json")
     nist53 = load_json(ENRICH / "nist80053_map.json")
     guidance = load_json(ENRICH / "guidance.json")
+    level_1 = set(load_json(ENRICH / "cmmc_levels.json").get("level_1", []))
     claimed_weights: dict[str, int] = {}
     # Per-family enrichment files (catalog/enrichment/families/<family>.json) override the flat files.
     for fam_file in sorted((ENRICH / "families").glob("*.json")) if (ENRICH / "families").exists() else []:
@@ -126,9 +127,11 @@ def build() -> dict:
                 weight = 1
             pc = partial.get(cid)
             g = guidance.get(cid, {})
+            level = 1 if cid in level_1 else 2
             controls.append({
                 "id": cid,
-                "cmmc_id": f"{abbr}.L2-{cid}",
+                "cmmc_id": f"{abbr}.L{level}-{cid}",
+                "cmmc_level": level,
                 "family_id": fam_id,
                 "family_abbr": abbr,
                 "family_name": fam_name,
@@ -187,6 +190,9 @@ def validate(cat: dict) -> list[str]:
         w[c["weight"]] += 1
     if (w[5], w[3], w[1], w[0]) != (44, 14, 51, 1):
         errors.append(f"weight histogram 5/3/1/0 = {w[5]}/{w[3]}/{w[1]}/{w[0]}, expected 44/14/51/1")
+    n_l1 = sum(1 for c in cat["controls"] if c["cmmc_level"] == 1)
+    if n_l1 != 17:
+        errors.append(f"expected 17 CMMC Level 1 practices, got {n_l1}")
     ids = {c["id"] for c in cat["controls"]}
     obj_ids = {o["id"] for c in cat["controls"] for o in c["objectives"]}
     for chk in cat["checks"]:

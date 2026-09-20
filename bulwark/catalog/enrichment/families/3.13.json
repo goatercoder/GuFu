@@ -1,0 +1,557 @@
+{
+ "family_id": "3.13",
+ "controls": {
+  "3.13.1": {
+   "name": "Boundary Protection",
+   "nist_800_53": [
+    "SC-7"
+   ],
+   "weight_claimed": 5,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "Watch, control and protect the traffic that crosses the edge of your CUI environment and the important boundaries inside it. In a small shop this is the firewall at the internet edge plus whatever separates the CUI network from the guest Wi-Fi, the shop floor and any vendor connections. You must be able to say where the boundary is, what crosses it and how it is monitored.",
+    "machine_shop_example": "The shop draws a one-page network diagram showing the CUI enclave (engineering PCs, file server, the two CNC controllers) behind a next-generation firewall, with guest Wi-Fi and the front-office camera system on separate VLANs that cannot reach it. The firewall runs deny-by-default inbound, logs all allowed and denied sessions to the MSP's collector, and the MSP reviews the weekly report. Remote users reach the enclave only through the firewall's VPN, and there is no direct RDP from the internet.",
+    "typical_evidence": [
+     "Network diagram showing the external boundary, internal VLAN boundaries and where CUI lives",
+     "Firewall configuration export or screenshot of the rule base showing default-deny inbound",
+     "Firewall/VPN logs or SIEM dashboard showing monitored boundary traffic",
+     "Change-control tickets for firewall rule changes",
+     "Host firewall settings enforced by policy on endpoints (Bulwark check os.firewall.enabled)"
+    ],
+    "common_gaps": [
+     "No current network diagram, so the assessment boundary cannot be demonstrated",
+     "Flat network where the guest Wi-Fi, cameras and CNC machines share the CUI subnet",
+     "Firewall logs generated but never reviewed by anyone",
+     "Port-forwarded RDP left open from a previous support arrangement"
+    ],
+    "remediation_steps": [
+     "Draw and date a network diagram that marks the CUI enclave, every boundary device and every external connection.",
+     "Set the perimeter firewall to deny inbound by default and remove any port forwards you cannot justify in writing.",
+     "Separate guest Wi-Fi, IoT/cameras and shop-floor devices onto VLANs with explicit rules to the CUI enclave.",
+     "Enable logging on all boundary rules and forward the logs to a collector retained for at least 90 days.",
+     "Assign a named person to review boundary logs weekly and record the review.",
+     "Enable and enforce the host firewall on every endpoint so internal boundaries are protected too."
+    ]
+   }
+  },
+  "3.13.2": {
+   "name": "Security Engineering",
+   "nist_800_53": [
+    "SA-8",
+    "SC-7",
+    "PL-8"
+   ],
+   "weight_claimed": 5,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "Apply architectural and engineering principles when you design or change the system, rather than bolting security on afterwards. For a small shop this means having written design principles you actually follow: least privilege, defence in depth, segmentation, secure defaults, and a rule that changes are reviewed for security before they go in.",
+    "machine_shop_example": "The shop's four-page system security architecture document states its principles: CUI stays in the enclave, no CUI on personal devices, admin work is done from a separate admin account, every new system is hardened against a CIS benchmark before it is connected, and every change goes through the MSP's change ticket with a security note. When the owner wanted a new quoting app, the MSP documented where its data lives and confirmed it holds no CUI before installing it.",
+    "typical_evidence": [
+     "System security architecture or design-principles document",
+     "Change-management procedure requiring a security review step",
+     "Hardening standard or benchmark used for new builds (CIS, DISA STIG, vendor baseline)",
+     "Sample change tickets showing the security review was performed",
+     "Architecture review notes from the last significant system change"
+    ],
+    "common_gaps": [
+     "Security decisions made ad hoc by whoever installs the system",
+     "No written principles, so an assessor has nothing to examine",
+     "New machines joined to the network without hardening",
+     "Changes made directly on production with no record"
+    ],
+    "remediation_steps": [
+     "Write a short system security architecture document stating your principles and the CUI boundary.",
+     "Adopt a published hardening baseline and record which benchmark and version you use.",
+     "Add a mandatory security-impact question to your change ticket template.",
+     "Build new endpoints from the hardened image, then verify with an automated check before release.",
+     "Review the architecture document annually and after any significant change, and date the review."
+    ]
+   }
+  },
+  "3.13.3": {
+   "name": "Role Separation",
+   "nist_800_53": [
+    "SC-2"
+   ],
+   "weight_claimed": 1,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "Keep user-facing functionality separate from system management functionality so ordinary users never see or reach administrative interfaces. In practice: administrators use separate admin accounts, management consoles are not published to normal users, and servers do not double as workstations.",
+    "machine_shop_example": "The IT person signs in day to day as jsmith and only uses jsmith-adm to open the firewall console, the RMM portal and the file server. The server runs no user applications and nobody browses the web from it. The ERP's admin module is restricted to a role that only two people hold.",
+    "typical_evidence": [
+     "Account list showing separate administrative accounts",
+     "Role/permission export from the ERP, RMM or file server showing management roles restricted",
+     "Screenshot showing management consoles reachable only from admin workstations or accounts",
+     "Policy statement requiring separate admin credentials"
+    ],
+    "common_gaps": [
+     "One account used for both email and firewall administration",
+     "Server used as a general-purpose desktop",
+     "Management web interfaces reachable from any workstation on the LAN"
+    ],
+    "remediation_steps": [
+     "Create a separate administrative account for every person who administers systems.",
+     "Remove day-to-day users from administrative roles in the ERP, RMM and cloud tenants.",
+     "Restrict management consoles by IP, VLAN or conditional access so only admin systems reach them.",
+     "Stop using servers as workstations; install no user productivity software on them.",
+     "Verify separation at least annually as part of the access review."
+    ]
+   }
+  },
+  "3.13.4": {
+   "name": "Shared Resource Control",
+   "nist_800_53": [
+    "SC-4"
+   ],
+   "weight_claimed": 1,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "Make sure information does not leak from one user or process to another through shared resources such as memory, temporary files, clipboards or reused disk space. On modern operating systems this is largely inherited from the platform, but you must confirm it is enabled and not defeated by shared profiles or shared scratch folders.",
+    "machine_shop_example": "All PCs run a current, supported Windows build with default memory and object protections intact, users have separate profiles, and the shared 'scratch' folder on the file server was removed in favour of per-user folders. The CNC controllers' shared program directory is read-only to operators and cleared between jobs, so one customer's drawing cannot be picked up by the next operator.",
+    "typical_evidence": [
+     "Evidence that systems run supported OS versions with default protections (Bulwark check os.patch.os_supported)",
+     "File server permission export showing per-user home folders instead of a shared scratch area",
+     "Procedure for clearing temporary job files on shared shop-floor systems",
+     "Screenshot of user profile separation on a shared-use workstation"
+    ],
+    "common_gaps": [
+     "A shared 'transfer' or 'scratch' folder everyone can read and write",
+     "Shared local accounts on shop-floor PCs so profiles and temp files are common",
+     "End-of-life operating systems where platform protections are no longer patched"
+    ],
+    "remediation_steps": [
+     "Remove open shared folders and replace them with per-user or per-project folders with explicit permissions.",
+     "Give every operator an individual account on shared-use machines.",
+     "Keep operating systems on supported, patched releases.",
+     "Document a routine for clearing temporary job files from shop-floor systems between jobs.",
+     "Disable clipboard and drive redirection in remote sessions unless there is a documented need."
+    ]
+   }
+  },
+  "3.13.5": {
+   "name": "Public-Access System Separation",
+   "nist_800_53": [
+    "SC-7(3)",
+    "SC-7"
+   ],
+   "weight_claimed": 5,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "Anything the public can reach must sit on a separate, isolated subnetwork, not inside the network that holds CUI. For most shops that means the website and any customer portal are hosted externally, and guest Wi-Fi is on its own VLAN with no route into the enclave.",
+    "machine_shop_example": "The company website and RFQ portal are hosted by a third party outside the shop's network. Guest Wi-Fi for visiting customers is a separate SSID on its own VLAN with client isolation and a firewall rule that permits internet only. The DMZ VLAN that once hosted an FTP drop was retired when file exchange moved to the GCC High tenant.",
+    "typical_evidence": [
+     "Network diagram showing publicly accessible components outside the CUI enclave or in a DMZ",
+     "Firewall rules proving no route from the guest/DMZ VLAN to the CUI enclave",
+     "Hosting contract or DNS records showing the website is externally hosted",
+     "Wireless controller configuration showing guest SSID isolation"
+    ],
+    "common_gaps": [
+     "Guest Wi-Fi bridged onto the main LAN",
+     "A web server or file-drop hosted on the same subnet as engineering PCs",
+     "Firewall rules that allow the DMZ to initiate connections into the enclave"
+    ],
+    "remediation_steps": [
+     "Move any publicly reachable service off the CUI network, ideally to an external host.",
+     "Put guest and visitor wireless on a dedicated VLAN with client isolation and internet-only rules.",
+     "Write explicit deny rules from public segments to the CUI enclave and log them.",
+     "Retire legacy public services such as FTP drops in favour of the cloud tenant.",
+     "Re-test the isolation after any firewall or wireless change."
+    ]
+   }
+  },
+  "3.13.6": {
+   "name": "Network Communication by Exception",
+   "nist_800_53": [
+    "SC-7(5)"
+   ],
+   "weight_claimed": 5,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "Network traffic must be denied by default and allowed only by explicit exception, at the perimeter and on the hosts. Every allowed flow should be justified and documented.",
+    "machine_shop_example": "The firewall's inbound policy is deny-all with a short, documented list of exceptions (VPN and nothing else), and outbound is restricted to the categories the shop needs, with the CNC VLAN allowed to reach only the file server and the vendor update host. Windows Defender Firewall is enforced by Group Policy on every endpoint with inbound default-block, and the rule list is exported quarterly.",
+    "typical_evidence": [
+     "Firewall rule base export showing default-deny with an explicit allow list",
+     "Documented justification for each inbound and outbound exception",
+     "Group Policy or MDM setting enforcing host firewall default-block inbound (Bulwark check os.firewall.default_inbound_block)",
+     "Quarterly rule review record with sign-off"
+    ],
+    "common_gaps": [
+     "Any-any outbound rules and stale allow rules for systems that no longer exist",
+     "Host firewalls turned off during troubleshooting and never turned back on",
+     "Exceptions added by phone with no ticket or justification"
+    ],
+    "remediation_steps": [
+     "Set the perimeter firewall's default inbound and outbound actions to deny, then add only justified rules.",
+     "Enforce the host firewall by policy so users cannot disable it, with inbound default-block.",
+     "Document the business justification and owner for every exception.",
+     "Review the rule base quarterly and remove anything unjustified or unused.",
+     "Alert on host-firewall state changes through the RMM."
+    ]
+   }
+  },
+  "3.13.7": {
+   "name": "Split Tunneling",
+   "nist_800_53": [
+    "SC-7(7)"
+   ],
+   "weight_claimed": 1,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "When a remote device is connected to your network, it must not simultaneously route traffic to other networks, unless the remote endpoint is under your control and the configuration is documented. The point is to stop a laptop becoming a bridge between the internet and your CUI network.",
+    "machine_shop_example": "The firewall's VPN profile pushes a full-tunnel configuration: while the estimator's laptop is on the VPN all traffic goes through the shop's firewall and is inspected, and the client blocks local LAN access. The setting is locked in the VPN client profile so a user cannot switch it off.",
+    "typical_evidence": [
+     "VPN profile or client configuration showing split tunneling disabled (full tunnel)",
+     "Screenshot of the VPN client settings locked against user modification",
+     "Remote access policy statement prohibiting split tunneling",
+     "Firewall documentation of the remote-access configuration"
+    ],
+    "common_gaps": [
+     "Default split-tunnel VPN profiles left in place for performance reasons",
+     "Users able to edit the VPN client profile",
+     "Personal devices connecting to the VPN with no control over local routing"
+    ],
+    "remediation_steps": [
+     "Configure the VPN to full-tunnel and disable local LAN access in the client profile.",
+     "Lock the profile so users cannot change the tunnel mode.",
+     "State the requirement in the remote access policy and in user training.",
+     "Test from a remote laptop that traffic exits through the shop's firewall.",
+     "If a business need requires split tunneling, document the exception, the compensating controls and the approval."
+    ]
+   }
+  },
+  "3.13.8": {
+   "name": "Data in Transit",
+   "nist_800_53": [
+    "SC-8",
+    "SC-8(1)"
+   ],
+   "weight_claimed": 3,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "CUI must be encrypted whenever it moves over a network, unless an alternative physical safeguard protects it. Email, file transfer, remote access, wireless and management sessions all count. Identify which mechanism protects each path.",
+    "machine_shop_example": "CUI travels only over TLS 1.2 or better: SharePoint and Outlook in GCC High, SMB 3 with encryption enabled on the file server share, SFTP for the one customer who still needs it, and the IPsec VPN for remote work. Legacy SSL/TLS versions are disabled on servers and endpoints, and the old unencrypted FTP transfer to a vendor was replaced with a GCC High sharing link.",
+    "typical_evidence": [
+     "List of CUI transmission paths and the encryption protecting each one",
+     "Server/endpoint TLS configuration showing legacy protocols disabled (Bulwark check os.crypto.legacy_tls_disabled)",
+     "SMB signing and encryption settings on the file server",
+     "Email encryption configuration or S/MIME certificates",
+     "Screenshot of SFTP or portal transfer replacing plain FTP"
+    ],
+    "common_gaps": [
+     "CUI drawings emailed as plain attachments to personal addresses",
+     "Plain FTP or HTTP transfers to customers or vendors",
+     "TLS 1.0/1.1 still enabled on the file server or ERP",
+     "Wireless using WPA2-Personal with a shared key posted in the shop"
+    ],
+    "remediation_steps": [
+     "Inventory every path CUI takes across a network and note the encryption in use.",
+     "Disable SSL 2.0/3.0 and TLS 1.0/1.1 on servers, endpoints and network devices.",
+     "Enable SMB signing and encryption on shares holding CUI.",
+     "Replace plain FTP/HTTP transfers with SFTP, HTTPS or a cloud sharing link.",
+     "Move CUI email to the GCC High tenant and train staff never to send CUI to personal addresses.",
+     "Move wireless to WPA2/WPA3-Enterprise with 802.1X."
+    ]
+   }
+  },
+  "3.13.9": {
+   "name": "Connections Termination",
+   "nist_800_53": [
+    "SC-10"
+   ],
+   "weight_claimed": 1,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "Network connections must be torn down when a session ends or after a defined period of inactivity, so an abandoned session cannot be reused.",
+    "machine_shop_example": "The VPN drops idle sessions after 30 minutes and forces reauthentication every 8 hours. RDP sessions to the file server disconnect after 15 minutes idle and are logged off after an hour. SSH on the Linux backup host uses ClientAliveInterval so dead sessions close automatically.",
+    "typical_evidence": [
+     "VPN configuration showing idle and maximum session timeouts",
+     "Group Policy settings for Remote Desktop idle/disconnect limits (Bulwark check os.session.idle_timeout)",
+     "SSH server configuration with ClientAlive settings",
+     "Session termination settings in the ERP or cloud tenant"
+    ],
+    "common_gaps": [
+     "VPN sessions that stay up for days",
+     "RDP sessions left disconnected but active indefinitely",
+     "Cloud sessions with very long refresh-token lifetimes"
+    ],
+    "remediation_steps": [
+     "Set an idle timeout of 30 minutes or less and a maximum session lifetime on the VPN.",
+     "Configure Remote Desktop idle-session and disconnected-session limits by policy.",
+     "Set ClientAliveInterval and ClientAliveCountMax on any SSH service.",
+     "Tune cloud session lifetimes and require reauthentication for risky sign-ins.",
+     "Verify the settings from a test session and record the result."
+    ]
+   }
+  },
+  "3.13.10": {
+   "name": "Key Management",
+   "nist_800_53": [
+    "SC-12"
+   ],
+   "weight_claimed": 1,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "Cryptographic keys and certificates used in the system must be generated, stored, distributed, rotated and destroyed under a documented process. This includes BitLocker recovery keys, VPN certificates, SSH keys and TLS certificates.",
+    "machine_shop_example": "BitLocker recovery keys escrow automatically into Entra ID and only the two admins can read them. VPN certificates are issued from the firewall's internal CA with a two-year life and revoked the day an employee leaves. TLS certificates for the ERP renew automatically with monitoring 30 days out, and the one SSH key pair for the backup job is stored in the password manager with a documented rotation date.",
+    "typical_evidence": [
+     "Key management procedure covering generation, storage, distribution, rotation and destruction",
+     "BitLocker/FileVault recovery key escrow configuration and access restriction",
+     "Certificate inventory with issue and expiry dates and owners",
+     "Revocation record for a departed employee's certificate",
+     "Password manager or HSM record showing where private keys live"
+    ],
+    "common_gaps": [
+     "Recovery keys stored in a spreadsheet on the file server",
+     "Certificates that expire unnoticed and are reissued in a panic",
+     "Shared SSH keys with no owner and no rotation",
+     "No revocation step in the offboarding checklist"
+    ],
+    "remediation_steps": [
+     "Write a one-page key management procedure covering every key type you use.",
+     "Escrow disk-encryption recovery keys to Entra ID, Intune or an equivalent protected store.",
+     "Build a certificate inventory with expiry dates and set renewal alerts.",
+     "Add certificate and key revocation to the offboarding checklist.",
+     "Store private keys and recovery keys in a password manager with restricted access and audit logging."
+    ]
+   }
+  },
+  "3.13.11": {
+   "name": "CUI Encryption",
+   "nist_800_53": [
+    "SC-13"
+   ],
+   "weight_claimed": 5,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "Where you use cryptography to protect the confidentiality of CUI, it must be FIPS-validated: the module must appear on the NIST Cryptographic Module Validation Program list and be operated in its validated (FIPS) mode. Merely 'using AES-256' is not enough; the module and its configuration matter. This requirement carries partial credit in DoD scoring: if encryption is used but is not FIPS-validated, 3 points are deducted instead of 5.",
+    "machine_shop_example": "The shop runs BitLocker with the Windows cryptographic modules in FIPS mode (the Group Policy 'System cryptography: Use FIPS compliant algorithms' is enabled and the CMVP certificate numbers for the Windows build are recorded), uses GCC High whose services are FIPS-validated, and its firewall VPN runs in FIPS mode with the vendor's certificate number written into the SSP. The certificate numbers and validated versions are listed in an appendix so an assessor can check them.",
+    "typical_evidence": [
+     "Table of every cryptographic module protecting CUI with its CMVP certificate number and validated version",
+     "Group Policy or configuration evidence that FIPS mode is enabled (Bulwark check os.crypto.fips_mode)",
+     "Vendor documentation or FedRAMP package confirming FIPS-validated modules",
+     "BitLocker/FileVault status output",
+     "Firewall/VPN configuration showing FIPS mode enabled"
+    ],
+    "common_gaps": [
+     "Using encryption that is strong but not FIPS-validated, or validated but not run in FIPS mode",
+     "No record of CMVP certificate numbers, so the claim cannot be verified",
+     "Consumer cloud storage or zip encryption used for CUI",
+     "Assuming 'AES-256' on a NAS or CNC controller is FIPS-validated"
+    ],
+    "remediation_steps": [
+     "List every place cryptography protects CUI: disks, file transfer, email, VPN, backups, removable media.",
+     "For each, find the CMVP certificate number for the exact module and version, and record it.",
+     "Enable FIPS mode where the platform supports it and confirm the application still works.",
+     "Replace any mechanism you cannot tie to a CMVP certificate with one you can.",
+     "Keep the module table current when you upgrade operating systems or appliances.",
+     "If a gap remains, record it on the POA&M: partial implementation deducts 3 points instead of 5."
+    ]
+   }
+  },
+  "3.13.12": {
+   "name": "Collaborative Device Control",
+   "nist_800_53": [
+    "SC-15"
+   ],
+   "weight_claimed": 1,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "Cameras and microphones on devices in the CUI environment must not activate remotely without the user knowing, and users must be able to tell when they are on. Indication and control matter more than banning the devices.",
+    "machine_shop_example": "Laptops keep their camera indicator lights enabled, Teams shows an in-call indicator, and privacy shutters were issued for the two conference-room laptops. Policy forbids leaving a meeting connected in an unattended room, and the shop-floor tablet has its microphone disabled in device settings because nothing needs it.",
+    "typical_evidence": [
+     "Policy statement covering cameras, microphones and collaborative devices",
+     "Device settings or MDM profile disabling unused cameras/microphones",
+     "Photograph or purchase record of privacy shutters",
+     "User training material covering meeting etiquette in areas where CUI is discussed"
+    ],
+    "common_gaps": [
+     "Conference-room systems that can be joined remotely without local indication",
+     "Smart speakers or assistants in areas where CUI is discussed",
+     "No policy at all, so there is nothing for an assessor to examine"
+    ],
+    "remediation_steps": [
+     "Write a short policy on collaborative computing devices in CUI areas.",
+     "Disable cameras and microphones that serve no business purpose through MDM or device settings.",
+     "Ensure indicators are enabled and issue privacy shutters where useful.",
+     "Remove consumer voice assistants from areas where CUI is discussed.",
+     "Cover the rules in annual awareness training."
+    ]
+   }
+  },
+  "3.13.13": {
+   "name": "Mobile Code",
+   "nist_800_53": [
+    "SC-18"
+   ],
+   "weight_claimed": 1,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "Mobile code such as JavaScript, ActiveX, macros, Java applets and scripts must be controlled: decide what is allowed, and enforce it.",
+    "machine_shop_example": "Office macros from the internet are blocked by policy and only macros signed by the shop's certificate run; the two legacy Excel quoting workbooks were signed after review. Browsers run with default script protections, Java was uninstalled from every PC, and PowerShell runs in Constrained Language Mode for standard users with script block logging on.",
+    "typical_evidence": [
+     "Policy defining which mobile code is permitted and how it is approved",
+     "Group Policy or Intune settings blocking internet-sourced macros",
+     "Evidence that unused runtimes (Java, Flash, ActiveX) are removed (Bulwark check os.inventory.software)",
+     "Code-signing certificate and the list of signed internal macros",
+     "PowerShell logging configuration (Bulwark check os.audit.powershell_logging)"
+    ],
+    "common_gaps": [
+     "Macros enabled globally because one old spreadsheet needs them",
+     "Java or other legacy runtimes left installed and unpatched",
+     "No definition of acceptable mobile code, so nothing can be enforced"
+    ],
+    "remediation_steps": [
+     "Write a short acceptable-mobile-code statement covering macros, scripts and browser code.",
+     "Block macros in files from the internet and require signed macros for internal ones.",
+     "Uninstall unused runtimes and browser plug-ins.",
+     "Enable PowerShell script block logging and constrained language for standard users.",
+     "Review the exception list annually."
+    ]
+   }
+  },
+  "3.13.14": {
+   "name": "Voice over Internet Protocol",
+   "nist_800_53": [
+    "SC-19"
+   ],
+   "weight_claimed": 1,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "If you use VoIP, decide how it must be configured and used, and monitor it, because phone systems sit on the same network as everything else.",
+    "machine_shop_example": "The hosted VoIP service is on its own VLAN, the admin portal uses MFA, default handset passwords were changed, SIP is restricted to the provider's addresses at the firewall, and call detail records are reviewed monthly for unexpected international calls. If VoIP were not in use, the SSP would say so and the requirement would be marked not applicable with that justification.",
+    "typical_evidence": [
+     "VoIP usage policy and configuration standard",
+     "VLAN and firewall rules restricting SIP traffic",
+     "Evidence that default handset and portal credentials were changed",
+     "Monthly call-record review notes",
+     "If not applicable: an SSP statement that no VoIP is used"
+    ],
+    "common_gaps": [
+     "Handsets left on default passwords",
+     "SIP open to the internet, leading to toll fraud",
+     "VoIP admin portal without MFA",
+     "Marking the requirement not applicable while a softphone is in daily use"
+    ],
+    "remediation_steps": [
+     "Confirm whether VoIP or softphones are in use anywhere, including in the ERP or Teams.",
+     "Put voice traffic on its own VLAN and restrict SIP to the provider's addresses.",
+     "Change default credentials and enable MFA on the provider portal.",
+     "Review call records monthly for anomalies.",
+     "If genuinely unused, record the not-applicable justification in the SSP."
+    ]
+   }
+  },
+  "3.13.15": {
+   "name": "Communications Authenticity",
+   "nist_800_53": [
+    "SC-23"
+   ],
+   "weight_claimed": 5,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "Protect the authenticity of communication sessions, so a session cannot be hijacked or spoofed. This is delivered by the protocols you choose: TLS with valid certificates, SMB signing, IPsec, DNSSEC where available, and session management that resists replay.",
+    "machine_shop_example": "All internal file access uses SMB signing (required on both client and server), web applications use TLS 1.2+ with certificates from a trusted CA, the VPN uses IKEv2 with certificate authentication, and email authentication is enforced with SPF, DKIM and DMARC so spoofed messages are rejected.",
+    "typical_evidence": [
+     "SMB signing configuration on servers and clients (Bulwark check os.crypto.smb_signing)",
+     "TLS configuration and certificate details for internal applications",
+     "VPN configuration showing certificate-based authentication",
+     "SPF, DKIM and DMARC DNS records and the DMARC report summary",
+     "Evidence that legacy protocols are disabled"
+    ],
+    "common_gaps": [
+     "SMB signing left optional so downgrade attacks are possible",
+     "Self-signed or expired certificates that train users to click through warnings",
+     "No DMARC policy, so the shop's domain can be spoofed",
+     "Pre-shared key VPNs shared among all users"
+    ],
+    "remediation_steps": [
+     "Require SMB signing on servers and workstations by policy.",
+     "Replace self-signed certificates with ones from a trusted CA and monitor expiry.",
+     "Move VPN authentication to certificates or EAP-TLS rather than shared keys.",
+     "Publish SPF, DKIM and DMARC records and move DMARC to quarantine or reject.",
+     "Disable legacy authentication protocols in the cloud tenant."
+    ]
+   }
+  },
+  "3.13.16": {
+   "name": "Data at Rest",
+   "nist_800_53": [
+    "SC-28"
+   ],
+   "weight_claimed": 1,
+   "weight_sources": [
+    "NIST SP 800-171 DoD Assessment Methodology v1.2.1 Annex A",
+    "32 CFR 170.24"
+   ],
+   "guidance": {
+    "summary": "CUI stored on any device or medium must be protected, normally with encryption. That covers laptops, desktops, servers, backups, removable drives and mobile devices.",
+    "machine_shop_example": "Every PC and laptop has BitLocker on with recovery keys escrowed to Entra ID, the file server's CUI volume is encrypted, backups are encrypted both in transit and at rest with keys held by the shop, and the two USB drives used for CNC program transfer are hardware-encrypted and inventoried. The CNC controllers, which cannot support encryption, hold no CUI at rest: programs are deleted at the end of each job under a documented procedure.",
+    "typical_evidence": [
+     "Disk encryption status for every endpoint and server (Bulwark check os.disk.encryption)",
+     "Backup encryption configuration and key custody record",
+     "Inventory of encrypted removable media",
+     "Documented compensating procedure for devices that cannot be encrypted",
+     "Cloud tenant encryption-at-rest documentation"
+    ],
+    "common_gaps": [
+     "Servers left unencrypted because they are 'physically secure'",
+     "Backup drives taken home unencrypted",
+     "CUI copied to unencrypted USB sticks for the shop floor",
+     "Legacy equipment holding drawings with no compensating control"
+    ],
+    "remediation_steps": [
+     "Enable full-disk encryption on every endpoint and server and escrow the recovery keys.",
+     "Turn on encryption for backups and confirm you hold the keys.",
+     "Issue hardware-encrypted USB drives and inventory them; block all others.",
+     "For equipment that cannot encrypt, document the compensating controls and a deletion routine.",
+     "Verify encryption status continuously and treat any unencrypted device as a finding."
+    ]
+   }
+  }
+ }
+}

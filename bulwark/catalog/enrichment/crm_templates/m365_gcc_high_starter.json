@@ -1,0 +1,779 @@
+{
+ "id": "m365_gcc_high_starter",
+ "name": "Microsoft 365 GCC High (starter template)",
+ "provider_kind": "csp",
+ "description": "Starting split for a small supplier using Microsoft 365 GCC High (Entra ID, Exchange Online, SharePoint/OneDrive, Teams, Intune, Defender and Purview) as the CUI environment, with endpoints managed by Intune.",
+ "disclaimer": "This is a starting point only, not Microsoft's own matrix. Reconcile every row against Microsoft's current CMMC and NIST SP 800-171 customer responsibility documentation for your licensing and services, and remember that inheritance applies only where the GCC High authorization boundary actually covers the CUI. On-premises endpoints, shop-floor equipment, paper and people are never covered by the tenant.",
+ "rows": [
+  {
+   "control_id": "3.1.1",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.2",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.3",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.4",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.5",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.6",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.7",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.8",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.9",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.10",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.11",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.12",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.13",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.14",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.15",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.16",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.17",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.18",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.19",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID accounts, groups, Conditional Access and role assignments) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.20",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.21",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.22",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.2.1",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.2.2",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.2.3",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.1",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (the unified audit log and Purview audit retention) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.2",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (the unified audit log and Purview audit retention) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.3",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (the unified audit log and Purview audit retention) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.4",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (the unified audit log and Purview audit retention) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.5",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (the unified audit log and Purview audit retention) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.6",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (the unified audit log and Purview audit retention) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.7",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (the unified audit log and Purview audit retention) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.8",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (the unified audit log and Purview audit retention) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.9",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (the unified audit log and Purview audit retention) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.1",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Intune configuration profiles, baselines and app control) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.2",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Intune configuration profiles, baselines and app control) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.3",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Intune configuration profiles, baselines and app control) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.4",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Intune configuration profiles, baselines and app control) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.5",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Intune configuration profiles, baselines and app control) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.6",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Intune configuration profiles, baselines and app control) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.7",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Intune configuration profiles, baselines and app control) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.8",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Intune configuration profiles, baselines and app control) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.9",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Intune configuration profiles, baselines and app control) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.1",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID authentication, MFA and password protection) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.2",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID authentication, MFA and password protection) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.3",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID authentication, MFA and password protection) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.4",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID authentication, MFA and password protection) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.5",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID authentication, MFA and password protection) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.6",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID authentication, MFA and password protection) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.7",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID authentication, MFA and password protection) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.8",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID authentication, MFA and password protection) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.9",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID authentication, MFA and password protection) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.10",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID authentication, MFA and password protection) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.11",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Entra ID authentication, MFA and password protection) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.6.1",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Defender incident alerts and the tenant's incident data) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.6.2",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Defender incident alerts and the tenant's incident data) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.6.3",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.7.1",
+   "model": "provider",
+   "provider_responsibility": "Microsoft operates this control for the GCC High service (Microsoft's own datacenter maintenance) inside its FedRAMP High / DoD SRG IL4-5 authorization boundary.",
+   "customer_responsibility": "Confirm the control is covered by Microsoft's current GCC High authorization, record the inheritance and the source document in the SSP, and re-verify annually.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.7.2",
+   "model": "provider",
+   "provider_responsibility": "Microsoft operates this control for the GCC High service (Microsoft's own datacenter maintenance) inside its FedRAMP High / DoD SRG IL4-5 authorization boundary.",
+   "customer_responsibility": "Confirm the control is covered by Microsoft's current GCC High authorization, record the inheritance and the source document in the SSP, and re-verify annually.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.7.3",
+   "model": "provider",
+   "provider_responsibility": "Microsoft operates this control for the GCC High service (Microsoft's own datacenter maintenance) inside its FedRAMP High / DoD SRG IL4-5 authorization boundary.",
+   "customer_responsibility": "Confirm the control is covered by Microsoft's current GCC High authorization, record the inheritance and the source document in the SSP, and re-verify annually.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.7.4",
+   "model": "provider",
+   "provider_responsibility": "Microsoft operates this control for the GCC High service (Microsoft's own datacenter maintenance) inside its FedRAMP High / DoD SRG IL4-5 authorization boundary.",
+   "customer_responsibility": "Confirm the control is covered by Microsoft's current GCC High authorization, record the inheritance and the source document in the SSP, and re-verify annually.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.7.5",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Microsoft's own datacenter maintenance) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.7.6",
+   "model": "provider",
+   "provider_responsibility": "Microsoft operates this control for the GCC High service (Microsoft's own datacenter maintenance) inside its FedRAMP High / DoD SRG IL4-5 authorization boundary.",
+   "customer_responsibility": "Confirm the control is covered by Microsoft's current GCC High authorization, record the inheritance and the source document in the SSP, and re-verify annually.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.8.1",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Purview information protection, retention and disposal of tenant data) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.2",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Purview information protection, retention and disposal of tenant data) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.3",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Purview information protection, retention and disposal of tenant data) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.4",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.5",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.6",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Purview information protection, retention and disposal of tenant data) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.7",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.8",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.9",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Purview information protection, retention and disposal of tenant data) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.9.1",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.9.2",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.10.1",
+   "model": "provider",
+   "provider_responsibility": "Microsoft operates this control for the GCC High service (Microsoft datacenter physical security) inside its FedRAMP High / DoD SRG IL4-5 authorization boundary.",
+   "customer_responsibility": "Confirm the control is covered by Microsoft's current GCC High authorization, record the inheritance and the source document in the SSP, and re-verify annually.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.10.2",
+   "model": "provider",
+   "provider_responsibility": "Microsoft operates this control for the GCC High service (Microsoft datacenter physical security) inside its FedRAMP High / DoD SRG IL4-5 authorization boundary.",
+   "customer_responsibility": "Confirm the control is covered by Microsoft's current GCC High authorization, record the inheritance and the source document in the SSP, and re-verify annually.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.10.3",
+   "model": "provider",
+   "provider_responsibility": "Microsoft operates this control for the GCC High service (Microsoft datacenter physical security) inside its FedRAMP High / DoD SRG IL4-5 authorization boundary.",
+   "customer_responsibility": "Confirm the control is covered by Microsoft's current GCC High authorization, record the inheritance and the source document in the SSP, and re-verify annually.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.10.4",
+   "model": "provider",
+   "provider_responsibility": "Microsoft operates this control for the GCC High service (Microsoft datacenter physical security) inside its FedRAMP High / DoD SRG IL4-5 authorization boundary.",
+   "customer_responsibility": "Confirm the control is covered by Microsoft's current GCC High authorization, record the inheritance and the source document in the SSP, and re-verify annually.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.10.5",
+   "model": "provider",
+   "provider_responsibility": "Microsoft operates this control for the GCC High service (Microsoft datacenter physical security) inside its FedRAMP High / DoD SRG IL4-5 authorization boundary.",
+   "customer_responsibility": "Confirm the control is covered by Microsoft's current GCC High authorization, record the inheritance and the source document in the SSP, and re-verify annually.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.10.6",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.11.1",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.11.2",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Secure Score, Defender vulnerability management and tenant risk reporting) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.11.3",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Secure Score, Defender vulnerability management and tenant risk reporting) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.12.1",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.12.2",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.12.3",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (tenant configuration reporting used as assessment input) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.12.4",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.1",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.2",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.3",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.4",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.5",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.6",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.7",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.8",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.9",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.10",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.11",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.12",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.13",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.14",
+   "model": "customer",
+   "provider_responsibility": "Microsoft provides no coverage: this requirement concerns the customer's own people, premises, endpoints or processes.",
+   "customer_responsibility": "Implement, document and evidence this control outside the tenant, covering on-premises systems, shop-floor equipment, people and paper.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.15",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.16",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (service encryption, transport security and tenant network controls) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.1",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Defender for Endpoint/Office protection, alerts and update management) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.2",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Defender for Endpoint/Office protection, alerts and update management) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.3",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Defender for Endpoint/Office protection, alerts and update management) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.4",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Defender for Endpoint/Office protection, alerts and update management) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.5",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Defender for Endpoint/Office protection, alerts and update management) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.6",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Defender for Endpoint/Office protection, alerts and update management) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.7",
+   "model": "shared",
+   "provider_responsibility": "Microsoft provides the capability (Defender for Endpoint/Office protection, alerts and update management) and the audit data; the tenant-side configuration is exposed to the customer.",
+   "customer_responsibility": "Configure the tenant settings (Conditional Access, Intune policies, Purview labels, Defender policies, audit retention), apply them to every in-scope endpoint and account, and export the configuration and reports as evidence.",
+   "inherited": false
+  }
+ ]
+}

@@ -1,0 +1,233 @@
+{
+  "family_id": "3.10",
+  "controls": {
+    "3.10.1": {
+      "name": "Limit Physical Access",
+      "nist_800_53": [
+        "PE-2",
+        "PE-5",
+        "PE-6"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "You need a list of who is allowed into the areas where your systems, equipment (server, network gear, PCs, CNC controllers, printers that output CUI) and CUI work areas are, and you need locks, badges or other controls that keep everyone else out. 'Operating environments' means the rooms and areas themselves - the office, the server closet, the shop floor - not just the boxes. Anyone not on the list is a visitor and is handled under 3.10.3.",
+        "machine_shop_example": "The shop is divided into a public lobby, the office, the shop floor and the server and network closet. Exterior doors are locked and employees use badge fobs; the customer and delivery lobby is separated from the office and shop by a locked door with a buzzer. The server closet has its own keyed lock with keys held only by the IT admin and the owner, and the firewall and switches are inside it. The authorized access list, maintained by the office manager, names every employee and the areas each may enter; the two contract programmers are on it for the office only. Monitors that display CUI face away from the lobby window.",
+        "typical_evidence": [
+          "Physical access policy and the authorized personnel list by area, dated and approved",
+          "Facility diagram showing controlled areas, doors, and where systems and equipment are located",
+          "Badge or fob system user list or key register matching the authorized list",
+          "Photos of locks on the server closet, network cabinet and exterior doors",
+          "Access-control system configuration showing which groups can open which doors",
+          "Record of the last review of the authorized list"
+        ],
+        "common_gaps": [
+          "The server sits under a desk in the open office, or the network switch is in an unlocked utility closet shared with the landlord",
+          "Customers and delivery drivers can walk from the lobby straight onto the shop floor",
+          "No written list of authorized individuals, so the assessor cannot verify who should be inside",
+          "Master keys held by many people, including cleaners and former employees"
+        ],
+        "remediation_steps": [
+          "Map the facility: identify where the server, network equipment, PCs, CNC controllers, printers and CUI work areas are, and define the controlled areas around them.",
+          "Create the authorized access list by area (employees, contractors, MSP), approve it, and tie additions and removals to onboarding and offboarding.",
+          "Physically secure equipment: move the server, firewall and switches into a locked closet or cabinet, lock the office and shop-floor doors from the lobby, and add privacy screens or reorient monitors visible from public areas.",
+          "Issue controlled credentials (badges or fobs, or keyed locks with a key register) so only listed people can open each area, and remove access for anyone not on the list.",
+          "Review the list and the badge or key records quarterly and whenever personnel change."
+        ]
+      }
+    },
+    "3.10.2": {
+      "name": "Monitor Facility",
+      "nist_800_53": [
+        "PE-2",
+        "PE-5",
+        "PE-6"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "Beyond locking doors, you protect and watch the building and the things your systems depend on: power, network cabling and wiring closets, cooling for the server closet, and the internet demarcation point. 'Protected' means physical safeguards such as locks, cabinets, cable routing away from public areas and UPS or surge protection; 'monitored' means you can detect and review intrusion or tampering - an alarm system, cameras, door sensors, environmental alerts - and someone actually reviews what they produce.",
+        "machine_shop_example": "The building has a monitored burglar alarm with door and motion sensors armed after hours, and cameras cover the entrances, the lobby, the shop floor and the server closet door with 90 days of retention. The server closet has a UPS, a temperature sensor that emails IT above 85 F, and a door contact that logs openings to the alarm panel. Network cable runs are in the ceiling, the demarcation box is locked, and the patch panel is inside the locked closet. The office manager reviews alarm events weekly and IT reviews camera footage whenever an alarm or badge anomaly occurs.",
+        "typical_evidence": [
+          "Facility protection description in the SSP or a physical security plan covering doors, closets, cabling, power and environmental controls",
+          "Alarm monitoring contract and sample alarm event reports",
+          "Camera system screenshots showing coverage and retention settings",
+          "Photos of the locked wiring closet, patch panel, demarcation point and UPS",
+          "Environmental monitoring alerts or logs for the server closet",
+          "Record of periodic review of monitoring output (weekly alarm review, incident follow-up)"
+        ],
+        "common_gaps": [
+          "No alarm or cameras, or cameras nobody reviews that overwrite after three days",
+          "Network cabling and switches in a shared landlord closet that other tenants can enter",
+          "The server closet doubles as a storage room and is propped open in summer for cooling",
+          "Support infrastructure (power panel, internet demarcation) outside the controlled area with no lock"
+        ],
+        "remediation_steps": [
+          "Walk the facility and list the support infrastructure: power panels, UPS, cooling for the closet, wiring closets, patch panels, the demarcation point, and any cabling that passes through public or shared areas.",
+          "Protect it: lock wiring closets and the demarcation box, put switches in a locked cabinet, route exposed cabling in conduit, add a UPS and a temperature sensor for the server closet, and remove storage and the door prop.",
+          "Monitor it: install or extend a monitored alarm with door contacts on exterior doors and the server closet, add cameras covering entrances and the closet, set retention to at least 30 to 90 days, and send environmental alerts to IT.",
+          "Assign review duties: alarm events reviewed weekly, camera and door logs reviewed on alarm or badge anomalies, and findings recorded in the ticket system.",
+          "Document the protections and monitoring in the SSP and test the alarm and sensors annually."
+        ]
+      }
+    },
+    "3.10.3": {
+      "name": "Escort Visitors",
+      "nist_800_53": [
+        "PE-3"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "Anyone not on the authorized access list is a visitor: customers, auditors, delivery drivers past the lobby, machine-tool technicians, and MSP staff who are not listed. Visitors must be accompanied by an authorized employee while inside controlled areas, and what they do must be observed so they cannot wander, photograph CUI or connect to equipment.",
+        "machine_shop_example": "Visitors sign in at the lobby, receive a red 'VISITOR - ESCORT REQUIRED' badge and are met by their host, who stays with them for the whole visit; delivery drivers stay in the lobby or the shipping dock, where there is no CUI. A machine-tool technician working on a CNC controller for a full day is assigned the shop supervisor as escort, who logs the work in the maintenance record and watches any USB or laptop connection. Employees are trained to challenge anyone without a badge.",
+        "typical_evidence": [
+          "Visitor policy defining who is a visitor, escort responsibilities and monitoring expectations",
+          "Visitor sign-in log with host or escort name and badge number",
+          "Photos of visitor badges and signage",
+          "Maintenance records showing an escort for vendor technicians",
+          "Training material telling employees to challenge unescorted visitors"
+        ],
+        "common_gaps": [
+          "Vendor technicians and delivery drivers roam the shop floor unaccompanied",
+          "A visitor log exists but the escort column is blank or the escort goes back to their desk",
+          "MSP technicians treated as visitors but never escorted, or treated as employees but never put on the list",
+          "No visitor badge, so employees cannot tell who belongs there"
+        ],
+        "remediation_steps": [
+          "Define visitor and escort rules in the physical security policy, including that vendor and MSP personnel not on the authorized list are visitors.",
+          "Set up the lobby: a sign-in log (paper or tablet), numbered visitor badges, a bell or phone to call the host, and signage stating visitors must be escorted.",
+          "Assign an escort for every visit before the visitor enters a controlled area and require the escort to stay with them, including during long maintenance visits.",
+          "Train all employees to challenge unbadged or unescorted people and to report it.",
+          "Have the office manager spot-check the log against badges weekly and record the check."
+        ]
+      }
+    },
+    "3.10.4": {
+      "name": "Physical Access Logs",
+      "nist_800_53": [
+        "PE-3"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "You keep records of who physically entered the areas where your systems are and when. An electronic badge system does this automatically for employees; if you use keys, you need a documented alternative such as a sign-in sheet for the server closet and after-hours entry. Visitor logs from 3.10.3 are part of this. Logs must be retained long enough to support an investigation (a year is common) and someone should review them.",
+        "machine_shop_example": "The badge system logs every fob use at the exterior doors and the office door and keeps two years of history; IT exports the log monthly to a restricted folder on the file server. The server closet is keyed, so a clipboard inside the door records date, time, name and reason for every entry, and the MSP technician signs it during visits. The lobby visitor log is scanned monthly. The owner reviews the after-hours badge report each month and notes anything odd.",
+        "typical_evidence": [
+          "Badge or access-control system log export covering the assessment period",
+          "Server closet entry log sheets",
+          "Visitor sign-in logs (paper or electronic) with dates, names, host and times in and out",
+          "Log retention statement in the policy and evidence of retained logs (for example 12 months)",
+          "Record of periodic log review"
+        ],
+        "common_gaps": [
+          "Keyed locks with no log at all, so there is no record of who entered",
+          "Badge system logs exist but retention is 30 days and nobody exports them",
+          "Visitor log entries missing time out or host names",
+          "Logs kept but never reviewed and not tied to the incident process"
+        ],
+        "remediation_steps": [
+          "Decide the logging method per area: electronic badge logs for exterior and office doors, a sign-in sheet or door-contact log for the server closet, and the visitor log for the lobby.",
+          "Configure the access-control system to retain at least 12 months of events, or export the log monthly to a protected folder if the panel cannot.",
+          "Put the closet entry log in place and require every entry to be recorded, including MSP and vendor visits.",
+          "Define retention (12 months minimum) and storage (locked cabinet or restricted folder) in the policy.",
+          "Review the after-hours and closet logs monthly, note anomalies, and keep the review record."
+        ]
+      }
+    },
+    "3.10.5": {
+      "name": "Manage Physical Access",
+      "nist_800_53": [
+        "PE-3"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "Physical access devices are keys, badges and fobs, lock combinations and alarm codes. You need an inventory of them (which exist and who holds each), rules for issuing and returning them, and a process to change locks or combinations and deactivate fobs when someone leaves or a device is lost. This is credential management for the building, the same way account management is for the network.",
+        "machine_shop_example": "The office manager keeps a key and fob register: every door key is stamped with a number, each fob's ID and holder is listed, the server closet key is limited to two people, and alarm codes are unique per user. Issue and return are signed on the register and are steps on the onboarding and offboarding checklists. When a fob is reported lost it is deactivated in the badge software the same day; when the shop supervisor left, his alarm code was deleted that day and the exterior locks he had keys to were rekeyed within a week.",
+        "typical_evidence": [
+          "Key, badge and code register showing device ID, area, holder, and issue and return dates",
+          "Badge system export of active credentials matching the register",
+          "Onboarding and offboarding checklist lines for physical access devices",
+          "Records of lost-device deactivation, rekeying or combination changes",
+          "Periodic reconciliation of the register (for example semiannual)"
+        ],
+        "common_gaps": [
+          "Nobody knows how many keys exist or who has them; former employees and the landlord hold masters",
+          "One shared alarm code for the whole company that has never changed",
+          "Fobs of departed employees still active",
+          "The server closet combination written on a sticky note"
+        ],
+        "remediation_steps": [
+          "Inventory every physical access device: keys (by lock), fobs and badges, lock combinations and alarm codes, and identify the holder of each.",
+          "Rekey or reprogram anything whose holders cannot be accounted for and reduce master keys to a minimum.",
+          "Establish the register and an issue and return procedure with signatures, and add the items to onboarding and offboarding checklists (deactivate the fob and code the day someone leaves).",
+          "Use individual alarm codes and fobs rather than shared ones so activity can be attributed to a person.",
+          "Reconcile the register against the badge system and the physical keys semiannually and record the result."
+        ]
+      }
+    },
+    "3.10.6": {
+      "name": "Alternative Work Sites",
+      "nist_800_53": [
+        "PE-17"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "If anyone works with CUI somewhere other than your facility - at home, at a customer site, in a hotel - you must define what protections apply there (which devices, encryption, VPN, screen privacy, no printing, no family access, physical storage) and actually enforce them. If you do not allow CUI work off site, say so in policy and enforce that instead. Either way the assessor wants the written rule and evidence that it holds.",
+        "machine_shop_example": "The shop allows the two owners and the engineering lead to work from home on shop-issued BitLocker-encrypted laptops that connect over VPN with MFA; CUI may only be accessed through the VPN or GCC High, never downloaded to personal devices, never printed at home, and laptops are locked in a cabinet when not in use. Everyone else is prohibited from CUI work off site, and Conditional Access blocks GCC High sign-in from unmanaged devices. The rules are in the telework agreement each of the three signed, and IT checks device compliance in the endpoint-management console monthly.",
+        "typical_evidence": [
+          "Telework or alternate work site policy listing the required safeguards, or a policy prohibiting CUI work off site",
+          "Signed telework agreements for approved remote workers",
+          "Screenshots of technical enforcement: VPN with MFA, Conditional Access or device-compliance policies, BitLocker status, disabled local printing and USB on laptops",
+          "List of approved remote workers and their assigned devices",
+          "Periodic compliance check record"
+        ],
+        "common_gaps": [
+          "Staff read CUI email on personal phones and home PCs with no policy at all",
+          "A policy is written but nothing technical stops CUI from being downloaded to a personal device",
+          "Drawings printed at home that then sit on a kitchen table",
+          "No list of who is even allowed to work remotely"
+        ],
+        "remediation_steps": [
+          "Decide and document whether CUI work is allowed off site; if yes, list the approved people, their devices, and the safeguards (encrypted shop-owned laptop, VPN with MFA, no personal devices, no home printing, locked storage, privacy screen, screen lock after 15 minutes).",
+          "Have each approved remote worker sign a telework agreement that restates the safeguards.",
+          "Enforce technically: Conditional Access or VPN policies that only allow managed, compliant devices; BitLocker; USB and local printers blocked on laptops by Group Policy or Intune; mobile email restricted with app-protection policies.",
+          "Cover customer-site work: what may be carried, on which device, and how it is secured in the hotel or vehicle.",
+          "Check device compliance monthly and remove remote access for anyone who is no longer approved."
+        ]
+      }
+    }
+  }
+}

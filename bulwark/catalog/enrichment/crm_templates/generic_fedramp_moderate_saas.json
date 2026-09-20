@@ -1,0 +1,779 @@
+{
+ "id": "generic_fedramp_moderate_saas",
+ "name": "Generic FedRAMP Moderate (or higher) cloud service",
+ "provider_kind": "csp",
+ "description": "Starting split for a SaaS or IaaS service authorized at FedRAMP Moderate or above that stores or processes CUI. Physical, environmental, maintenance and infrastructure controls sit with the provider; identity, data handling, training and incident coordination stay with or are shared by the customer.",
+ "disclaimer": "Inheritance is only valid where the provider's authorization boundary actually covers the CUI in question at the required impact level. Confirm the authorization on the FedRAMP Marketplace, obtain the provider's Customer Responsibility Matrix, and reconcile every row of this template against it before relying on it in an assessment.",
+ "rows": [
+  {
+   "control_id": "3.1.1",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.2",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.3",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.4",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.5",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.6",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.7",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.8",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.9",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.10",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.11",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.12",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.13",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.14",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.15",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.16",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.17",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.18",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.19",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.20",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.21",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.22",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.2.1",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.2.2",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.2.3",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.1",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.2",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.3",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.4",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.5",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.6",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.7",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.8",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.9",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.1",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.2",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.3",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.4",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.5",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.6",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.7",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.8",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.9",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.1",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.2",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.3",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.4",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.5",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.6",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.7",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.8",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.9",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.10",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.11",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.6.1",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.6.2",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.6.3",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.7.1",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.7.2",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.7.3",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.7.4",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.7.5",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.7.6",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.8.1",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.2",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.3",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.8.4",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.5",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.6",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.7",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.8",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.9",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.9.1",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.9.2",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.10.1",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.10.2",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.10.3",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.10.4",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.10.5",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.10.6",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.11.1",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.11.2",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.11.3",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.12.1",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.12.2",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.12.3",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.12.4",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.1",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.2",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.3",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.13.4",
+   "model": "provider",
+   "provider_responsibility": "Implemented and evidenced by the cloud service provider within its FedRAMP-authorized boundary; covered by the provider's System Security Plan, continuous monitoring and annual assessment.",
+   "customer_responsibility": "The customer verifies the control is covered by the provider's current FedRAMP authorization at the required impact level, records the inheritance in the SSP and re-checks it at least annually and on renewal.",
+   "inherited": true
+  },
+  {
+   "control_id": "3.13.5",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.6",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.7",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.8",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.9",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.10",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.11",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.12",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.13",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.14",
+   "model": "customer",
+   "provider_responsibility": "Outside the provider's authorization boundary; the provider offers no coverage for this requirement.",
+   "customer_responsibility": "The customer implements, documents and evidences this control for its own environment, people and processes.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.15",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.16",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.1",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.2",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.3",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.4",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.5",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.6",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.7",
+   "model": "shared",
+   "provider_responsibility": "The provider supplies and operates the underlying capability inside its authorization boundary and publishes the configuration options and audit data the customer needs.",
+   "customer_responsibility": "The customer configures the tenant-side settings, manages its own users and data, monitors the provider's audit output and evidences the customer-side portion.",
+   "inherited": false
+  }
+ ]
+}

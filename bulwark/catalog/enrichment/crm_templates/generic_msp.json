@@ -1,0 +1,779 @@
+{
+ "id": "generic_msp",
+ "name": "Generic managed service provider (MSP/MSSP)",
+ "provider_kind": "msp",
+ "description": "Typical split when an outsourced IT provider manages endpoints, patching, backups, firewall, monitoring and the helpdesk. The MSP operates the mechanisms; the customer keeps the policy, the people and the records.",
+ "disclaimer": "An MSP is not a FedRAMP-authorized cloud service: nothing here is inherited. The customer remains responsible for every requirement and must verify what the MSP actually does against the signed services agreement. An MSP that handles CUI or provides security protection is itself in scope and may need its own CMMC assessment.",
+ "rows": [
+  {
+   "control_id": "3.1.1",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.2",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.3",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.4",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.5",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.6",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.7",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.8",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.9",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.10",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.11",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.12",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.13",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.14",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.15",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.16",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.17",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.18",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.19",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.20",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.21",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.1.22",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.2.1",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.2.2",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.2.3",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.1",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.2",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.3",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.4",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.5",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.6",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.7",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.8",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.3.9",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.1",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.2",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.3",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.4",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.5",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.6",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.7",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.8",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.4.9",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.1",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.2",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.3",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.4",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.5",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.6",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.7",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.8",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.9",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.10",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.5.11",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.6.1",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.6.2",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.6.3",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.7.1",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.7.2",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.7.3",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.7.4",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.7.5",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.7.6",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.1",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.2",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.3",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.4",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.5",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.6",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.7",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.8",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.8.9",
+   "model": "provider",
+   "provider_responsibility": "The MSP performs this control on the customer's behalf under the managed services agreement and provides reports or console access as evidence.",
+   "customer_responsibility": "The customer defines the requirement, approves the configuration, reviews the MSP's reports at a defined frequency and retains them as evidence. The requirement remains the customer's obligation.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.9.1",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.9.2",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.10.1",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.10.2",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.10.3",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.10.4",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.10.5",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.10.6",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.11.1",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.11.2",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.11.3",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.12.1",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.12.2",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.12.3",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.12.4",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.1",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.2",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.3",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.4",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.5",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.6",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.7",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.8",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.9",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.10",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.11",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.12",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.13",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.14",
+   "model": "customer",
+   "provider_responsibility": "No MSP responsibility. The MSP will advise on request but does not perform or evidence this control.",
+   "customer_responsibility": "The customer implements, documents and evidences this control entirely, including the policy, the procedure and the records.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.15",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.13.16",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.1",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.2",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.3",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.4",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.5",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.6",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  },
+  {
+   "control_id": "3.14.7",
+   "model": "shared",
+   "provider_responsibility": "The MSP configures and operates the technical mechanism (endpoint management, patching, firewall, monitoring or backup) and supplies configuration exports and reports as evidence.",
+   "customer_responsibility": "The customer sets the policy and thresholds, approves exceptions, reviews the MSP's output and retains the evidence in the SSP.",
+   "inherited": false
+  }
+ ]
+}

@@ -1,0 +1,112 @@
+{
+  "family_id": "3.2",
+  "controls": {
+    "3.2.1": {
+      "name": "Role-Based Risk Awareness",
+      "nist_800_53": [
+        "AT-2",
+        "AT-3"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Everyone who touches the systems, from the owner and managers to shop-floor users and the IT admin, must be made aware of the security risks of what they do with CUI (phishing, mishandling drawings, USB use, remote access) and of the shop's own security policies and procedures. That means identifying the risks and the relevant policies, delivering awareness training to all of them, and keeping records.",
+        "machine_shop_example": "The shop delivers a 45-minute security awareness session at hire and annually, built from a short risk list (phishing, CUI marking and handling, USB and printing, remote work, visitors on the floor) and a walk-through of the shop's acceptable use, CUI handling, and incident reporting procedures. The owner and managers attend the same session plus a 10-minute add-on on their approval responsibilities; the IT person and the MSP's technicians complete it too. Sign-in sheets and quiz results are kept, and quarterly phishing simulations reinforce it.",
+        "typical_evidence": [
+          "Training content (slides or module) showing the risks and policies covered",
+          "Written list of identified security risks for CUI activities and the policies and procedures referenced",
+          "Training completion records for all users, managers, and administrators, with dates",
+          "New-hire onboarding checklist with the training step",
+          "Phishing simulation results or awareness reminders (posters, emails)"
+        ],
+        "common_gaps": [
+          "Training was given once years ago and new hires never got it",
+          "The owner, managers, and the MSP skipped it because they are 'not users'",
+          "Generic vendor video with no mention of the shop's own CUI procedures or reporting process"
+        ],
+        "remediation_steps": [
+          "Write a one-page list of the shop's security risks involving CUI and the policies and procedures that address them (acceptable use, CUI handling, media, remote access, incident reporting).",
+          "Build or buy an awareness course and add a shop-specific section covering those risks and procedures; include a short quiz.",
+          "Deliver it to every user, manager, and administrator (including MSP staff who access your systems) within 30 days of hire and annually; track completion in a spreadsheet or LMS.",
+          "Reinforce quarterly with a phishing simulation or a short reminder, and post the incident reporting steps near the shop-floor PCs.",
+          "Review and update the content annually and after any incident."
+        ]
+      }
+    },
+    "3.2.2": {
+      "name": "Role-Based Training",
+      "nist_800_53": [
+        "AT-2",
+        "AT-3"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Define the security duties in the shop (system administration, log review, backup, incident response, CUI handling authority, physical security) and assign each to named people or the MSP. Then make sure those people have training specific to their duties, beyond the general awareness course, and keep proof of it.",
+        "machine_shop_example": "The shop's roles matrix names the IT person as system and security administrator, the MSP as log reviewer and backup operator, the owner as incident response lead and access approver, and the quality manager as CUI custodian. The IT person completed a Windows/Microsoft 365 security administration course and a CMMC practitioner class, the MSP provides certificates for its technicians, and the owner and quality manager completed a 2-hour incident response and CUI handling session. Records are kept with the awareness training records.",
+        "typical_evidence": [
+          "Roles and responsibilities matrix for security duties with named personnel",
+          "Job descriptions or appointment letters referencing the security duties",
+          "Training certificates, course completions, or MSP staff qualifications tied to each role",
+          "Incident response tabletop exercise record for the IR team",
+          "Training plan listing required training per role and its frequency"
+        ],
+        "common_gaps": [
+          "Duties are informal; nobody is officially the log reviewer or the incident lead",
+          "The IT person is self-taught with no record of any role-based training",
+          "MSP qualifications are assumed but never documented"
+        ],
+        "remediation_steps": [
+          "Write the security roles matrix: administrator, log/audit reviewer, backup and restore, incident response lead and team, CUI custodian, physical security, training coordinator; assign each to a named person or the MSP and note backups.",
+          "Define the training each role needs (for example admin: Windows/Microsoft 365 security configuration and logging; IR lead: incident handling and DFARS 7012 reporting; CUI custodian: marking and handling) and the frequency.",
+          "Obtain the training: vendor courses, CMMC/NIST 800-171 practitioner classes, MSP certificates for their staff, and an annual incident response tabletop for the IR team.",
+          "Record completions with dates and keep certificates alongside the awareness records; refresh annually or when roles change."
+        ]
+      }
+    },
+    "3.2.3": {
+      "name": "Insider Threat Awareness",
+      "nist_800_53": [
+        "AT-2(2)"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "List the warning signs of a possible insider threat (someone trying to access data they do not need, unusual copying or downloading, working odd hours without reason, expressed grievances, unexplained wealth, repeated policy violations) and train managers and employees to recognize them and how to report concerns. This is usually a module inside the annual awareness training.",
+        "machine_shop_example": "The shop's awareness course includes a 10-minute insider threat module listing the indicators (unauthorized attempts to access drawings or the ERP, bulk USB copying, disgruntlement, contacts asking unusual questions about parts, sudden financial change) and explains that concerns go to the owner or the IT person confidentially. Managers get an extra slide on behavior changes to watch for on their teams. Completion is tracked with the annual training.",
+        "typical_evidence": [
+          "Written list of insider threat indicators used in training",
+          "Training module content covering recognition and the reporting channel",
+          "Completion records for employees and managers",
+          "Reporting procedure (who to tell, how, confidentiality and non-retaliation)"
+        ],
+        "common_gaps": [
+          "Awareness training covers phishing only; insider threat is never mentioned",
+          "No defined reporting channel, so employees would not know who to tell",
+          "Managers receive the same content as employees with nothing about supervising behavior"
+        ],
+        "remediation_steps": [
+          "Adopt an indicator list (use CISA/DCSA insider threat indicators as a base) tailored to the shop: access attempts outside job need, mass copying or printing of drawings, after-hours anomalies, job dissatisfaction, unexplained foreign contacts or financial changes.",
+          "Add a module to the annual awareness training that covers the indicators and the reporting steps, with a short manager-specific section.",
+          "Define the reporting channel in policy (owner or IT, anonymously if desired) and state that reports are handled confidentially and without retaliation.",
+          "Track completion for all employees and managers and refresh the indicator list annually."
+        ]
+      }
+    }
+  }
+}

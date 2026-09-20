@@ -1,0 +1,233 @@
+{
+  "family_id": "3.7",
+  "controls": {
+    "3.7.1": {
+      "name": "Perform Maintenance",
+      "nist_800_53": [
+        "MA-2",
+        "MA-3",
+        "MA-3(1)",
+        "MA-3(2)"
+      ],
+      "weight_claimed": 3,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "Keep the systems maintained on a defined schedule (OS and application patching, firmware updates, hardware repairs, controller software updates, backup verification) and keep records of what was done, when and by whom. It covers printers, scanners, network gear and the CNC controllers, not just the PCs.",
+        "machine_shop_example": "The shop's maintenance schedule says: OS and third-party patches monthly through the MSP RMM (critical patches within 14 days), firewall and switch firmware quarterly, CNC controller software per vendor bulletin in an agreed production window, server hardware and UPS battery check annually, and a backup restore test quarterly. Each activity is a ticket or an RMM patch report, and the admin reviews the maintenance log with the MSP every quarter.",
+        "typical_evidence": [
+          "Maintenance policy and schedule covering every asset class and who is responsible (shop, MSP, vendor)",
+          "RMM or Intune patch compliance reports for the last several months",
+          "Tickets for firmware updates, hardware repairs and controller software updates",
+          "Vendor maintenance records for the CNC controllers",
+          "Backup verification and restore test records"
+        ],
+        "common_gaps": [
+          "Patching happens 'when convenient' with no records beyond the live RMM dashboard",
+          "CNC controllers are never updated because production cannot stop, with no documented risk decision",
+          "Network equipment firmware years out of date",
+          "Maintenance done by vendors with no record kept at the shop"
+        ],
+        "remediation_steps": [
+          "Write a maintenance schedule listing each asset class, activity, frequency, responsible party and where the record is kept.",
+          "Configure RMM or Intune patch rings with deadlines (for example critical patches within 14 days, all others within 30) and keep the monthly reports.",
+          "Put firmware updates for the firewall, switches, access points, printers and PC BIOS on a quarterly ticket.",
+          "Agree a maintenance window with production for the CNC controllers, log both vendor and internal updates, and document any deferred update with a risk acceptance and compensating control.",
+          "Review the maintenance log quarterly and clear overdue items."
+        ]
+      }
+    },
+    "3.7.2": {
+      "name": "System Maintenance Control",
+      "nist_800_53": [
+        "MA-2",
+        "MA-3",
+        "MA-3(1)",
+        "MA-3(2)"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "Control how maintenance is done: which tools (laptops, USB drives, diagnostic software, remote-support apps) may be used, which techniques (for example remote sessions must use MFA and be logged), which mechanisms (the approved remote-access path, approved media) and which people (named MSP engineers, vendor technicians with escort). Approve them, keep the lists, and check tools before use.",
+        "machine_shop_example": "The maintenance policy lists the approved tools: the MSP's RMM/remote tool, the admin's maintenance laptop, a labelled shop-owned USB drive that is scanned before every use, and the CNC vendor's diagnostic software with its version recorded. Vendor technicians may not plug their own laptops into the CUI network; they use the shop's laptop or a maintenance VLAN with no CUI access. Remote maintenance goes only through the RMM with per-engineer accounts, MFA and session logging. Authorized maintenance personnel are the admin, two named MSP engineers and the machine vendor's named field engineers; anyone else is escorted (3.7.6).",
+        "typical_evidence": [
+          "Maintenance policy and procedure covering tools, techniques, mechanisms and personnel",
+          "Approved maintenance tool list with versions, and the authorized maintenance personnel list",
+          "Maintenance log or tickets recording the person, tool and system for each activity",
+          "RMM or remote-session logs showing MFA and named accounts",
+          "Vendor visit log with escort and equipment brought on site",
+          "Media and tool scan records (3.7.4)"
+        ],
+        "common_gaps": [
+          "Vendor technicians plug personal laptops or USB sticks into the controllers",
+          "Any MSP staff member can remote in using a shared account",
+          "No list of maintenance tools; unknown diagnostic software found on the controllers",
+          "Maintenance performed with no record of who did it or what tool was used"
+        ],
+        "remediation_steps": [
+          "Write the maintenance control procedure: approved tool list, approved remote path (RMM with MFA and session logs), approved media handling, and the authorized personnel list with an escort rule for everyone else.",
+          "Provide shop-owned maintenance equipment (laptop, USB drive) and require vendors to use it or a segregated maintenance VLAN with no CUI access.",
+          "Require named individual accounts, MFA and session logging for MSP engineers, and review the session logs monthly.",
+          "Log every maintenance event as a ticket with person, tool, system and time, including vendor visits and sign-in.",
+          "Inspect or scan tools and media before connection (3.7.4) and review the tool list quarterly."
+        ]
+      }
+    },
+    "3.7.3": {
+      "name": "Equipment Sanitization",
+      "nist_800_53": [
+        "MA-2"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "Before a PC, laptop, server, controller or drive leaves the building for repair, any CUI on it must be removed, normally by pulling and keeping the drive, wiping it per NIST SP 800-88, or crypto-erasing a BitLocker-encrypted drive, and you must record what was done. Printers and copiers with internal storage count too.",
+        "machine_shop_example": "A CAD workstation under warranty needs a motherboard replacement. The admin removes its BitLocker-encrypted SSD, locks it in the server closet, records the chassis and drive serials and the action on the equipment-out form, and ships the chassis without the drive. For a laptop that must go with its drive, the admin performs a documented SP 800-88 purge (or a BitLocker crypto-erase followed by a reinstall) and files the wipe report. Controller repairs are done on site whenever possible; if a controller PC must go out, the program storage drive is removed first.",
+        "typical_evidence": [
+          "Sanitization procedure referencing NIST SP 800-88 methods",
+          "Equipment removal and sanitization log with dates, serials, method and the person responsible",
+          "Wipe tool reports or a record of BitLocker key destruction",
+          "RMA or shipping paperwork showing the drive was removed",
+          "Repair vendor agreement clauses on data handling"
+        ],
+        "common_gaps": [
+          "Laptops sent to a repair shop with the drive intact and BitLocker off",
+          "No record of what left the building",
+          "Controller PCs sent to the machine vendor with part programs (which may be CUI) still on disk",
+          "Copier or printer hard drives returned at lease end without wiping"
+        ],
+        "remediation_steps": [
+          "Write the procedure: identify CUI on the device, choose a method (remove and retain the drive; SP 800-88 clear or purge; crypto-erase for BitLocker-encrypted drives), and record and approve before shipment.",
+          "Enable BitLocker on all PCs and laptops so crypto-erase is possible, with recovery keys escrowed in AD or Entra.",
+          "Create an equipment-out form or log (device, serial, drive serial, CUI assessment, method, date, signature).",
+          "Prefer on-site repair for the controllers and server; if off-site is unavoidable, remove storage first.",
+          "Include printers and copiers with storage in the process and require wipe certificates at lease return."
+        ]
+      }
+    },
+    "3.7.4": {
+      "name": "Media Inspection",
+      "nist_800_53": [
+        "MA-3(2)"
+      ],
+      "weight_claimed": 3,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "Any USB stick, disc or downloaded diagnostic or test tool, whether from the MSP, a CNC vendor or a hardware vendor, must be scanned for malware before it is used on in-scope systems, and the scans must be recorded. If malware is found, it is handled as an incident.",
+        "machine_shop_example": "The shop has a scanning station (a PC with current EDR/AV that is not on the CUI network) where every vendor USB drive is scanned; the result is noted on the vendor visit form. Diagnostic software downloaded by the MSP is scanned on the maintenance laptop and its hash checked against the vendor's published value before it is installed on a controller. USB ports on the controllers and PCs are otherwise blocked, with only the labelled shop drive allowed by device ID.",
+        "typical_evidence": [
+          "Procedure for scanning maintenance media and tools before use, including handling of infected media",
+          "Scan logs from the scanning station or EDR showing vendor media scans",
+          "Vendor visit forms noting media scanned, date and result",
+          "Screenshot of the USB device control policy on the controllers and PCs",
+          "Hash or signature verification records for downloaded diagnostic tools"
+        ],
+        "common_gaps": [
+          "Vendor technicians plug USB drives straight into the controllers",
+          "No scan record even though AV is installed ('it would have caught it')",
+          "Downloaded diagnostic tools installed with no check",
+          "CNC controller with no AV and unrestricted USB ports"
+        ],
+        "remediation_steps": [
+          "Write the procedure: all maintenance media and tools are scanned on a designated station with up-to-date AV/EDR before connection, results are logged, and infected media is handled per the incident response plan.",
+          "Set up the scanning station and a labelled shop-owned USB drive, and require vendors to transfer tools through it.",
+          "Block USB mass storage on the controllers and PCs by default and allow only the approved drive by device ID.",
+          "For downloads, verify the vendor's hash or digital signature and scan before installing.",
+          "Add 'media scanned (Y/N, date, result)' to the vendor visit and maintenance form and review the forms quarterly."
+        ]
+      }
+    },
+    "3.7.5": {
+      "name": "Nonlocal Maintenance",
+      "nist_800_53": [
+        "MA-4"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "When the MSP or a vendor performs maintenance remotely over the Internet, the connection must require MFA and must be closed when the work is done. Always-on vendor tunnels and unattended remote-control agents with static passwords do not meet this.",
+        "machine_shop_example": "The MSP connects through its RMM with per-engineer accounts and MFA enforced; sessions are logged with start and end times and close automatically when the engineer disconnects. The CNC vendor's remote diagnostics use a VPN account that is disabled by default: the admin enables it by ticket for the scheduled window, the vendor authenticates with MFA, and afterwards the admin disables the account and confirms in the firewall that the session is gone. The admin reviews the RMM session report monthly.",
+        "typical_evidence": [
+          "Remote maintenance procedure (MFA required, enable-on-request, termination and verification)",
+          "RMM and VPN configuration screenshots showing MFA enforcement and session timeouts",
+          "Session logs with start and end times and the engineer's name",
+          "Tickets showing vendor access enabled for a window and disabled afterwards",
+          "Firewall rules or VPN account status showing vendor access disabled by default"
+        ],
+        "common_gaps": [
+          "A vendor remote-access tool installed on a controller with a static password and always on",
+          "MSP remote tool with a shared login and no MFA",
+          "Sessions never explicitly ended; unattended access left enabled",
+          "No logs of who connected and when"
+        ],
+        "remediation_steps": [
+          "Inventory every remote maintenance path (MSP RMM, vendor remote tools, VPN accounts, exposed RDP) and remove any that are not approved.",
+          "Require MFA on each remaining path (RMM MFA, VPN with MFA) and forbid standalone remote tools with static passwords.",
+          "Set vendor accounts and tunnels to disabled by default, enable them per ticket for a time-boxed window, disable them afterwards, and configure session idle timeouts.",
+          "Turn on session logging (RMM audit log, VPN log), review it monthly and keep the reports.",
+          "Document the procedure in the maintenance policy and the MSP contract."
+        ]
+      }
+    },
+    "3.7.6": {
+      "name": "Maintenance Personnel",
+      "nist_800_53": [
+        "MA-5"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://support.futurefeed.co/hc/en-us/articles/360059232032-SPRS-NIST-800-171-Scoring",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology"
+      ],
+      "guidance": {
+        "summary": "Anyone doing maintenance who is not an authorized, vetted user of your systems (a machine tool vendor technician, a copier repair person, a one-off contractor) must be escorted and supervised by an authorized person while they work, and what they can see or do should be limited (temporary credentials, CUI off the screens).",
+        "machine_shop_example": "The vendor visit procedure says the IT admin or a designated shop lead signs the technician in, stays with them while they work on a controller or in the server closet, makes sure no CUI drawings are on nearby screens, and signs them out; any temporary account created for the visit is disabled at the end. For remote vendor work the admin watches the session through the RMM's shared view and ends it when the work is done.",
+        "typical_evidence": [
+          "Visitor and maintenance personnel procedure with the supervision requirement",
+          "Visitor log with escort names and times for maintenance visits",
+          "Authorized maintenance personnel list so 'without required access authorization' is clear",
+          "Tickets for temporary credentials issued and revoked",
+          "Records of supervised remote sessions"
+        ],
+        "common_gaps": [
+          "Vendor technician left alone on the shop floor with controllers and network access",
+          "No visitor log for maintenance visits",
+          "Temporary accounts left active after the visit"
+        ],
+        "remediation_steps": [
+          "Define the authorized maintenance personnel (IT admin, named MSP engineers) in policy; everyone else requires supervision.",
+          "Create a vendor visit checklist: sign-in, escort assigned, CUI screens locked, media scanned, temporary credentials issued and revoked, sign-out.",
+          "Train the shop leads who may act as escorts on what supervision means and what to stop.",
+          "For remote vendor work, use a shared-screen session observed by the admin and ended when the work is complete.",
+          "Review the visitor log quarterly for unescorted maintenance visits."
+        ]
+      }
+    }
+  }
+}

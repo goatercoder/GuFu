@@ -1,0 +1,340 @@
+{
+  "family_id": "3.3",
+  "controls": {
+    "3.3.1": {
+      "name": "System Auditing",
+      "nist_800_53": [
+        "AU-2",
+        "AU-3",
+        "AU-3(1)",
+        "AU-6",
+        "AU-11",
+        "AU-12"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Decide which events must be logged across your systems (logons and failures, account and privilege changes, policy changes, file access on CUI shares, firewall and VPN connections, Microsoft 365 activity), what each record must contain (timestamp, user, source, event type, outcome), and how long logs are kept. Then configure the systems to generate those logs with that content and retain them centrally for the defined period.",
+        "machine_shop_example": "The shop's logging standard lists the event types for Windows (Advanced Audit Policy: logon/logoff, account management, policy change, privilege use, object access on the CUI share), the firewall (VPN and denied traffic), and GCC High (unified audit log). Each record must include time, user, device or IP, event, and success or failure. Windows Event Forwarding sends all PC and server logs to the MSP's collector, the firewall sends syslog there, and everything is kept for 1 year (Microsoft 365 audit retention is also set to 1 year). A monthly check confirms all 27 endpoints are still reporting.",
+        "typical_evidence": [
+          "Audit logging standard listing event types, required record content, and retention period per system",
+          "GPO Advanced Audit Policy export (auditpol /get /category:*) and SACL/object access settings on CUI folders",
+          "Log collector or SIEM configuration showing sources and the retention setting",
+          "Sample log records from a workstation, server, firewall, and Microsoft 365 showing the required fields",
+          "Microsoft 365 audit log retention policy screenshot",
+          "Monthly log source health report"
+        ],
+        "common_gaps": [
+          "Default Windows audit policy with a 20 MB Security log that overwrites itself in two days and no central collection",
+          "Firewall and VPN logs not kept at all; Microsoft 365 auditing never enabled",
+          "No written statement of what is logged or how long it is kept",
+          "CNC controllers and the standalone shipping PC excluded from logging"
+        ],
+        "remediation_steps": [
+          "Write the logging standard: event types per system, required content (timestamp, user or process, source device or IP, event description, outcome, object name where relevant), and retention (for example 90 days online, 1 year total).",
+          "Deploy Advanced Audit Policy by GPO (Account Logon, Account Management, Logon/Logoff, Policy Change, Privilege Use, System, and Object Access for file share and removable storage) and enable 'Audit: Force audit policy subcategory settings'; add SACLs on CUI folders for write and delete.",
+          "Raise the Security log maximum size to 1 GB or more and set up central collection: Windows Event Forwarding to a collector or the MSP's SIEM agent, plus firewall/VPN syslog and the Microsoft 365 unified audit log or Sentinel connector.",
+          "Configure retention on the collector or SIEM to the defined period and confirm Microsoft 365 audit retention is at least 1 year.",
+          "Verify monthly that every asset (including CNC controllers and the file server) is sending logs and that samples contain the required fields; keep the check as evidence."
+        ]
+      }
+    },
+    "3.3.2": {
+      "name": "User Accountability",
+      "nist_800_53": [
+        "AU-2",
+        "AU-3",
+        "AU-3(1)",
+        "AU-6",
+        "AU-11",
+        "AU-12"
+      ],
+      "weight_claimed": 3,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Audit records must let you tie an action to one specific person: every log entry for a security-relevant action needs the individual user account, not a shared login. Define which fields make that possible (user ID, device, timestamp, action) and make sure shared or generic accounts are eliminated or tightly controlled so the logs point to a real person.",
+        "machine_shop_example": "The shop replaced the shared 'shopfloor' and 'cnc1' logins with individual accounts for each operator, and the two CNC controllers now log operators in with their own AD credentials. The logging standard requires the user name, device name, source IP, and timestamp in every logon, file access, and admin event, and a sample from the SIEM shows a drawing deletion traced to a named engineer at a specific PC and time.",
+        "typical_evidence": [
+          "Logging standard section listing the fields required for traceability (user ID, device or IP, timestamp, action, outcome)",
+          "Account inventory showing no shared interactive accounts, or a documented compensating control for any that remain",
+          "Sample log records showing individual user IDs for logon, file access, and privileged actions",
+          "Screenshot of CNC/HMI or ERP login showing individual accounts",
+          "Sign-in sheet or checkout record for any unavoidable shared account"
+        ],
+        "common_gaps": [
+          "Shared logins on CNC controllers, the shipping PC, or the ERP, so logs show 'operator' for everyone",
+          "Service accounts used interactively by humans",
+          "Logs record events but omit the user or source, for example a firewall log with IPs but no VPN user mapping"
+        ],
+        "remediation_steps": [
+          "Define the traceability content in the logging standard: individual user ID, workstation or device and source IP, timestamp synchronized to the authoritative source, event or action, target object, and outcome.",
+          "Eliminate shared accounts: create individual AD accounts for shop-floor staff, enable per-operator login on CNC controllers or HMIs where the builder supports it, and per-user logins in the ERP and quoting software.",
+          "Where a shared account cannot be removed (some CNC HMIs), keep a physical or electronic sign-in log per shift and restrict the account so the log plus badge records still identify the person; document it in the SSP.",
+          "Ensure service accounts cannot log on interactively ('Deny log on locally') and that VPN logs include the user name.",
+          "Pull a sample of records quarterly and confirm each can be traced to one person; keep the sample."
+        ]
+      }
+    },
+    "3.3.3": {
+      "name": "Event Review",
+      "nist_800_53": [
+        "AU-2"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Periodically revisit the list of what you log (not the logs themselves) to decide whether it is still the right set: add events for new systems or threats, drop noise. Define when that review happens (for example annually and after any incident or major system change), do it, and record any changes made as a result.",
+        "machine_shop_example": "The shop's logging standard states that the logged event list is reviewed every 12 months by the IT person with the MSP, and also after an incident or when a new system is added. The most recent review record shows they added removable-storage events (Event ID 6416) and Entra Conditional Access failures after moving to GCC High, and removed a noisy firewall category. The updated GPO and SIEM rules are referenced in the record.",
+        "typical_evidence": [
+          "Logging standard section defining the review trigger and frequency",
+          "Dated review record (meeting note or ticket) listing events considered, added, and removed",
+          "Version history of the logged-events list or the audit policy GPO",
+          "Change ticket showing the GPO or SIEM update made after the review"
+        ],
+        "common_gaps": [
+          "Audit policy was set once by the MSP and never revisited",
+          "Reviews happen informally with nothing written down",
+          "Confusing this with reviewing the logs; the objective is about reviewing the event list"
+        ],
+        "remediation_steps": [
+          "Add a clause to the logging standard: 'Logged event types are reviewed annually, after any security incident, and when a system is added or removed; the IT administrator and MSP perform the review and record it.'",
+          "Put the annual review on the calendar and use a simple template: current event list, changes in systems or threats, events to add or remove, resulting GPO/SIEM changes.",
+          "Implement any changes through the normal change process (update GPO/auditpol, SIEM sources) and reference the ticket in the review record.",
+          "Keep the review records for at least 3 years as evidence that the process runs."
+        ]
+      }
+    },
+    "3.3.4": {
+      "name": "Audit Failure Alerting",
+      "nist_800_53": [
+        "AU-5"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "If logging stops working (a PC stops forwarding events, the log collector's disk fills, the firewall syslog breaks, the agent is disabled), someone must be told automatically. Define which failures generate an alert and who receives it, and configure the tools so the alert actually reaches those people.",
+        "machine_shop_example": "The shop's logging standard names the IT person and the MSP service desk as alert recipients and lists the failure types: an endpoint not sending logs for 24 hours, collector or SIEM storage above 80 percent, the SIEM agent or Windows Event Log service stopped, and the firewall syslog stream down. The MSP's SIEM sends email and ticket alerts for these, and a test in March (stopping the agent on a PC) produced the alert within the hour and is kept as evidence.",
+        "typical_evidence": [
+          "Logging standard section listing failure types and the alert recipients",
+          "SIEM or log collector alert rule configuration screenshots (log source silent, disk threshold, service down)",
+          "Sample alert email or ticket and its resolution",
+          "Test record showing a simulated failure produced an alert",
+          "MSP SOW or runbook describing their alert handling"
+        ],
+        "common_gaps": [
+          "Logs are collected but nothing monitors whether they keep arriving; endpoints drop off silently",
+          "Windows Security log set to 'overwrite as needed' with no alert on log-full or storage issues",
+          "Alerts go to a mailbox nobody reads"
+        ],
+        "remediation_steps": [
+          "Define in the logging standard: failure types (source silent for more than 24 hours, agent or service stopped, storage above 80 percent or write errors, forwarding errors) and recipients (IT admin plus MSP service desk, with the owner as escalation).",
+          "Configure the SIEM or collector: a 'log source not reporting' rule per endpoint, a disk or storage threshold alert, and heartbeat monitoring of the SIEM agent through the RMM.",
+          "On Windows, set the Security log to a large size and alert on Event ID 1104 (log full), 1100 (event logging service shut down), and 4719 (audit policy changed).",
+          "Send alerts to a monitored channel (ticketing queue plus email) and confirm delivery to each named person.",
+          "Test twice a year by stopping the agent on one PC and keep the resulting alert as evidence."
+        ]
+      }
+    },
+    "3.3.5": {
+      "name": "Audit Correlation",
+      "nist_800_53": [
+        "AU-6(3)"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Have a defined process for reviewing and analyzing logs and reporting suspicious findings, and make sure the review looks across sources together (workstation, server, firewall, VPN, Microsoft 365) rather than each in isolation, so that a VPN login from abroad can be matched with the file access that followed. A central log tool with cross-source searches and a documented weekly review usually satisfies this at a small shop.",
+        "machine_shop_example": "The MSP's SIEM ingests Windows, firewall, VPN, and GCC High logs into one place, and the shop's procedure says the MSP reviews correlated alerts daily and the IT person reviews a weekly summary report. The report joins events by user and device across sources (for example failed VPN logins followed by a successful login and CUI share access). Findings are ticketed and, if suspicious, handed to the incident response process; the weekly sign-off sheet is kept.",
+        "typical_evidence": [
+          "Audit review, analysis, and reporting procedure describing frequency, who performs it, and what is looked for",
+          "SIEM or log tool showing all sources in one searchable system with correlation rules or dashboards",
+          "Weekly or monthly review reports and sign-offs",
+          "Tickets showing an anomaly investigated across sources and the outcome",
+          "Reference from the review procedure to the incident response plan"
+        ],
+        "common_gaps": [
+          "Logs sit in separate places (each PC, the firewall, Microsoft 365) and are only looked at after a problem",
+          "Review is 'the MSP watches it' with no documented process or evidence",
+          "No connection between a review finding and the incident response plan"
+        ],
+        "remediation_steps": [
+          "Write the review, analysis, and reporting procedure: the MSP or IT reviews correlated alerts daily and produces a weekly summary; the IT person and owner review monthly; suspicious findings go to the incident response process.",
+          "Centralize all log sources (see 3.3.1) in one SIEM or collector and enable correlation rules or saved searches that join by user, device, and IP: failed then successful logons, new admin then policy change, foreign VPN login then file access, USB write after CUI access.",
+          "Create a weekly report or dashboard from those searches and a sign-off record.",
+          "Reference the incident response plan in the procedure and ticket every escalation so the trail from log to response exists.",
+          "Tune the rules quarterly based on what produced noise or was missed."
+        ]
+      }
+    },
+    "3.3.6": {
+      "name": "Reduction & Reporting",
+      "nist_800_53": [
+        "AU-7"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "You need a tool that can filter, search, and summarize the raw logs on demand (all logons by this user last week; all failed logons; all files deleted on the CUI share) and produce reports from them, without altering the original records. A SIEM, a log collector with a search interface, or scripted PowerShell queries against a collector plus Microsoft 365 audit search can meet this.",
+        "machine_shop_example": "The MSP's SIEM lets the IT person filter all collected logs by user, device, event ID, and time and export the result as a PDF or CSV report; GCC High's audit log search does the same for cloud activity. During a customer questionnaire the IT person produced, in ten minutes, a report of everyone who accessed a specific drawing folder in the past 90 days. The original logs remain untouched in the collector.",
+        "typical_evidence": [
+          "SIEM or log tool screenshots of the search/filter interface and saved queries",
+          "Sample generated reports (failed logons last 30 days, privileged activity, CUI share access)",
+          "Microsoft 365 audit log search screenshot or exported report",
+          "Procedure describing how to run on-demand reports and who can"
+        ],
+        "common_gaps": [
+          "Logs exist only on each PC; answering 'who accessed this folder' means visiting 25 machines",
+          "The MSP has a tool but the shop cannot request or produce reports on demand",
+          "Reduction is done by deleting or editing logs rather than filtering copies"
+        ],
+        "remediation_steps": [
+          "Ensure all logs are centralized (see 3.3.1) in a tool with search, filter, and export: the MSP's SIEM, Microsoft Sentinel, a Windows Event Collector with PowerShell queries, or an open-source log server.",
+          "Build four to six saved searches and reports: failed logons, account and group changes, privileged actions, CUI share access and deletions, VPN/remote sessions, removable media use.",
+          "Confirm reports can be generated on demand by the IT person (not only the MSP) and document the steps.",
+          "Use Microsoft 365 audit log search or Purview for cloud activity reports and keep an example export.",
+          "Run and file at least one of each report during the weekly or monthly review to show the capability works."
+        ]
+      }
+    },
+    "3.3.7": {
+      "name": "Authoritative Time Source",
+      "nist_800_53": [
+        "AU-8",
+        "SC-45(1)"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "All systems that write logs must stamp them from their own clock, and those clocks must be kept in sync with a named authoritative time source (such as NIST or the domain controller synced to it) so events from different systems can be lined up. Name the source, configure everything to sync to it, and check that they stay in sync.",
+        "machine_shop_example": "The shop's standard names time.nist.gov (with pool.ntp.org as fallback) as the authoritative source. The PDC emulator domain controller syncs to it via w32tm, all domain-joined PCs and the CNC controllers sync from the domain hierarchy, and the firewall and switches point at the same NTP servers. Logs are stamped in UTC with the local offset shown in the SIEM. The IT person runs w32tm /monitor quarterly and keeps the output showing all hosts within 1 second.",
+        "typical_evidence": [
+          "Standard naming the authoritative time source and the sync hierarchy",
+          "w32tm /query /status and /configuration output from the PDC emulator",
+          "Firewall, switch, and non-domain device NTP settings screenshots",
+          "w32tm /monitor output or a SIEM clock-drift report showing hosts within tolerance",
+          "Sample log records from different sources with consistent timestamps"
+        ],
+        "common_gaps": [
+          "PDC emulator left on defaults with the hypervisor host pushing a different time, causing drift",
+          "Firewall or CNC controllers on their own clocks, off by minutes",
+          "Nobody has ever checked for drift"
+        ],
+        "remediation_steps": [
+          "Specify the authoritative source in the logging standard (for example NIST time.nist.gov or the ISP's stratum-1 NTP) and the hierarchy: PDC emulator to domain members; firewall, switches, APs, and non-domain devices to the same NTP servers.",
+          "Configure the PDC emulator: w32tm /config /manualpeerlist:\"time.nist.gov,0x8 pool.ntp.org,0x8\" /syncfromflags:manual /reliable:yes /update; disable Hyper-V or VMware time sync on the DC virtual machine.",
+          "Confirm domain members use NT5DS (domain hierarchy) via the GPO Windows Time Service settings; set NTP on the firewall, switches, wireless controller, CNC controllers, and any standalone PC.",
+          "Have the SIEM normalize to UTC and alert on sources with drift over 5 minutes.",
+          "Check quarterly with w32tm /monitor and a spot check of firewall and CNC clocks; record the results."
+        ]
+      }
+    },
+    "3.3.8": {
+      "name": "Audit Protection",
+      "nist_800_53": [
+        "AU-9"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Logs, log settings and reports, and the tools that collect and manage them must be protected so that only authorized people can read, change, or delete them. Normal users must not be able to clear the Security log or reach the log server; the central copy must be tightly permissioned and backed up; and the SIEM or collector console must require its own admin authentication.",
+        "machine_shop_example": "Local Security logs on the 25 PCs are readable only by administrators and are forwarded within minutes to the MSP's collector, so clearing a local log does not remove the evidence. The collector stores logs on a server only the MSP's SIEM admins can access, with 1-year retention on immutable storage and daily backups. Event ID 1102 (log cleared) triggers an alert. The SIEM console requires MFA and only three named accounts have access, and audit policy GPOs can be edited only by the audit-admin group.",
+        "typical_evidence": [
+          "Permission listing on the log server or collector storage and SIEM roles showing limited access",
+          "GPO user right 'Manage auditing and security log' restricted to Administrators or log admins",
+          "SIEM or collector settings showing immutability or retention lock and backup configuration",
+          "Alert rule and sample for Event ID 1102/1104 (log cleared or full) and 4719 (audit policy changed)",
+          "Log forwarding configuration showing a near-real-time copy off the endpoint",
+          "Change records for audit configuration changes"
+        ],
+        "common_gaps": [
+          "Logs stored only on the endpoints where a local admin (or malware) can clear them",
+          "Log server share is open to Domain Users, or the SIEM console has a shared password",
+          "No backups of logs; a ransomware event would erase the evidence"
+        ],
+        "remediation_steps": [
+          "Forward logs off every endpoint within minutes (WEF or SIEM agent) so the authoritative copy is central.",
+          "Restrict access on the collector: OS-level permissions to a small log-admin group, SIEM role-based access with MFA, no shared accounts; separate the SIEM admin role from general domain admin where possible (see 3.3.9).",
+          "Protect integrity: enable the SIEM's tamper-evident or immutable storage or retention lock, back up the log store daily to an isolated location, and alert on 1102 (log cleared), 1104, 4719 (audit policy changed), and SIEM configuration changes.",
+          "Set the GPO user right 'Manage auditing and security log' to Administrators only and keep 'Access this computer from the network' on the log server restricted.",
+          "Review log-admin access and the alert rules quarterly."
+        ]
+      }
+    },
+    "3.3.9": {
+      "name": "Audit Management",
+      "nist_800_53": [
+        "AU-9(4)"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://raw.githubusercontent.com/scttfrdmn/automat/main/gen/sources/dfars-800-171r2-weights.json",
+        "https://raw.githubusercontent.com/tbusillo/nist-800-171-oscal/main/misc/nist_800_53_mappings.json"
+      ],
+      "guidance": {
+        "summary": "Not every admin should be able to change what is logged, turn logging off, or manage the log collector. Name the small subset of privileged users who may manage audit logging (typically the MSP's SIEM admins plus, at most, the shop's IT person as backup) and configure the systems so only they can.",
+        "machine_shop_example": "The shop's policy defines the audit-management subset as the two named MSP SIEM administrators; the shop's IT person is a read-only SIEM user and cannot change collection rules or retention. Audit policy settings live in a separate GPO whose edit permission is delegated to an 'Audit-Admins' AD group containing only those two MSP accounts, and the firewall's logging configuration is limited to the same people through a dedicated admin profile.",
+        "typical_evidence": [
+          "Policy or SSP statement naming the audit-management subset",
+          "AD group membership export for the audit-admin group",
+          "GPO delegation screenshot showing who can edit the audit policy GPO",
+          "SIEM or collector role assignments showing admin vs. read-only users",
+          "Firewall or switch admin profiles limiting logging configuration"
+        ],
+        "common_gaps": [
+          "Every Domain Admin can change audit policy and delete collected logs; no subset is defined",
+          "The one IT person is both the subject of the logs and the only person who can manage them, with no MSP or owner separation",
+          "SIEM users all share the built-in admin account"
+        ],
+        "remediation_steps": [
+          "Define the subset in policy: for example two named MSP SIEM administrators as audit managers with the IT person read-only; document it in the SSP with the separation of duties matrix (3.1.4).",
+          "Create an Audit-Admins AD group with only those accounts; move audit settings into a dedicated GPO and delegate edit rights only to that group; remove other admins' 'Manage auditing and security log' right.",
+          "In the SIEM or collector, create named accounts with role-based access: admin role for the subset, read/report role for everyone else; disable the shared admin login.",
+          "Apply the same on the firewall and other log sources with per-user admin profiles.",
+          "Review the subset membership quarterly and after staffing changes."
+        ]
+      }
+    }
+  }
+}

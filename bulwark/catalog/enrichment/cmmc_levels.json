@@ -1,0 +1,4 @@
+{
+  "_comment": "The 17 CMMC Level 1 practices (32 CFR 170 Level 1, derived from FAR 52.204-21). Every other requirement is a Level 2 practice. A Level 2 assessment covers all 110; only the identifier prefix differs (AC.L1-3.1.1 vs AC.L2-3.1.3).",
+  "level_1": ["3.1.1","3.1.2","3.1.20","3.1.22","3.5.1","3.5.2","3.8.3","3.10.1","3.10.3","3.10.4","3.10.5","3.13.1","3.13.5","3.14.1","3.14.2","3.14.4","3.14.5"]
+}

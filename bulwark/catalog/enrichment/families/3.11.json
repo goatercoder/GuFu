@@ -1,0 +1,119 @@
+{
+  "family_id": "3.11",
+  "controls": {
+    "3.11.1": {
+      "name": "Risk Assessments",
+      "nist_800_53": [
+        "RA-3"
+      ],
+      "weight_claimed": 3,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "You write down how often you will assess risk - at least annually, plus whenever something big changes such as a new system, a move or an incident - and then you actually do it on that schedule and keep the result. A risk assessment lists the systems that handle CUI, the threats and vulnerabilities that matter to them, how likely and how damaging each is to operations, assets and people, and what you decided to do about it. It does not have to be long, but it has to be real and specific to your shop.",
+        "machine_shop_example": "Policy sets an annual risk assessment each January plus a reassessment after major changes. The IT admin and the owner spend an afternoon on a spreadsheet: assets (file server, GCC High tenant, 25 PCs, 2 CNC controllers, firewall, backups), threats (ransomware via email, lost laptop, controller malware from vendor USB, an insider copying drawings, power loss), likelihood and impact scored 1 to 5, current controls, and resulting risk. The top risks - unpatched CNC controllers and no offline backup - become POA&M items with owners and dates. The signed assessment is filed with last year's and referenced in the SSP.",
+        "typical_evidence": [
+          "Risk assessment policy or SSP text defining the frequency and triggers",
+          "The most recent risk assessment report or spreadsheet with date, participants, scope, method and results",
+          "The prior year's assessment showing the frequency is being met",
+          "Risk register with treatment decisions and links to POA&M items",
+          "Evidence of an event-driven reassessment (for example after migrating to GCC High)"
+        ],
+        "common_gaps": [
+          "The only 'risk assessment' is the SPRS self-score, which assesses controls, not risk",
+          "A template downloaded years ago with no shop-specific assets or threats and never updated",
+          "Frequency undefined, or defined as annual but the last one was three years ago",
+          "Risks identified but no decisions or follow-up, so nothing changes"
+        ],
+        "remediation_steps": [
+          "Set the frequency and triggers in policy: annually and on major changes (new system, cloud migration, facility change, significant incident).",
+          "Pick a lightweight method in the style of NIST SP 800-30 (asset, threat, vulnerability, likelihood, impact, risk level) and build a spreadsheet template.",
+          "Run the assessment with the owner, IT and the MSP, using the asset inventory, vulnerability scan results and incident history as inputs; document scope and participants.",
+          "Record a treatment decision for each significant risk (accept, mitigate, transfer) and feed mitigations into the POA&M (3.12.2) with owners and dates.",
+          "Have the owner sign the report, file it, calendar the next one, and keep at least three years of assessments."
+        ]
+      }
+    },
+    "3.11.2": {
+      "name": "Vulnerability Scan",
+      "nist_800_53": [
+        "RA-5",
+        "RA-5(5)"
+      ],
+      "weight_claimed": 5,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "You run a vulnerability scanner against all your systems (PCs, the server, controllers where possible, the firewall and network devices) and the applications on them (operating systems, Office, browsers, CAD/CAM, the CNC software, anything internet-facing) on a schedule you have written down, and you also scan when a significant new vulnerability is announced. Credentialed (authenticated) scans are expected so that missing application patches are found, not just open ports.",
+        "machine_shop_example": "The MSP runs a credentialed vulnerability scan of every PC, the server, the firewall and the two Windows CNC controllers every month using a commercial scanner agent, plus an external scan of the firewall's public address; the policy states monthly internal, monthly external, and out-of-cycle scans within 72 hours when CISA or a vendor announces a critical vulnerability affecting Windows, the firewall or the CNC software. The scans check installed applications, not just the OS. Reports go to the IT admin, who logs the results and tracks fixes under 3.11.3. The controller that cannot take an agent is scanned over the network during the maintenance window.",
+        "typical_evidence": [
+          "Vulnerability management policy stating scan frequency for systems and applications and the trigger for out-of-cycle scans",
+          "Monthly scan reports (internal credentialed and external) for the past 12 months",
+          "Scanner configuration showing the scope covers all assets in the inventory and uses credentialed or agent mode",
+          "Evidence of an out-of-cycle scan after a major vulnerability announcement (ticket and report)",
+          "Subscription to CISA and vendor advisories (email screenshot)",
+          "Asset inventory reconciliation against scan targets"
+        ],
+        "common_gaps": [
+          "No scanner at all; 'we run Windows Update' is offered as the scan",
+          "Scans only cover office PCs; the file server, firewall and CNC controllers are excluded",
+          "Unauthenticated scans that miss application vulnerabilities",
+          "No process to scan when a major vulnerability is announced; scans only run on the calendar"
+        ],
+        "remediation_steps": [
+          "Define the frequency in policy: at least monthly credentialed internal scans of all systems and applications, monthly external scans of internet-facing addresses, and out-of-cycle scans within a set window (for example 72 hours) when new critical vulnerabilities affecting your products are announced.",
+          "Deploy a vulnerability scanner (agent-based on PCs and the server, network scans for the firewall, switches and controllers) with credentials so application-level checks run, and confirm the scan scope matches the hardware inventory from 3.4.1.",
+          "Subscribe to the CISA Known Exploited Vulnerabilities alerts and the firewall, Windows and CNC/CAM vendor advisories, and assign someone to trigger out-of-cycle scans.",
+          "Schedule the scans, deliver reports to IT automatically, and store 12 months of reports.",
+          "Add a scan-coverage check to the quarterly review: any asset not scanned in the last cycle is investigated."
+        ]
+      }
+    },
+    "3.11.3": {
+      "name": "Vulnerability Remediation",
+      "nist_800_53": [
+        "RA-5"
+      ],
+      "weight_claimed": 1,
+      "weight_sources": [
+        "https://www.acq.osd.mil/asda/dpc/cp/cyber/docs/safeguarding/NIST-SP-800-171-Assessment-Methodology-Version-1.2.1-6.24.2020.pdf",
+        "https://www.ecfr.gov/current/title-32/subtitle-A/chapter-I/subchapter-G/part-170/subpart-D/section-170.24",
+        "https://cmmcwiki.org/index.php/DoD_Assessment_Methodology",
+        "https://support.futurefeed.co/knowledge-base/hc/en-us/articles/360059232032-sprs-nist-800-171-scoring"
+      ],
+      "guidance": {
+        "summary": "Findings from your scans and advisories have to be fixed on a schedule that follows the risk - critical and actively exploited vulnerabilities fast, low ones on a longer timeline - and tracked until closed. Where something cannot be fixed (an old CNC controller), you document the risk decision and a compensating control. The assessor wants to see both the identification (scan output) and the record of each item being fixed or formally accepted.",
+        "machine_shop_example": "The policy sets remediation targets: critical or known-exploited within 14 days, high within 30 days, medium within 90 days, low at the next patch cycle, with exceptions approved by the owner in writing. The MSP pushes Windows and third-party patches weekly, and each monthly scan is compared with the previous one to confirm findings dropped off. The two CNC controllers run an old Windows build the machine vendor will not update; the risk assessment accepted that with compensating controls (isolated VLAN, no internet, USB blocked, application allow-listing) and it is tracked as a POA&M item re-evaluated each year.",
+        "typical_evidence": [
+          "Vulnerability management policy with risk-based remediation timelines",
+          "Scan-to-scan comparison or trend report showing findings closed",
+          "Patch deployment reports from the endpoint-management or RMM tool",
+          "Tickets tracking specific vulnerabilities from finding to closure",
+          "Documented risk acceptance or exception records with compensating controls and review dates",
+          "POA&M entries for long-term items such as unpatchable controllers"
+        ],
+        "common_gaps": [
+          "Scans run but nobody acts on the reports; the same criticals appear every month",
+          "No defined timelines, so 'we will get to it' is the standard",
+          "Third-party applications (browsers, PDF readers, Java, CAD viewers) never patched, only Windows",
+          "Legacy controllers ignored rather than isolated and documented as accepted risk"
+        ],
+        "remediation_steps": [
+          "Set remediation timelines by severity in policy (for example critical or KEV within 14 days, high 30, medium 90, low at next cycle) and an exception process approved by the owner.",
+          "Enable automated OS and third-party patching through the endpoint-management or RMM tool for all PCs and the server, and schedule firewall firmware updates quarterly or on advisory.",
+          "Review each monthly scan report, open a ticket for every finding above low with an owner and due date, and close it when the next scan confirms the finding is gone.",
+          "For items that cannot be fixed, record a risk acceptance with compensating controls (network isolation, allow-listing, USB blocking), the owner's signature and a review date, and add it to the POA&M.",
+          "Report remediation status (open findings by severity, overdue count) to the owner monthly."
+        ]
+      }
+    }
+  }
+}
