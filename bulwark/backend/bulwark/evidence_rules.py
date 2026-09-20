@@ -306,15 +306,16 @@ def findings_for_system(session: Session, system_id: int) -> list[dict]:
         a.id: a
         for a in session.exec(select(Asset).where(Asset.id.in_(asset_ids))).all()  # type: ignore[union-attr]
     }
-    poam_by_key = {
-        (item.control_id, item.check_id): item
-        for item in session.exec(
-            select(PoamItem).where(
-                PoamItem.system_id == system_id,
-                PoamItem.status.in_(OPEN_POAM_STATUSES),  # type: ignore[union-attr]
-            )
-        ).all()
-    }
+    open_items = session.exec(
+        select(PoamItem).where(
+            PoamItem.system_id == system_id,
+            PoamItem.status.in_(OPEN_POAM_STATUSES),  # type: ignore[union-attr]
+        )
+    ).all()
+    poam_by_key = {(item.control_id, item.check_id): item for item in open_items}
+    poam_by_control: dict[str, PoamItem] = {}
+    for item in open_items:
+        poam_by_control.setdefault(item.control_id, item)
 
     grouped: dict[tuple[str, str], dict] = {}
     for row in failing:
@@ -353,7 +354,7 @@ def findings_for_system(session: Session, system_id: int) -> list[dict]:
                     "collected_at": row.collected_at,
                 }
             )
-            item = poam_by_key.get(key)
+            item = poam_by_key.get(key) or poam_by_control.get(control_id)
             if item is not None:
                 entry["poam_item_id"] = item.id
 

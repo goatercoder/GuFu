@@ -57,6 +57,18 @@ def split_assessment(prose: str) -> dict:
     return out
 
 
+def render_expected(check: dict) -> str:
+    """Fill a check's thresholds into its expected text: '{max_days}' -> '30'.
+
+    The agents substitute their own thresholds at run time; this keeps the catalog copy (used in
+    the UI and in reports when an agent sends no expected text) showing real numbers too.
+    """
+    text = check.get("expected", "") or ""
+    for name, value in (check.get("params") or {}).items():
+        text = text.replace("{" + name + "}", str(value))
+    return text
+
+
 def build() -> dict:
     src = load_json(SOURCE)
     families_meta = load_json(ENRICH / "families.json")
@@ -86,6 +98,9 @@ def build() -> dict:
     unscored = set(weights.get("unscored", []))
     partial = weights.get("partial_credit", {})
     never_poam = set(weights.get("poam_never_allowed", []))
+
+    for chk in check_list:
+        chk["expected"] = render_expected(chk)
 
     checks_by_control: dict[str, list[str]] = {}
     for chk in check_list:
@@ -208,6 +223,9 @@ def validate(cat: dict) -> list[str]:
             errors.append(f"{c['id']}: enrichment claims weight {claimed} but scoring_weights.json says {c['weight']}")
         if not c["name"]:
             errors.append(f"{c['id']}: missing CMMC practice name")
+    for chk in cat["checks"]:
+        if "{" in (chk.get("expected") or ""):
+            errors.append(f"check {chk['id']}: unsubstituted placeholder in expected text")
     seen = set()
     for chk in cat["checks"]:
         if chk["id"] in seen:
