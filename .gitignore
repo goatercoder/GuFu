@@ -14,3 +14,14 @@ frontend/playwright-report/
 build/
 frontend/dist/data/
 frontend/.static-site/
+
+# Bulwark
+bulwark/backend/data/
+bulwark/.venv/
+bulwark/frontend/node_modules/
+bulwark/frontend/dist/
+bulwark/**/__pycache__/
+bulwark/**/.pytest_cache/
+bulwark/**/*.egg-info/
+bulwark/frontend/test-results/
+bulwark/frontend/playwright-report/

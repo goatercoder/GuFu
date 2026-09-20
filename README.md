@@ -1,5 +1,9 @@
 # GuFu — a GuruFocus-style stock research app for the S&P 500
 
+> **Also in this repository:** [`bulwark/`](bulwark/README.md) — *Bulwark*, CMMC Level 2 / NIST SP 800-171 Rev 2
+> compliance automation for small defense suppliers (readiness scoring, SSP generation, POA&M workflow and
+> continuous evidence-collection agents). It is a separate project with its own README, tests and CI.
+
 GuFu computes valuation, profitability, financial-strength, growth and dividend metrics for every S&P 500
 company from **real SEC filings** and **live market prices**, and presents them the way GuruFocus does:
 

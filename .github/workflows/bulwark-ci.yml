@@ -1,0 +1,36 @@
+name: Bulwark CI
+on:
+  push:
+    branches: ["**"]
+    paths: ["bulwark/**", ".github/workflows/bulwark-ci.yml"]
+  pull_request:
+    paths: ["bulwark/**", ".github/workflows/bulwark-ci.yml"]
+jobs:
+  backend-and-agent:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: bulwark } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11", cache: pip, cache-dependency-path: bulwark/backend/requirements-dev.txt }
+      - run: pip install -r backend/requirements-dev.txt
+      - name: Catalog is built from sources
+        run: python3 catalog/build_catalog.py --check
+      - name: Lint
+        run: python -m ruff check backend/bulwark backend/tests agent
+      - name: Backend tests
+        run: cd backend && python -m pytest -q
+      - name: Agent tests
+        run: python -m pytest agent/tests -q
+      - name: Agent dry run (Linux)
+        run: python3 agent/bulwark_agent.py --dry-run --output /tmp/report.json && python3 -c "import json;r=json.load(open('/tmp/report.json'));print(len(r['checks']),'checks')"
+  frontend:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: bulwark/frontend } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "22", cache: npm, cache-dependency-path: bulwark/frontend/package-lock.json }
+      - run: npm ci --no-audit --no-fund
+      - run: npm run typecheck
+      - run: npm run build
