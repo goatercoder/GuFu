@@ -1,0 +1,15 @@
+# The agent runs unattended on whatever Python a shop-floor machine already has, so it targets
+# 3.8 and the standard library only. That rules out some idioms ruff prefers on 3.11.
+line-length = 110
+target-version = "py38"
+
+[lint]
+select = ["E", "F", "I", "B"]
+ignore = [
+  "UP",     # str.format and older typing keep the agent runnable on Python 3.8
+  "DTZ003", # naive UTC timestamps are used consistently for age arithmetic
+  "B904",   # transport errors are reported to the operator, not chained
+]
+
+[lint.per-file-ignores]
+"bulwark_agent.py" = ["E722"]
