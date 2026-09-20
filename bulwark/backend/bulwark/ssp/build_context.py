@@ -46,6 +46,17 @@ RESPONSIBILITY_LABELS = {
     "inherited": "Inherited from provider",
 }
 
+PARTIAL_CREDIT_LABELS = {
+    "none": "",
+    "mfa_partial": "multifactor authentication covers remote access and privileged accounts, "
+                   "but not general users",
+    "encryption_non_fips": "encryption protects CUI but is not FIPS-validated",
+}
+
+ENVIRONMENT_LABELS = {"on_prem": "On premises", "cloud": "Cloud", "hybrid": "On premises and cloud"}
+
+SYSTEM_STATUS_LABELS = {"draft": "Draft", "active": "Active", "retired": "Retired"}
+
 CATEGORY_LABELS = {
     AssetCategory.cui: "CUI Assets",
     AssetCategory.security_protection: "Security Protection Assets",
@@ -200,6 +211,9 @@ def build_context(session: Session, system: System) -> dict[str, Any]:
                     "narrative": narrative,
                     "na_justification": (impl.na_justification or "") if impl else "",
                     "partial_credit": str(impl.partial_credit) if impl else "none",
+                    "partial_credit_label": PARTIAL_CREDIT_LABELS.get(
+                        str(impl.partial_credit) if impl else "none", ""
+                    ),
                     "assessed_by": (impl.assessed_by or "") if impl else "",
                     "assessed_at": _fmt_date(impl.assessed_at) if impl else "",
                     "objectives": objectives,
@@ -352,12 +366,12 @@ def build_context(session: Session, system: System) -> dict[str, Any]:
             "id": system.id,
             "name": system.name,
             "description": system.description or "",
-            "environment": str(system.environment),
+            "environment": ENVIRONMENT_LABELS.get(str(system.environment), str(system.environment)),
             "boundary_description": system.boundary_description or "",
             "cui_types": system.cui_types or "",
             "cui_description": system.cui_description or "",
             "data_flow_description": system.data_flow_description or "",
-            "status": str(system.status),
+            "status": SYSTEM_STATUS_LABELS.get(str(system.status), str(system.status)),
         },
         "score": score,
         "families": families,

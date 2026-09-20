@@ -116,7 +116,7 @@ action entries that support it.
 |---|---|
 | Requirement | {{ control.id }} |
 | Point value | {{ control.weight }} |
-| Status | **{{ control.status_label }}**{% if control.partial_credit != "none" %} (partial credit: {{ control.partial_credit }}){% endif %} |
+| Status | **{{ control.status_label }}**{% if control.partial_credit_label %} — partial credit: {{ control.partial_credit_label }}{% endif %} |
 | Responsibility | {{ control.responsibility_label }}{% if control.provider_name %} - {{ control.provider_name }}{% endif %}{% if control.inherited %} (inherited){% endif %} |
 {% if control.assessed_by %}| Assessed by | {{ control.assessed_by }}{% if control.assessed_at %} on {{ control.assessed_at }}{% endif %} |
 {% endif %}
