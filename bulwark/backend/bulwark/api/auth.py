@@ -24,11 +24,13 @@ def _setup_complete(session) -> bool:  # noqa: ANN001
 
 
 @router.post("/login", response_model=OkResponse)
-def login(body: LoginRequest, response: Response, session: SessionDep) -> OkResponse:
+def login(
+    body: LoginRequest, request: Request, response: Response, session: SessionDep
+) -> OkResponse:
     """Exchange the admin password for a signed ``bulwark_session`` cookie."""
     if not verify_password(body.password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password")
-    set_session_cookie(response)
+    set_session_cookie(response, request=request)
     log_activity(session, ADMIN_ACTOR, "login", "session", None, "Admin logged in")
     session.commit()
     return OkResponse()

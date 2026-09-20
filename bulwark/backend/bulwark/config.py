@@ -51,6 +51,10 @@ class Settings(BaseSettings):
 
     session_ttl_hours: int = 24 * 7
 
+    session_cookie_secure: bool | None = None
+    """Mark the session cookie Secure. None follows the request scheme (HTTPS, or a proxy's
+    X-Forwarded-Proto), which is right for both localhost and a TLS reverse proxy."""
+
     # Behaviour -----------------------------------------------------------
     evidence_ttl_days: int = 30
     auto_poam: bool = True

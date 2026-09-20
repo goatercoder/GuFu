@@ -150,17 +150,38 @@ def verify_session_token(secret: str, token: str | None, now: float | None = Non
     return (now if now is not None else time.time()) < exp
 
 
-def set_session_cookie(response: Response, settings: Settings | None = None) -> str:
+def request_is_secure(request: Request | None) -> bool:
+    """True when the browser reached us over HTTPS, honouring a reverse proxy's header."""
+    if request is None:
+        return False
+    forwarded = (request.headers.get("x-forwarded-proto") or "").split(",")[0].strip().lower()
+    if forwarded:
+        return forwarded == "https"
+    return request.url.scheme == "https"
+
+
+def set_session_cookie(
+    response: Response, settings: Settings | None = None, request: Request | None = None
+) -> str:
+    """Issue the session cookie.
+
+    ``Secure`` is set whenever the request arrived over HTTPS, so a deployment behind a TLS
+    reverse proxy gets a secure cookie without configuration, while ``http://127.0.0.1`` still
+    works for the single-workstation case. ``BULWARK_SESSION_COOKIE_SECURE`` overrides both ways.
+    """
     settings = settings or get_settings()
     ttl = settings.session_ttl_hours * 3600
     token = create_session_token(get_secret(settings), ttl)
+    secure = settings.session_cookie_secure
+    if secure is None:
+        secure = request_is_secure(request)
     response.set_cookie(
         SESSION_COOKIE,
         token,
         max_age=ttl,
         httponly=True,
         samesite="lax",
-        secure=False,
+        secure=secure,
         path="/",
     )
     return token
@@ -215,7 +236,12 @@ def require_enrollment_key(request: Request, session: Annotated[Session, Depends
             detail="Missing enrollment key: send Authorization: Bearer <enrollment key>",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    system = session.exec(select(System).where(System.enrollment_key == token)).first()
+    # Compare every candidate in constant time rather than letting the database short-circuit.
+    system = None
+    for candidate in session.exec(select(System)).all():
+        if hmac.compare_digest(candidate.enrollment_key.encode("utf-8"), token.encode("utf-8")):
+            system = candidate
+            break
     if system is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
