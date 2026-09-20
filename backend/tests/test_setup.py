@@ -37,7 +37,7 @@ def test_write_env_value_replaces_existing_and_commented(tmp_path):
 
 @pytest.fixture
 async def live_client(tmp_path):
-    settings = Settings(fixture_mode=False, sec_user_agent="", db_path=tmp_path / "t.sqlite", auto_build_on_start=False,
+    settings = Settings(fixture_mode=False, sec_user_agent="", db_path=tmp_path / "t.sqlite", auto_build_on_start=False, dataset_url="",
                         env_path=tmp_path / ".env")
     app = create_app(settings, run_scheduler=False)
     async with app.router.lifespan_context(app):
@@ -70,13 +70,13 @@ async def test_setup_flow(live_client):
 
 
 async def test_kv_fallback_when_env_missing(tmp_path):
-    settings = Settings(fixture_mode=False, sec_user_agent="", db_path=tmp_path / "t.sqlite", auto_build_on_start=False,
+    settings = Settings(fixture_mode=False, sec_user_agent="", db_path=tmp_path / "t.sqlite", auto_build_on_start=False, dataset_url="",
                         env_path=tmp_path / ".env")
     app = create_app(settings, run_scheduler=False)
     async with app.router.lifespan_context(app):
         state = app.state.gufu
         state.repo.kv_set("sec_user_agent", "GuFu/0.1 (Saved; s@x.io)")
-    settings2 = Settings(fixture_mode=False, sec_user_agent="", db_path=tmp_path / "t.sqlite", auto_build_on_start=False,
+    settings2 = Settings(fixture_mode=False, sec_user_agent="", db_path=tmp_path / "t.sqlite", auto_build_on_start=False, dataset_url="",
                          env_path=tmp_path / ".env")
     app2 = create_app(settings2, run_scheduler=False)
     async with app2.router.lifespan_context(app2):
